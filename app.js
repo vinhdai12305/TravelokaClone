@@ -40,7 +40,8 @@ const productRoutes = require('./routes/productRoutes');
 app.get('/', async (req, res) => {
   try {
     const products = await Product.find({});
-    res.render('index', { products: products });
+    // Fix: Chỉ định rõ thư mục hotels chứa file list.ejs
+    res.render('hotels/list', { products: products });
   } catch (err) {
     console.error("Lỗi tải trang chủ:", err);
     res.status(500).send("Lỗi Server khi tải sản phẩm");
