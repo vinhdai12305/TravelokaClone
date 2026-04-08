@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Traveloka Clone - Đặt chỗ & Vi vu</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero__content">
+        <% if (user) { %>
+          <h1>Chào mừng trở lại, <%= user.name %>!</h1>
+          <p>Tiếp tục khám phá những ưu đãi khách sạn và chuyến bay dành riêng cho bạn.</p>
+          <a href="#explore" class="btn btn-primary">Khám phá ngay</a>
+        <% } else { %>
+          <h1>Khám phá chuyến đi mơ ước</h1>
+          <p>Đăng ký hoặc đăng nhập để tiếp tục trải nghiệm du lịch tuyệt vời.</p>
+          <button class="btn btn-primary" id="open-login">Đăng nhập / Đăng ký</button>
+        <% } %>
+      </div>
+      <div class="hero__image"></div>
+    </section>
+
+    <section class="products" id="explore">
+      <div class="section-header">
+        <h2>Gợi ý chuyến đi và khách sạn</h2>
+      </div>
+      
+      <div class="cards-grid">
+        <% if (typeof products !== 'undefined' && products && products.length > 0) { %>
+          <% products.forEach(item => { %>
+            <article class="card">
+              <div class="card__image-container">
+                <img src="<%= item.image || 'https://via.placeholder.com/300x200' %>" alt="<%= item.name %>" loading="lazy">
+                <% if (item.discount && item.discount > 0) { %>
+                    <span class="card__badge">Tiết kiệm <%= item.discount %>%</span>
+                <% } %>
+              </div>
+              <div class="card__content">
+                <div class="card__tag">
+                  <i class="fas fa-map-marker-alt"></i> <%= item.location || 'Địa điểm' %>
+                </div>
+                <h3 class="card__title"><%= item.name %></h3>
+                <div class="card__rating">
+                    <span class="star">★</span> <%= item.rating || '4.5' %>
+                </div>
+                <div class="card__price">
+                  Từ <span class="price-value"><%= item.price ? item.price.toLocaleString('vi-VN') : 'Liên hệ' %></span> <span class="price-currency">VND</span>
+                </div>
+              </div>
+            </article>
+          <% }) %>
+        <% } else { %>
+          <div class="no-data-container">
+            <img src="https://ik.imagekit.io/tvlk/image/imageResource/2022/12/20/1671510255346-77884488888.png" alt="Empty" style="width: 200px;">
+            <p>Hiện chưa có sản phẩm nào. Vui lòng quay lại sau!</p>
+          </div>
+        <% } %>
+      </div>
+    </section>
+  </main>
+
+  <% 
+     const isFormActive = typeof activeForm !== 'undefined' && activeForm ? true : false;
+     const modalClass = isFormActive ? 'active' : '';
+     const formDisplayStyle = isFormActive ? 'block' : 'none'; 
+  %>
+
+  <div class="modal <%= modalClass %>" id="auth-modal">
+    <div class="modal__screen" id="modal-close-bg"></div>
+    <div class="modal__content traveloka-modal">
+      
+      <div style="display: flex; justify-content: flex-end; padding: 10px;">
+          <button class="modal__close" id="close-modal-btn" style="position: static; font-size: 24px;">×</button>
+      </div>
+      
+      <div class="modal__header-tvlk">
+        <div class="modal__header-text">
+          <h2 style="font-size: 20px; color: #333;">Chúng tôi có một ưu đãi mà bạn không thể từ chối!</h2>
+        </div>
+        <img src="https://ik.imagekit.io/tvlk/image/imageResource/2023/05/10/1683702555549-36655c689e3f6a27e7d46c6a46a5040e.png" alt="Illustration" style="width: 80px;">
+      </div>
+
+      <div class="auth-container" style="padding: 0 24px 24px;">
+        <div class="social-login-section">
+          <button class="btn-social apple" style="width: 100%; margin-bottom: 10px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
+            <i class="fab fa-apple" style="font-size: 20px; margin-right: 8px;"></i> Quả táo
+          </button>
+          <div class="social-row" style="display: flex; gap: 10px;">
+            <button class="btn-social google" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" width="18" style="margin-right: 8px; vertical-align: middle;"> Google
+            </button>
+            <button class="btn-social facebook" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
+              <i class="fab fa-facebook-f" style="color:#1877f2; font-size: 18px; margin-right: 8px;"></i> Facebook
+            </button>
+          </div>
+        </div>
+
+        <div class="divider" style="text-align: center; margin: 20px 0;">
+           <span id="show-email-form" style="cursor:pointer; color: #0194f3; font-weight: bold; font-size: 14px;">Các lựa chọn khác</span>
+        </div>
+
+        <p style="text-align: center; font-size: 13px; color: #666; margin-bottom: 20px;">Giá ưu đãi hơn và nhiều phần thưởng đang chờ đón bạn. Hãy đăng nhập để nhận ngay!</p>
+
+        <div id="email-forms-wrapper" style="display: <%= formDisplayStyle %>;">
+            <div class="auth-tabs">
+              <button class="tab <%= (!isFormActive || activeForm === 'login') ? 'active' : '' %>" data-target="login">Đăng nhập</button>
+              <button class="tab <%= (isFormActive && activeForm === 'register') ? 'active' : '' %>" data-target="register">Đăng ký</button>
+            </div>
+
+            <form class="auth-form <%= (!isFormActive || activeForm === 'login') ? 'active' : '' %>" id="login-form" action="/users/login" method="POST">
+              <div class="field">
+                <input type="email" name="email" placeholder="Email" value="<%= typeof loginData !== 'undefined' && loginData ? loginData.email : '' %>" required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc;" />
+                <% if (typeof loginError !== 'undefined' && loginError) { %>
+                  <div class="error-message" style="color: red; font-size: 12px; margin-bottom: 5px;"><%= loginError %></div>
+                <% } %>
+              </div>
+              <div class="field">
+                <input type="password" name="password" placeholder="Mật khẩu" required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc;" />
+              </div>
+              <button class="btn btn-primary btn-block" type="submit" style="width: 100%; border-radius: 8px;">Đăng nhập bằng Email</button>
+            </form>
+
+            <form class="auth-form <%= (isFormActive && activeForm === 'register') ? 'active' : '' %>" id="register-form" action="/users/register" method="POST" style="display: <%= (isFormActive && activeForm === 'register') ? 'block' : 'none' %>;">
+              <div class="field">
+                <input type="text" name="name" placeholder="Họ và tên" value="<%= typeof formData !== 'undefined' && formData ? formData.name : '' %>" required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc;"/>
+              </div>
+              <div class="field">
+                <input type="email" name="email" placeholder="Email" value="<%= typeof formData !== 'undefined' && formData ? formData.email : '' %>" required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc;"/>
+                <% if (typeof registerError !== 'undefined' && registerError) { %>
+                  <div class="error-message" style="color: red; font-size: 12px; margin-bottom: 5px;"><%= registerError %></div>
+                <% } %>
+              </div>
+              <div class="field">
+                <input type="password" id="reg-password" name="password" placeholder="Mật khẩu" required minlength="6" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc;"/>
+              </div>
+              <div class="field">
+                <input type="password" id="reg-confirm-password" name="confirmPassword" placeholder="Nhập lại mật khẩu" required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc;"/>
+                <% if (typeof passwordError !== 'undefined' && passwordError) { %>
+                  <div class="error-message" style="color: red; font-size: 12px; margin-bottom: 5px;"><%= passwordError %></div>
+                <% } %>
+              </div>
+              <button class="btn btn-primary btn-block" type="submit" style="width: 100%; border-radius: 8px;">Đăng ký tài khoản</button>
+            </form>
+        </div>
+
+        <div style="font-size: 11px; color: #666; text-align: center; margin-top: 20px; line-height: 1.5;">
+          Bằng cách tiếp tục, bạn đồng ý với <a href="#" style="color: #0194f3;">các Điều khoản và Điều kiện</a> này và xác nhận rằng bạn đã được thông báo về <a href="#" style="color: #0194f3;">Chính sách bảo mật</a> của chúng tôi.
+        </div>
+        <div style="text-align: center; margin-top: 15px;">
+          <a href="#" id="close-modal-guest" style="color: #0194f3; font-weight: bold; text-decoration: none;">Duyệt web với tư cách khách</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const authModal = document.getElementById('auth-modal');
+      const emailWrapper = document.getElementById('email-forms-wrapper');
+
+      // Hàm Mở Modal và chuyển tab
+      function openModal(tabType) {
+          if (!authModal) return;
+          authModal.classList.add('active');
+          authModal.style.display = 'flex';
+          
+          if (tabType) {
+              const tabToClick = document.querySelector(`.tab[data-target="${tabType}"]`);
+              if (tabToClick) tabToClick.click();
+          }
+      }
+
+      // Hàm Đóng Modal
+      function closeModal() {
+          if (authModal) {
+              authModal.classList.remove('active');
+              authModal.style.display = 'none';
+          }
+      }
+
+      // BẮT SỰ KIỆN CLICK BẰNG EVENT DELEGATION
+      document.body.addEventListener('click', function(e) {
+          
+          // Click mở form Đăng nhập
+          if (e.target.closest('#open-login') || e.target.closest('#open-login-top')) {
+              e.preventDefault();
+              openModal('login');
+          }
+          
+          // Click mở form Đăng ký
+          if (e.target.closest('#open-register-top')) {
+              e.preventDefault();
+              openModal('register');
+          }
+
+          // Click đóng modal (nút X, click ra ngoài màn hình mờ, hoặc duyệt ẩn danh)
+          if (e.target.closest('#close-modal-btn') || e.target.closest('#modal-close-bg') || e.target.closest('#close-modal-guest')) {
+              e.preventDefault();
+              closeModal();
+          }
+
+          // Click hiển thị/ẩn form Email khi bấm "Các lựa chọn khác"
+          if (e.target.closest('#show-email-form')) {
+              e.preventDefault();
+              if (emailWrapper) {
+                  emailWrapper.style.display = (emailWrapper.style.display === 'none' || emailWrapper.style.display === '') ? 'block' : 'none';
+              }
+          }
+
+          // Click để đổi Tab qua lại giữa Đăng nhập và Đăng ký
+          const tab = e.target.closest('.tab');
+          if (tab) {
+              e.preventDefault();
+              const target = tab.getAttribute('data-target');
+              
+              // Tắt hết trạng thái active cũ
+              document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+              document.querySelectorAll('.auth-form').forEach(f => {
+                  f.classList.remove('active');
+                  f.style.display = 'none';
+              });
+              
+              // Bật trạng thái active mới
+              tab.classList.add('active');
+              const targetForm = document.getElementById(`${target}-form`);
+              if (targetForm) {
+                  targetForm.classList.add('active');
+                  targetForm.style.display = 'block';
+              }
+          }
+      });
+
+      // Xử lý giữ form nếu server trả về lỗi (sai mật khẩu, trùng email...)
+      const isFormActiveFromServer = ("<%= isFormActive %>" === "true");
+      const activeTabName = "<%= typeof activeForm !== 'undefined' && activeForm ? activeForm : 'login' %>";
+      
+      if (isFormActiveFromServer) {
+          openModal(activeTabName);
+          if (emailWrapper) emailWrapper.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
