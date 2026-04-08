@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài khoản của tôi - Traveloka Clone</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar__container">
+            <div class="logo"><a href="/" style="text-decoration: none; color: #0194f3; font-weight: bold; font-size: 24px;">Traveloka</a></div>
+            <nav class="nav-menu">
+                <a href="/" class="nav-link">🏠 Trang chủ sản phẩm</a>
+                <a href="#" class="nav-link">Khách sạn</a>
+                <a href="#" class="nav-link">Chuyến bay</a>
+            </nav>
+            <div class="user-action">
+                <span class="user-name">Xin chào, <strong><%= user.name %></strong></span>
+                <a href="/users/logout" class="btn-logout">Đăng xuất</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+      <div class="profile-card">
+        <div class="profile-header">
+            <div class="avatar-circle">
+                <%= user.name.charAt(0).toUpperCase() %>
+            </div>
+            <h2>Thông tin tài khoản</h2>
+        </div>
+        
+        <div class="profile-body">
+            <div class="info-item">
+                <label>Tên người dùng:</label>
+                <span><%= user.name %></span>
+            </div>
+            <div class="info-item">
+                <label>Email liên kết:</label>
+                <span><%= user.email %></span>
+            </div>
+            <div class="status-box">
+                <p>✅ Bạn đã đăng nhập thành công vào hệ thống.</p>
+            </div>
+            
+            <div class="action-footer">
+                <a href="/" class="btn-back-home">Xem sản phẩm ưu đãi ngay</a>
+            </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer-simple">
+        <p>Traveloka Clone &copy; 2026 - Chỉ là bản demo đăng ký/đăng nhập</p>
+    </footer>
+</body>
+</html>
