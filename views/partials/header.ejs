@@ -1,0 +1,34 @@
+<header class="site-header">
+  <div class="header-top container">
+    <div class="brand">
+      <img src="https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/9/97f3e7a54e9c6987283b78e016664776.svg" alt="Traveloka" height="30">
+    </div>
+    <div class="header-actions">
+      <a href="#" class="action-link"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg" width="16" style="margin-right:4px"> VND | EN <i class="fas fa-chevron-down"></i></a>
+      <a href="#" class="action-link"><i class="fas fa-tags" style="color: #0194f3;"></i> Ưu đãi</a>
+      <a href="#" class="action-link">Hợp tác</a>
+      <a href="#" class="action-link">Ủng hộ <i class="fas fa-chevron-down"></i></a>
+      <a href="#" class="action-link">Đặt chỗ</a>
+      
+      <% if (user) { %>
+        <a class="btn btn-secondary" href="/dashboard">Xin chào, <%= user.name %></a>
+      <% } else { %>
+        <button class="btn btn-login-outline" id="open-login-top" style="position: relative; z-index: 50;"><i class="fas fa-user"></i> Đăng nhập</button>
+        
+        <button class="btn btn-primary" id="open-register-top" style="border-radius: 20px; padding: 8px 16px; position: relative; z-index: 50;">Đăng ký</button>
+      <% } %>
+    </div>
+  </div>
+  
+  <div class="header-bottom container">
+    <nav class="nav">
+      <a href="#">Khách sạn</a>
+      <a href="#">Các chuyến bay</a>
+      <a href="#">Xe buýt và xe đưa đón</a>
+      <a href="#">Dịch vụ đưa đón sân bay</a>
+      <a href="#" style="background: #f2f3f3; border-radius: 16px; padding: 5px 12px; font-weight: bold;">Thuê xe hơi</a>
+      <a href="#">Những việc cần làm</a>
+      <a href="#">Hơn <i class="fas fa-chevron-down"></i></a>
+    </nav>
+  </div>
+</header>
