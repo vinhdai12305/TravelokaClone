@@ -1,0 +1,12 @@
+<form class="auth-form <%= (!isFormActive || activeForm === 'login') ? 'active' : '' %>" id="login-form" action="/users/login" method="POST">
+  <div class="field">
+    <input type="email" name="email" placeholder="Email" value="<%= typeof loginData !== 'undefined' && loginData ? loginData.email : '' %>" required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc;" />
+    <% if (typeof loginError !== 'undefined' && loginError) { %>
+      <div class="error-message" style="color: red; font-size: 12px; margin-bottom: 5px;"><%= loginError %></div>
+    <% } %>
+  </div>
+  <div class="field">
+    <input type="password" name="password" placeholder="Mật khẩu" required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc;" />
+  </div>
+  <button class="btn btn-primary btn-block" type="submit" style="width: 100%; border-radius: 8px;">Đăng nhập bằng Email</button>
+</form>
