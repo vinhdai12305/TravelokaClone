@@ -1,9 +1,30 @@
+<!-- filepath: e:\TravelokaClone\views\hotels\list.ejs -->
 <%- include('../partials/header') %>
 
+<!DOCTYPE html>
+<html lang="vi">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traveloka Clone</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f7f9fa;
+      padding: 0;
+      margin: 0;
+      color: #03121a;
+    }
+
     .flatpickr-calendar {
       border-radius: 15px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.2);
@@ -14,6 +35,9 @@
   </style>
 </head>
 
+<body>
+
+<!-- HERO BANNER -->
 <div style="width: 100%; padding: 30px 80px;">
   <div style="position: relative; border-radius: 20px; overflow: hidden;">
     
@@ -40,12 +64,14 @@
   </div>
 </div>
 
+<!-- SEARCH BOX -->
 <div style="
   width: 100%;
   margin-top: -100px;
   padding: 0 80px;
   position: relative;
   z-index: 10;
+  margin-bottom: 40px;
 ">
 
   <div style="
@@ -58,8 +84,9 @@
     align-items: flex-end;
   ">
 
+    <!-- LOCATION -->
     <div style="flex:1; display:flex; flex-direction:column; gap:6px; position:relative;">
-      <div style="font-size:13px; color:#000000;">
+      <div style="font-size:13px; color:#000000; font-weight: 600;">
         City, destination, or hotel name
       </div>
 
@@ -68,6 +95,7 @@
         padding: 14px;
         border-radius: 12px;
         border: 1px solid #ddd;
+        font-size: 14px;
       ">
 
       <div id="dropdown" style="
@@ -80,11 +108,14 @@
         box-shadow:0 15px 40px rgba(0,0,0,0.15);
         display:none;
         z-index:999;
+        max-height: 400px;
+        overflow-y: auto;
       "></div>
     </div>
 
+    <!-- DATE -->
     <div style="flex:1; display:flex; flex-direction:column; gap:6px; position:relative;">
-      <div style="font-size:13px; color:#000000;">
+      <div style="font-size:13px; color:#000000; font-weight: 600;">
         Check-in & Check-out Dates
       </div>
 
@@ -93,78 +124,89 @@
         padding: 14px;
         border-radius: 12px;
         border: 1px solid #ddd;
+        font-size: 14px;
       ">
     </div>
 
+    <!-- GUEST -->
     <div style="flex:1; display:flex; flex-direction:column; gap:6px; position:relative;">
-      <div style="font-size:13px; color:#000000;">
+      <div style="font-size:13px; color:#000000; font-weight: 600;">
         Guests and Rooms
       </div>
 
-  <input id="guestInput" readonly value="2 Adult(s), 0 Child, 1 Room" style="
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid #ddd;
-    cursor: pointer;
-">
-
-  <div id="guestDropdown" style="
-    position:absolute;
-    top: 75px;
-    left:0;
-    width:100%;
-    background:white;
-    border-radius:12px;
-    box-shadow:0 15px 40px rgba(0,0,0,0.15);
-    padding:20px;
-    display:none;
-    z-index:999;
-  ">
-    
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-      <div>Adult</div>
-      <div style="display:flex; align-items:center; gap:15px;">
-        <button onclick="change('adult', -1)">-</button>
-        <span id="adult">2</span>
-        <button onclick="change('adult', 1)">+</button>
-      </div>
-    </div>
-
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-      <div>Children</div>
-      <div style="display:flex; align-items:center; gap:15px;">
-        <button onclick="change('child', -1)">-</button>
-        <span id="child">0</span>
-        <button onclick="change('child', 1)">+</button>
-      </div>
-    </div>
-
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <div>Room</div>
-      <div style="display:flex; align-items:center; gap:15px;">
-        <button onclick="change('room', -1)">-</button>
-        <span id="room">1</span>
-        <button onclick="change('room', 1)">+</button>
-      </div>
-    </div>
-
-    <div style="margin-top:20px; text-align:right;">
-      <button onclick="closeGuest()" style="
-        background:#0071c2;
-        color:white;
-        border:none;
-        padding:10px 20px;
-        border-radius:20px;
-        cursor:pointer;
+      <!-- INPUT -->
+      <input id="guestInput" readonly value="2 Adult(s), 0 Child, 1 Room" style="
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        font-size: 14px;
       ">
-        Done
-      </button>
+
+      <!-- DROPDOWN -->
+      <div id="guestDropdown" style="
+        position:absolute;
+        top: 75px;
+        left:0;
+        width:100%;
+        background:white;
+        border-radius:12px;
+        box-shadow:0 15px 40px rgba(0,0,0,0.15);
+        padding:20px;
+        display:none;
+        z-index:999;
+      ">
+        
+        <!-- ADULT -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div style="font-weight: 600;">Adult</div>
+          <div style="display:flex; align-items:center; gap:15px;">
+            <button onclick="change('adult', -1)" style="width: 30px; height: 30px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">-</button>
+            <span id="adult" style="min-width: 20px; text-align: center;">2</span>
+            <button onclick="change('adult', 1)" style="width: 30px; height: 30px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">+</button>
+          </div>
+        </div>
+
+        <!-- CHILDREN -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div style="font-weight: 600;">Children</div>
+          <div style="display:flex; align-items:center; gap:15px;">
+            <button onclick="change('child', -1)" style="width: 30px; height: 30px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">-</button>
+            <span id="child" style="min-width: 20px; text-align: center;">0</span>
+            <button onclick="change('child', 1)" style="width: 30px; height: 30px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">+</button>
+          </div>
+        </div>
+
+        <!-- ROOM -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div style="font-weight: 600;">Room</div>
+          <div style="display:flex; align-items:center; gap:15px;">
+            <button onclick="change('room', -1)" style="width: 30px; height: 30px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">-</button>
+            <span id="room" style="min-width: 20px; text-align: center;">1</span>
+            <button onclick="change('room', 1)" style="width: 30px; height: 30px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">+</button>
+          </div>
+        </div>
+
+        <!-- BUTTON -->
+        <div style="margin-top:20px; text-align:right;">
+          <button onclick="closeGuest()" style="
+            background:#0071c2;
+            color:white;
+            border:none;
+            padding:10px 20px;
+            border-radius:20px;
+            cursor:pointer;
+            font-weight: 600;
+          ">
+            Done
+          </button>
+        </div>
+
+      </div>
     </div>
 
-  </div>
-</div>
-
+    <!-- SEARCH BUTTON -->
     <div style="display:flex; align-items:flex-end;">
       <button style="
         background: #0071c2;
@@ -175,7 +217,8 @@
         font-size: 16px;
         font-weight: 600;
         cursor: pointer;
-      ">
+        transition: background 0.3s;
+      " onmouseover="this.style.background='#005a9c'" onmouseout="this.style.background='#0071c2'">
         Search
       </button>
     </div>
@@ -183,6 +226,10 @@
   </div>
 </div>
 
+<!-- GỌI FILE hotelLists.ejs -->
+<%- include('./hotelLists') %>
+
+<!-- SEARCH SCRIPT -->
 <script>
 const input = document.getElementById('searchInput');
 const dropdown = document.getElementById('dropdown');
@@ -195,73 +242,78 @@ input.addEventListener('input', async () => {
     return;
   }
 
-  const res = await fetch(`/locations/search?q=${q}`);
-  const data = await res.json();
+  try {
+    const res = await fetch(`/locations/search?q=${q}`);
+    const data = await res.json();
 
-  if (data.length === 0) {
-    dropdown.style.display = 'none';
-    return;
-  }
-
-  dropdown.innerHTML = '';
-
-  data.forEach(loc => {
-    const item = document.createElement('div');
-
-    item.style.padding = '15px';
-    item.style.borderBottom = '1px solid #eee';
-    item.style.cursor = 'pointer';
-    item.style.display = 'flex';
-    item.style.justifyContent = 'space-between';
-    item.style.alignItems = 'center';
-
-    item.onmouseover = () => item.style.background = '#f5f7fa';
-    item.onmouseout = () => item.style.background = 'white';
-
-    item.innerHTML = `
-      <div>
-        <div style="font-weight:700; font-size:14px;">
-          ${loc.name}
-        </div>
-        <div style="font-size:14px; color:#777; margin-top:6px;">
-          ${loc.description}, ${loc.country}
-        </div>
-      </div>
-
-      <div style="text-align:right;">
-        <div style="
-          background:#e6f0ff;
-          color:#0071c2;
-          padding:4px 10px;
-          border-radius:20px;
-          font-size:11px;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          height:20px;
-          min-width:45px;
-        ">
-          City
-        </div>
-
-        <div style="font-size:13px; color:#666; margin-top:6px;">
-          ${loc.hotelsCount || 0} hotels nearby
-        </div>
-      </div>
-    `;
-
-    item.onclick = () => {
-      input.value = loc.name;
+    if (data.length === 0) {
       dropdown.style.display = 'none';
-    };
+      return;
+    }
 
-    dropdown.appendChild(item);
-  });
+    dropdown.innerHTML = '';
 
-  dropdown.style.display = 'block';
+    data.forEach(loc => {
+      const item = document.createElement('div');
+
+      item.style.padding = '15px';
+      item.style.borderBottom = '1px solid #eee';
+      item.style.cursor = 'pointer';
+      item.style.display = 'flex';
+      item.style.justifyContent = 'space-between';
+      item.style.alignItems = 'center';
+
+      item.onmouseover = () => item.style.background = '#f5f7fa';
+      item.onmouseout = () => item.style.background = 'white';
+
+      item.innerHTML = `
+        <div>
+          <div style="font-weight:700; font-size:14px;">
+            ${loc.name}
+          </div>
+          <div style="font-size:14px; color:#777; margin-top:6px;">
+            ${loc.description}, ${loc.country}
+          </div>
+        </div>
+
+        <div style="text-align:right;">
+          <div style="
+            background:#e6f0ff;
+            color:#0071c2;
+            padding:4px 10px;
+            border-radius:20px;
+            font-size:11px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            height:20px;
+            min-width:45px;
+          ">
+            City
+          </div>
+
+          <div style="font-size:13px; color:#666; margin-top:6px;">
+            ${loc.hotelsCount || 0} hotels nearby
+          </div>
+        </div>
+      `;
+
+      item.onclick = () => {
+        input.value = loc.name;
+        dropdown.style.display = 'none';
+      };
+
+      dropdown.appendChild(item);
+    });
+
+    dropdown.style.display = 'block';
+  } catch (error) {
+    console.error('Lỗi tìm kiếm:', error);
+  }
 });
 </script>
 
+<!-- FLATPICKR -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
@@ -271,9 +323,10 @@ flatpickr("#dateInput", {
   minDate: "today",
   showMonths: 2,
   position: "below",
-  static: true,
+  static: true
 });
 </script>
+
 <script>
 const guestInput = document.getElementById('guestInput');
 const guestDropdown = document.getElementById('guestDropdown');
@@ -284,17 +337,17 @@ let state = {
   room: 1
 };
 
-// mở dropdown
+// Mở dropdown
 guestInput.onclick = () => {
   guestDropdown.style.display = 'block';
 };
 
-// đóng
+// Đóng dropdown
 function closeGuest() {
   guestDropdown.style.display = 'none';
 }
 
-// thay đổi số
+// Thay đổi số lượng
 function change(type, value) {
   state[type] += value;
 
@@ -306,9 +359,11 @@ function change(type, value) {
   updateInput();
 }
 
-// update input
+// Update input value
 function updateInput() {
-  guestInput.value =
-    `${state.adult} Adult(s), ${state.child} Child, ${state.room} Room`;
+  guestInput.value = `${state.adult} Adult(s), ${state.child} Child, ${state.room} Room`;
 }
 </script>
+
+</body>
+</html>
