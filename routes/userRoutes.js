@@ -1,73 +1,74 @@
 const express = require('express');
 const router = express.Router();
-// const User = require('../models/User'); // Import model User của bạn (nếu có)
+// Nhớ import Model của fen vào đây (nếu có dùng DB)
+// const User = require('../models/User'); 
 
-// ==============================
-// 1. HIỂN THỊ TRANG ĐĂNG KÝ
-// ==============================
-router.get('/register', (req, res) => {
-  res.render('users/register'); // Đảm bảo đường dẫn file view này đúng
-});
-
-// ==============================
-// 2. XỬ LÝ ĐĂNG KÝ (POST)
-// ==============================
+// 1. XỬ LÝ ĐĂNG KÝ (POST)
 router.post('/register', async (req, res) => {
   try {
-    // VIẾT LOGIC LƯU VÀO DATABASE CỦA BẠN Ở ĐÂY
-    // Ví dụ: const newUser = await User.create(req.body);
-    
-    // Sau khi đăng ký thành công thì chuyển qua trang đăng nhập
-    res.redirect('/users/login');
+    // Lấy đúng tên các trường từ file header.ejs của fen
+    const { username, email, password } = req.body;
+
+    // --- LOGIC LƯU DATABASE CỦA FEN Ở ĐÂY ---
+    // Ví dụ: 
+    // const newUser = new User({ username, email, password });
+    // await newUser.save();
+    // ----------------------------------------
+
+    // Đăng ký thành công thì tự động lưu vào phiên (session) luôn
+    req.session.user = {
+      username: username, // BẮT BUỘC có trường này để in ra chữ Xin chào, ...!
+      email: email
+    };
+
+    // Chuyển hướng về trang chủ sau khi đăng ký thành công
+    res.redirect('/');
   } catch (error) {
     console.error("Lỗi đăng ký:", error);
-    res.redirect('/users/register');
+    // Render lại trang chủ kèm mảng products rỗng để tránh lỗi trắng màn hình
+    res.render('index', { 
+      products: [], 
+      user: req.session ? req.session.user : null
+    });
   }
 });
 
-// ==============================
-// 3. HIỂN THỊ TRANG ĐĂNG NHẬP
-// ==============================
-router.get('/login', (req, res) => {
-  res.render('users/login'); // Đảm bảo đường dẫn file view này đúng
-});
-
-// ==============================
-// 4. XỬ LÝ ĐĂNG NHẬP (POST)
-// ==============================
+// 2. XỬ LÝ ĐĂNG NHẬP (POST)
 router.post('/login', async (req, res) => {
   try {
-    // VIẾT LOGIC KIỂM TRA MẬT KHẨU TỪ DATABASE CỦA BẠN Ở ĐÂY
-    // Ví dụ: const user = await User.findOne({ username: req.body.username });
-    // Nếu pass đúng thì lưu thông tin vào session như sau:
-    
-    // LƯU SESSION (Giả lập user đăng nhập thành công)
+    const { username, password } = req.body;
+
+    // --- LOGIC TÌM USER TRONG DATABASE Ở ĐÂY ---
+    // Ví dụ:
+    // const existingUser = await User.findOne({ username: username, password: password });
+    // if (!existingUser) throw new Error("Sai thông tin");
+    // -------------------------------------------
+
+    // Đăng nhập thành công -> Lưu thông tin vào session
     req.session.user = {
-      username: req.body.username // Lấy từ form hoặc database
+      // Giả lập lấy đúng username người dùng vừa nhập gán vào session
+      // (Nếu có DB thì thay bằng: username: existingUser.username)
+      username: username 
     };
 
-    // Đăng nhập xong đẩy về Trang chủ
+    // Chuyển hướng về trang chủ
     res.redirect('/');
   } catch (error) {
     console.error("Lỗi đăng nhập:", error);
-    res.redirect('/users/login');
+    // Render lại kèm biến products để ko bị lỗi trang trắng
+    res.render('index', { 
+      products: [], 
+      user: req.session ? req.session.user : null
+    });
   }
 });
 
-// ==============================
-// 5. XỬ LÝ ĐĂNG XUẤT (GET)
-// ==============================
+// 3. ĐĂNG XUẤT (GET)
 router.get('/logout', (req, res) => {
   req.session.destroy((err) => {
-    if (err) {
-      console.error("Lỗi khi đăng xuất:", err);
-      return res.redirect('/');
-    }
-    // Xóa cookie lưu session trên trình duyệt
-    res.clearCookie('connect.sid'); 
-    
-    // Đá về trang chủ, tự động cập nhật lại header
-    res.redirect('/'); 
+    if (err) console.log("Lỗi khi đăng xuất:", err);
+    res.clearCookie('connect.sid'); // Xoá cookie session
+    res.redirect('/'); // Trở về trang chủ
   });
 });
 

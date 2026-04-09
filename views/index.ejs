@@ -4,218 +4,197 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Traveloka Clone - Đặt chỗ & Vi vu</title>
+  
   <link rel="stylesheet" href="/css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <style>
+    /* Reset cơ bản */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f7f9fa;
+      color: #03121a;
+      overflow-x: hidden; /* Tránh cuộn ngang */
+    }
+
+    /* Style cho Lịch */
+    .flatpickr-calendar {
+      border-radius: 15px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+
+    /* Vùng chứa Form Email (để fix lỗi gạch đỏ VS Code cũ) */
+    .d-none { display: none !important; }
+  </style>
 </head>
 <body>
+
   <%- include('partials/header') %>
 
   <main class="page">
-    <section class="hero">
-      <div class="hero__content">
-        <% if (user) { %>
-          <h1>Chào mừng trở lại, <%= user.name %>!</h1>
-          <p>Tiếp tục khám phá những ưu đãi khách sạn và chuyến bay dành riêng cho bạn.</p>
-          <a href="#explore" class="btn btn-primary">Khám phá ngay</a>
-        <% } else { %>
-          <h1>Khám phá chuyến đi mơ ước</h1>
-          <p>Đăng ký hoặc đăng nhập để tiếp tục trải nghiệm du lịch tuyệt vời.</p>
-          <button class="btn btn-primary" id="open-login">Đăng nhập / Đăng ký</button>
-        <% } %>
-      </div>
-      <div class="hero__image"></div>
-    </section>
-
-    <section class="products" id="explore">
-      <div class="section-header">
-        <h2>Gợi ý chuyến đi và khách sạn</h2>
-      </div>
-      
-      <div class="cards-grid">
-        <% if (typeof products !== 'undefined' && products && products.length > 0) { %>
-          <% products.forEach(item => { %>
-            <article class="card">
-              <div class="card__image-container">
-                <img src="<%= item.image || 'https://via.placeholder.com/300x200' %>" alt="<%= item.name %>" loading="lazy">
-                <% if (item.discount && item.discount > 0) { %>
-                    <span class="card__badge">Tiết kiệm <%= item.discount %>%</span>
-                <% } %>
-              </div>
-              <div class="card__content">
-                <div class="card__tag">
-                  <i class="fas fa-map-marker-alt"></i> <%= item.location || 'Địa điểm' %>
-                </div>
-                <h3 class="card__title"><%= item.name %></h3>
-                <div class="card__rating">
-                    <span class="star">★</span> <%= item.rating || '4.5' %>
-                </div>
-                <div class="card__price">
-                  Từ <span class="price-value"><%= item.price ? item.price.toLocaleString('vi-VN') : 'Liên hệ' %></span> <span class="price-currency">VND</span>
-                </div>
-              </div>
-            </article>
-          <% }) %>
-        <% } else { %>
-          <div class="no-data-container">
-            <img src="https://ik.imagekit.io/tvlk/image/imageResource/2022/12/20/1671510255346-77884488888.png" alt="Empty" style="width: 200px;">
-            <p>Hiện chưa có sản phẩm nào. Vui lòng quay lại sau!</p>
-          </div>
-        <% } %>
-      </div>
-    </section>
-  </main>
-
-  <% 
-     const isFormActive = typeof activeForm !== 'undefined' && activeForm ? true : false;
-     const modalClass = isFormActive ? 'active' : '';
-     const formDisplayStyle = isFormActive ? 'block' : 'none'; 
-  %>
-
-  <div class="modal <%= modalClass %>" id="auth-modal">
-    <div class="modal__screen" id="modal-close-bg"></div>
-    <div class="modal__content traveloka-modal">
-      
-      <div style="display: flex; justify-content: flex-end; padding: 10px;">
-          <button class="modal__close" id="close-modal-btn" style="position: static; font-size: 24px;">×</button>
-      </div>
-      
-      <div class="modal__header-tvlk">
-        <div class="modal__header-text">
-          <h2 style="font-size: 20px; color: #333;">Chúng tôi có một ưu đãi mà bạn không thể từ chối!</h2>
-        </div>
-        <img src="https://ik.imagekit.io/tvlk/image/imageResource/2023/05/10/1683702555549-36655c689e3f6a27e7d46c6a46a5040e.png" alt="Illustration" style="width: 80px;">
-      </div>
-
-      <div class="auth-container" style="padding: 0 24px 24px;">
-        <div class="social-login-section">
-          <button class="btn-social apple" style="width: 100%; margin-bottom: 10px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
-            <i class="fab fa-apple" style="font-size: 20px; margin-right: 8px;"></i> Quả táo
-          </button>
-          <div class="social-row" style="display: flex; gap: 10px;">
-            <button class="btn-social google" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" width="18" style="margin-right: 8px; vertical-align: middle;"> Google
-            </button>
-            <button class="btn-social facebook" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
-              <i class="fab fa-facebook-f" style="color:#1877f2; font-size: 18px; margin-right: 8px;"></i> Facebook
-            </button>
-          </div>
-        </div>
-
-        <div class="divider" style="text-align: center; margin: 20px 0;">
-           <span id="show-email-form" style="cursor:pointer; color: #0194f3; font-weight: bold; font-size: 14px;">Các lựa chọn khác</span>
-        </div>
-
-        <p style="text-align: center; font-size: 13px; color: #666; margin-bottom: 20px;">Giá ưu đãi hơn và nhiều phần thưởng đang chờ đón bạn. Hãy đăng nhập để nhận ngay!</p>
-
-        <div id="email-forms-wrapper" style="display: <%= formDisplayStyle %>;">
-            <div class="auth-tabs">
-              <button class="tab <%= (!isFormActive || activeForm === 'login') ? 'active' : '' %>" data-target="login">Đăng nhập</button>
-              <button class="tab <%= (isFormActive && activeForm === 'register') ? 'active' : '' %>" data-target="register">Đăng ký</button>
-            </div>
-
-            <%- include('users/login') %>
-            <%- include('users/register') %>
-            
-        </div>
-
-        <div style="font-size: 11px; color: #666; text-align: center; margin-top: 20px; line-height: 1.5;">
-          Bằng cách tiếp tục, bạn đồng ý với <a href="#" style="color: #0194f3;">các Điều khoản và Điều kiện</a> này và xác nhận rằng bạn đã được thông báo về <a href="#" style="color: #0194f3;">Chính sách bảo mật</a> của chúng tôi.
-        </div>
-        <div style="text-align: center; margin-top: 15px;">
-          <a href="#" id="close-modal-guest" style="color: #0194f3; font-weight: bold; text-decoration: none;">Duyệt web với tư cách khách</a>
+    <div style="width: 100%; padding: 30px 80px;">
+      <div style="position: relative; border-radius: 20px; overflow: hidden;">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+             style="width:100%; height:400px; object-fit:cover;">
+        <div style="
+          position: absolute; bottom: 0; left: 0;
+          width: 100%; padding: 80px 40px 40px 40px;
+          background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+          color: white;
+        ">
+          <h1 style="font-size:40px; font-weight:700;">Where to next? Book your next hotel for less</h1>
+          <p style="font-size: 20px; margin-top:10px;">Discover hotels, villas, resorts and more.</p>
         </div>
       </div>
     </div>
-  </div>
+
+    <div style="width: 100%; margin-top: -100px; padding: 0 80px; position: relative; z-index: 10; margin-bottom: 40px;">
+      <div style="background: white; padding: 30px; border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); display: flex; gap: 25px; align-items: flex-end;">
+        
+        <div style="flex:1; display:flex; flex-direction:column; gap:6px; position:relative;">
+          <div style="font-size:13px; color:#000000; font-weight: 600;">City, destination, or hotel name</div>
+          <input id="searchInput" type="text" placeholder="City, hotel, place to go" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #ddd; font-size: 14px;">
+          
+          <div id="dropdown" style="position:absolute; top:75px; left:0; width:130%; background:white; border-radius:12px; box-shadow:0 15px 40px rgba(0,0,0,0.15); display:none; z-index:999; max-height: 350px; overflow-y: auto;"></div>
+        </div>
+
+        <div style="flex:1; display:flex; flex-direction:column; gap:6px; position:relative;">
+          <div style="font-size:13px; color:#000000; font-weight: 600;">Check-in & Check-out Dates</div>
+          <input id="dateInput" type="text" placeholder="Select dates" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #ddd; font-size: 14px; cursor: pointer;">
+        </div>
+
+        <div style="flex:1; display:flex; flex-direction:column; gap:6px; position:relative;">
+          <div style="font-size:13px; color:#000000; font-weight: 600;">Guests and Rooms</div>
+          <input id="guestInput" readonly value="2 Adult(s), 0 Child, 1 Room" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #ddd; cursor: pointer; font-size: 14px;">
+          
+          <div id="guestDropdown" style="position:absolute; top: 75px; left:0; width:100%; background:white; border-radius:12px; box-shadow:0 15px 40px rgba(0,0,0,0.15); padding:20px; display:none; z-index:999;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;"><div style="font-weight: 600;">Adult</div><div style="display:flex; align-items:center; gap:12px;"><button onclick="change('adult', -1)" style="width: 28px; height: 28px; border: 1px solid #0194f3; color:#0194f3; border-radius: 4px; cursor: pointer; background: white; font-weight:bold;">-</button><span id="adult" style="min-width: 20px; text-align: center; font-weight:bold;">2</span><button onclick="change('adult', 1)" style="width: 28px; height: 28px; border: 1px solid #0194f3; color:#0194f3; border-radius: 4px; cursor: pointer; background: white; font-weight:bold;">+</button></div></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;"><div style="font-weight: 600;">Children</div><div style="display:flex; align-items:center; gap:12px;"><button onclick="change('child', -1)" style="width: 28px; height: 28px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">-</button><span id="child" style="min-width: 20px; text-align: center;">0</span><button onclick="change('child', 1)" style="width: 28px; height: 28px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">+</button></div></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;"><div style="font-weight: 600;">Room</div><div style="display:flex; align-items:center; gap:12px;"><button onclick="change('room', -1)" style="width: 28px; height: 28px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">-</button><span id="room" style="min-width: 20px; text-align: center;">1</span><button onclick="change('room', 1)" style="width: 28px; height: 28px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">+</button></div></div>
+            <div style="margin-top:15px; text-align:right;"><button onclick="closeGuest()" style="background:#0194f3; color:white; border:none; padding:8px 16px; border-radius:20px; cursor:pointer; font-weight: 600; font-size:13px;">Done</button></div>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:flex-end;">
+          <button style="background: #ff5e1f; color: white; border: none; padding: 15px 30px; border-radius: 40px; font-size: 16px; font-weight: 700; cursor: pointer; transition: background 0.3s;" onmouseover="this.style.background='#e04f1a'" onmouseout="this.style.background='#ff5e1f'">
+            <i class="fa fa-search"></i> Search
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 0 80px; margin-bottom: 50px;">
+      <%- include('hotels/hotelLists') %>
+    </div>
+
+    <div id="email-forms-wrapper" class="<%= typeof formDisplayStyle !== 'undefined' && formDisplayStyle === 'none' ? 'd-none' : '' %>">
+        </div>
+
+  </main>
 
   <%- include('partials/footer') %>
 
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const authModal = document.getElementById('auth-modal');
-      const emailWrapper = document.getElementById('email-forms-wrapper');
-
-      // Hàm Mở Modal và chuyển tab
-      function openModal(tabType) {
-          if (!authModal) return;
-          authModal.classList.add('active');
-          authModal.style.display = 'flex';
-          
-          if (tabType) {
-              const tabToClick = document.querySelector(`.tab[data-target="${tabType}"]`);
-              if (tabToClick) tabToClick.click();
-          }
-      }
-
-      // Hàm Đóng Modal
-      function closeModal() {
-          if (authModal) {
-              authModal.classList.remove('active');
-              authModal.style.display = 'none';
-          }
-      }
-
-      // BẮT SỰ KIỆN CLICK BẰNG EVENT DELEGATION
-      document.body.addEventListener('click', function(e) {
-          
-          // Click mở form Đăng nhập
-          if (e.target.closest('#open-login') || e.target.closest('#open-login-top')) {
-              e.preventDefault();
-              openModal('login');
-          }
-          
-          // Click mở form Đăng ký
-          if (e.target.closest('#open-register-top')) {
-              e.preventDefault();
-              openModal('register');
-          }
-
-          // Click đóng modal (nút X, click ra ngoài màn hình mờ, hoặc duyệt ẩn danh)
-          if (e.target.closest('#close-modal-btn') || e.target.closest('#modal-close-bg') || e.target.closest('#close-modal-guest')) {
-              e.preventDefault();
-              closeModal();
-          }
-
-          // Click hiển thị/ẩn form Email khi bấm "Các lựa chọn khác"
-          if (e.target.closest('#show-email-form')) {
-              e.preventDefault();
-              if (emailWrapper) {
-                  emailWrapper.style.display = (emailWrapper.style.display === 'none' || emailWrapper.style.display === '') ? 'block' : 'none';
-              }
-          }
-
-          // Click để đổi Tab qua lại giữa Đăng nhập và Đăng ký
-          const tab = e.target.closest('.tab');
-          if (tab) {
-              e.preventDefault();
-              const target = tab.getAttribute('data-target');
-              
-              // Tắt hết trạng thái active cũ
-              document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-              document.querySelectorAll('.auth-form').forEach(f => {
-                  f.classList.remove('active');
-                  f.style.display = 'none';
-              });
-              
-              // Bật trạng thái active mới
-              tab.classList.add('active');
-              const targetForm = document.getElementById(`${target}-form`);
-              if (targetForm) {
-                  targetForm.classList.add('active');
-                  targetForm.style.display = 'block';
-              }
-          }
+      // --- I. SCRIPT XỬ LÝ LỊCH (FLATPICKR) ---
+      flatpickr("#dateInput", {
+        mode: "range",
+        dateFormat: "D, d M Y",
+        minDate: "today",
+        showMonths: 2,
+        position: "below",
+        static: false, // Để nó bay lên trên search box nếu cần
+        theme: "material_blue" // Thêm theme cho đẹp
       });
 
-      // Xử lý giữ form nếu server trả về lỗi (sai mật khẩu, trùng email...)
-      const isFormActiveFromServer = ("<%= isFormActive %>" === "true");
-      const activeTabName = "<%= typeof activeForm !== 'undefined' && activeForm ? activeForm : 'login' %>";
-      
-      if (isFormActiveFromServer) {
-          openModal(activeTabName);
-          if (emailWrapper) emailWrapper.style.display = 'block';
+      // --- II. SCRIPT XỬ LÝ TÌM KIẾM ĐỊA ĐIỂM (AJAX) ---
+      const input = document.getElementById('searchInput');
+      const dropdown = document.getElementById('dropdown');
+
+      if (input && dropdown) {
+          input.addEventListener('input', async () => {
+              const q = input.value;
+              if (!q) { dropdown.style.display = 'none'; return; }
+
+              try {
+                  const res = await fetch(`/locations/search?q=${q}`);
+                  const data = await res.json();
+                  if (data.length === 0) { dropdown.style.display = 'none'; return; }
+
+                  dropdown.innerHTML = '';
+                  data.forEach(loc => {
+                      const item = document.createElement('div');
+                      item.style.padding = '15px';
+                      item.style.borderBottom = '1px solid #eee';
+                      item.style.cursor = 'pointer';
+                      item.style.display = 'flex';
+                      item.style.justifyContent = 'space-between';
+                      item.style.alignItems = 'center';
+
+                      item.onmouseover = () => item.style.background = '#f5f7fa';
+                      item.onmouseout = () => item.style.background = 'white';
+
+                      item.innerHTML = `
+                          <div>
+                              <div style="font-weight:700; font-size:14px;">${loc.name}</div>
+                              <div style="font-size:13px; color:#777; margin-top:4px;">${loc.description}, ${loc.country}</div>
+                          </div>
+                          <div style="text-align:right;">
+                              <div style="background:#e6f0ff; color:#0071c2; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:bold; display:inline-block;">City</div>
+                              <div style="font-size:12px; color:#666; margin-top:4px;">${loc.hotelsCount || 0} hotels</div>
+                          </div>`;
+
+                      item.onclick = () => { input.value = loc.name; dropdown.style.display = 'none'; };
+                      dropdown.appendChild(item);
+                  });
+                  dropdown.style.display = 'block';
+              } catch (error) { console.error('Lỗi tìm kiếm:', error); }
+          });
+      }
+
+      // --- III. SCRIPT XỬ LÝ CHỌN KHÁCH & PHÒNG ---
+      const guestInput = document.getElementById('guestInput');
+      const guestDropdown = document.getElementById('guestDropdown');
+
+      let state = { adult: 2, child: 0, room: 1 };
+
+      if (guestInput && guestDropdown) {
+          // Mở dropdown
+          guestInput.onclick = (e) => { e.stopPropagation(); guestDropdown.style.display = 'block'; };
+          // Đóng khi click Done
+          window.closeGuest = () => { guestDropdown.style.display = 'none'; };
+          // Đóng khi click ra ngoài
+          document.addEventListener('click', (e) => {
+              if (!guestDropdown.contains(e.target) && e.target !== guestInput) {
+                  guestDropdown.style.display = 'none';
+              }
+          });
+      }
+
+      // Hàm thay đổi số lượng (Global function)
+      window.change = function(type, value) {
+          state[type] += value;
+          // Giới hạn số lượng
+          if (type === 'adult' && state[type] < 1) state[type] = 1; // Ít nhất 1 người lớn
+          if (type !== 'adult' && state[type] < 0) state[type] = 0; // Trẻ em, phòng không âm
+
+          // Cập nhật giao diện dropdown
+          const el = document.getElementById(type);
+          if (el) el.innerText = state[type];
+
+          // Cập nhật giá trị input
+          if (guestInput) {
+              guestInput.value = `${state.adult} Adult(s), ${state.child} Child, ${state.room} Room`;
+          }
       }
     });
   </script>
+
 </body>
 </html>

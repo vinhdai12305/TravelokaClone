@@ -554,3 +554,6 @@ body {
     display: none;
   }
 }
+.d-none {
+    display: none !important;
+}
