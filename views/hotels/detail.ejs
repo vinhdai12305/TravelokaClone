@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= hotel.name %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f7f9fa; color: #03121a; }
+        
+        .main-wrapper { max-width: 1100px; margin: 20px auto 50px; padding: 0 20px; }
+
+        /* Navigation Tabs */
+        .nav-tabs { display: flex; gap: 30px; border-bottom: 1px solid #e1e4e6; padding-bottom: 12px; margin-bottom: 15px; font-weight: 600; color: #687176; font-size: 14px; }
+        .nav-tabs a { text-decoration: none; color: inherit; position: relative; }
+        .nav-tabs a.active { color: #0194f3; }
+        .nav-tabs a.active::after { content: ''; position: absolute; bottom: -13px; left: 0; width: 100%; height: 3px; background-color: #0194f3; }
+
+        .breadcrumbs { font-size: 12px; color: #0194f3; font-weight: 600; margin-bottom: 20px; }
+
+        /* Card Ảnh & Giá */
+        .hotel-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding-bottom: 20px; margin-bottom: 20px;}
+
+        /* Lưới Ảnh */
+        .gallery-container { display: flex; gap: 8px; padding: 20px; height: 400px; }
+        .img-large { flex: 2; border-radius: 8px 0 0 8px; overflow: hidden; }
+        .img-large img { width: 100%; height: 100%; object-fit: cover; }
+        .img-grid-small { flex: 1.2; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; }
+        .img-grid-small .img-box { position: relative; overflow: hidden; }
+        .img-grid-small .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .img-grid-small .img-box:nth-child(2) { border-radius: 0 8px 0 0; }
+        .img-grid-small .img-box:nth-child(4) { border-radius: 0 0 8px 0; }
+
+        .btn-see-all { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
+
+        /* Khung Title & Giá */
+        .info-container { display: flex; justify-content: space-between; align-items: flex-start; padding: 0 20px; }
+        .info-left { max-width: 65%; }
+        .hotel-title { font-size: 24px; font-weight: 700; margin-bottom: 8px; color: #03121a; }
+        .hotel-tags { display: flex; align-items: center; gap: 10px; margin-bottom: 10px;}
+        .badge-type { background: #e0f2fe; color: #0284c7; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        .stars { color: #f59e0b; font-size: 12px; }
+
+        .info-right { display: flex; flex-direction: column; align-items: flex-end; }
+        .price-label { font-size: 11px; color: #687176; margin-bottom: 4px; }
+        .price-val { font-size: 24px; font-weight: 800; color: #ff5e1f; margin-bottom: 12px; }
+        .btn-select { background: #ff5e1f; color: white; padding: 12px 28px; border-radius: 8px; font-weight: 700; border: none; font-size: 16px; cursor: pointer; transition: 0.2s; }
+        .btn-select:hover { background: #e04b12; }
+
+        /* Alert Banner */
+        .alert-banner { background: #e0f2fe; color: #0369a1; border-radius: 20px; padding: 12px 20px; margin-bottom: 20px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+
+        /* Block 3 Cột: Đánh giá - Bản đồ - Tiện ích */
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .col-title { font-size: 16px; font-weight: 700; margin-bottom: 15px; color: #03121a; }
+        .col-link { float: right; color: #0194f3; font-size: 13px; font-weight: 600; text-decoration: none; cursor: pointer; }
+
+        /* Cột Review */
+        .rating-box { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .rating-score { font-size: 28px; font-weight: 800; color: #0194f3; }
+        .rating-text-box { display: flex; flex-direction: column; }
+        .rating-word { font-weight: 700; font-size: 15px; color: #03121a; }
+        .rating-count { font-size: 13px; color: #0194f3; font-weight: 600; }
+        .review-card { border: 1px solid #e1e4e6; border-radius: 8px; padding: 15px; font-size: 13px; color: #687176; line-height: 1.5; }
+
+        /* Cột Area */
+        .area-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 12px; color: #03121a; font-weight: 500; }
+        .area-distance { color: #687176; font-weight: normal; }
+
+        /* Cột Facility */
+        .facility-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .facility-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #03121a; font-weight: 500; }
+        .facility-item i { color: #0194f3; font-size: 16px; width: 20px; text-align: center; }
+
+    </style>
+</head>
+<body>
+
+    <%- include('../partials/header') %>
+
+    <div class="main-wrapper">
+
+        <div class="breadcrumbs"><%= hotel.location_breadcrumb %></div>
+
+        <div class="hotel-card">
+            <div class="gallery-container">
+                <div class="img-large">
+                    <img src="<%= hotel.images.large %>" alt="<%= hotel.name %>">
+                </div>
+                <div class="img-grid-small">
+                    <% hotel.images.small.forEach(function(img_url, index) { %>
+                        <div class="img-box">
+                            <img src="<%= img_url %>" alt="Room photo <%= index %>">
+                            <% if (index === 3) { %>
+                                <div class="btn-see-all"><i class="fa fa-th"></i> See All Photos</div>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+
+            <div class="info-container">
+                <div class="info-left">
+                    <h1 class="hotel-title"><%= hotel.name %> - An Excellent Blend of Cozy Living</h1>
+                    <div class="hotel-tags">
+                        <span class="badge-type"><%= hotel.type %></span>
+                        <div class="stars">
+                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-right">
+                    <div class="price-label">Price/room/night starts from</div>
+                    <div class="price-val"><%= hotel.price %> VND</div>
+                    <button class="btn-select">Select Room</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert-banner">
+            <i class="fa-solid fa-clock-rotate-left" style="font-size: 18px;"></i> 
+            <%= hotel.alert_text %>
+        </div>
+
+        <div class="details-grid">
+            <div>
+                <div class="rating-box">
+                    <div class="rating-score"><%= hotel.rating %>/10</div>
+                    <div class="rating-text-box">
+                        <span class="rating-word"><%= hotel.rating_text %></span>
+                        <span class="rating-count"><%= hotel.review_count %> reviews <i class="fa fa-chevron-right" style="font-size: 10px;"></i></span>
+                    </div>
+                </div>
+                <div class="col-title" style="margin-top: 20px;">What Guests Say About Their Stay</div>
+                <div class="review-card">
+                    <div style="font-weight: 700; color:#03121a; margin-bottom: 5px;">Charles S. T. <span style="float:right; color:#0194f3;"><i class="fa fa-star"></i> 9.7/10</span></div>
+                    The unit is absolutely stunning. It's a one-bedroom apartment, but it's very spacious and comfortable...
+                </div>
+            </div>
+
+            <div>
+                <div class="col-title">In the Area <a class="col-link">See Map ></a></div>
+                <p style="font-size: 13px; margin-bottom: 15px; color: #687176;"><i class="fa fa-location-dot" style="color:#03121a; margin-right: 5px;"></i> <%= hotel.address %></p>
+                <% hotel.nearby.forEach(function(place) { %>
+                    <div class="area-item">
+                        <span><i class="fa fa-map-pin" style="color: #687176; margin-right: 8px;"></i> <%= place.name %></span>
+                        <span class="area-distance"><%= place.distance %></span>
+                    </div>
+                <% }); %>
+            </div>
+
+            <div>
+                <div class="col-title">Main Facilities <a class="col-link">Read More ></a></div>
+                <div class="facility-grid">
+                    <% hotel.facilities.forEach(function(fac) { %>
+                        <div class="facility-item">
+                            <i class="fa-solid fa-<%= fac.icon %>"></i> <%= fac.name %>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

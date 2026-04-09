@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const Product = require('./models/Product');
+const Hotel = require('./models/Hotel'); // 1. NHỚ THÊM DÒNG NÀY
 require('dotenv').config();
 
-// Kết nối tới DB của bạn (travelokaclone)
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/travelokaclone')
   .then(async () => {
     console.log("Đã kết nối để nạp data...");
-    
-    // Dữ liệu mẫu giống ảnh bạn mong muốn
+
+    // Dữ liệu Sản phẩm (Activities/Experiences)
     const sampleProducts = [
       {
         name: "4D3N Singapore Cruise on the Disney Adventure",
@@ -27,10 +27,34 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/travelokacl
       }
     ];
 
-    await Product.deleteMany({}); // Xóa dữ liệu cũ nếu có
+    // Dữ liệu Khách sạn (Dùng ảnh local của fen)
+    const sampleHotels = [
+      {
+        name: "InterContinental Danang Sun Peninsula Resort",
+        location: "Bán đảo Sơn Trà, Đà Nẵng",
+        image: "/images/intercontinental1.jpg", 
+        price: "5.000.000 VND"
+      },
+      {
+        name: "Khách sạn Furama Resort",
+        location: "Bãi biển Bắc Mỹ An, Đà Nẵng",
+        image: "/images/furama5.jpg",           
+        price: "4.500.000 VND"
+      }
+    ];
+
+    // 2. Lệnh xóa và nạp dữ liệu cho cả 2 collection
+    await Product.deleteMany({}); 
     await Product.insertMany(sampleProducts);
+    console.log("✅ Đã nạp dữ liệu Products thành công!");
+
+    await Hotel.deleteMany({}); // Xóa hotel cũ
+    await Hotel.insertMany(sampleHotels); // Nạp hotel mới
+    console.log("✅ Đã nạp dữ liệu Hotels thành công!");
     
-    console.log("Đã tạo collection products và nạp dữ liệu thành công!");
     process.exit();
   })
-  .catch(err => console.error(err));
+  .catch(err => {
+    console.error("❌ Lỗi: ", err);
+    process.exit(1);
+  });
