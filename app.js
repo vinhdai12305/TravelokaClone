@@ -43,10 +43,7 @@ app.use((req, res, next) => {
 const userRoutes = require('./routes/userRoutes');
 const hotelRoutes = require('./routes/hotelRoutes');
 const productRoutes = require('./routes/productRoutes');
-
-// 👉 THÊM dòng này
 const homeRoutes = require('./routes/homeRoutes');
-
 
 // Route Dashboard
 app.get('/dashboard', (req, res) => {
@@ -55,16 +52,10 @@ app.get('/dashboard', (req, res) => {
 });
 
 // 6. Sử dụng Routes con
-
+app.use('/', homeRoutes);        // Trang chủ
+app.use('/hotels', hotelRoutes); // Trang hotels
 app.use('/users', userRoutes);
 app.use('/products', productRoutes);
-
-// ❌ XÓA dòng này (quan trọng)
-// app.use('/', hotelRoutes);
-
-// ✅ THAY BẰNG:
-app.use('/', homeRoutes);        // 👉 trang chủ
-app.use('/hotels', hotelRoutes); // 👉 trang hotel
 
 // 7. Xử lý lỗi 404
 app.use((req, res) => {
