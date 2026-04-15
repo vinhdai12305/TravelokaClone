@@ -61,9 +61,7 @@ app.use('/', homeRoutes);        // Trang chủ
 app.use('/hotels', hotelRoutes); // Trang hotels
 app.use('/users', userRoutes);
 app.use('/products', productRoutes);
-app.use('/flight', flightRoutes);
-app.use('/', homeRoutes);      
-app.use('/hotels', hotelRoutes); 
+app.use('/flight', flightRoutes);    
 app.use('/locations', locationRoutes);
 
 // 7. Xử lý lỗi 404

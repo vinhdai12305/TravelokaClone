@@ -1,3 +1,4 @@
+// models/Hotel.js
 const mongoose = require('mongoose');
 
 const hotelSchema = new mongoose.Schema({
