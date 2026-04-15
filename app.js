@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
 // 3. Cấu hình Session
 app.use(session({
     secret: process.env.SESSION_SECRET || 'traveloka_secret_key',
@@ -43,6 +44,10 @@ app.use((req, res, next) => {
 const userRoutes = require('./routes/userRoutes');
 const hotelRoutes = require('./routes/hotelRoutes');
 const productRoutes = require('./routes/productRoutes');
+const flightRoutes = require('./routes/flightRoutes');
+const locationRoutes = require('./routes/locationRoutes');
+
+// 👉 THÊM dòng này
 const homeRoutes = require('./routes/homeRoutes');
 
 // Route Dashboard
@@ -56,6 +61,10 @@ app.use('/', homeRoutes);        // Trang chủ
 app.use('/hotels', hotelRoutes); // Trang hotels
 app.use('/users', userRoutes);
 app.use('/products', productRoutes);
+app.use('/flight', flightRoutes);
+app.use('/', homeRoutes);      
+app.use('/hotels', hotelRoutes); 
+app.use('/locations', locationRoutes);
 
 // 7. Xử lý lỗi 404
 app.use((req, res) => {

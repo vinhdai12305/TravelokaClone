@@ -1,265 +1,204 @@
-<!-- filepath: e:\TravelokaClone\views\partials\header.ejs -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traveloka Clone</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body { background-color: #f5f5f5; }
+    .header-divider {
+      height: 10px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.08), transparent);
+    }
 
-<style>
-  /* CSS CHO HEADER CHÍNH */
-  .header-divider { height: 10px; background: linear-gradient(to bottom, rgba(0,0,0,0.08), transparent); }
-  .btn-outline {
-    padding: 7px 14px; border: 1px solid #003580; border-radius: 6px;
-    color: #003580; text-decoration: none; font-size: 15px; font-weight: 600;
-    background: transparent; cursor: pointer;
-  }
-  .btn-solid {
-    background: #003580; color: white; padding: 7px 14px; border: none;
-    border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer;
-  }
+    /* CSS CHO POPUP (MODAL) */
+    .modal-overlay {
+      display: none; /* Ẩn mặc định */
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-box {
+      background: white;
+      width: 400px;
+      padding: 30px;
+      border-radius: 12px;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .close-btn {
+      position: absolute;
+      top: 15px; right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+    .modal-input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+    .modal-submit {
+      width: 100%;
+      padding: 12px;
+      background: #003580;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
 
-  /* ========================================= */
-  /* CSS CHO POPUP STYLE TRAVELOKA CHUẨN XỊN */
-  /* ========================================= */
-  .modal-overlay {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); z-index: 9999;
-    justify-content: center; align-items: center; font-family: sans-serif;
-  }
-  
-  .tvlk-box {
-    background: white; width: 400px; border-radius: 16px; 
-    overflow: hidden; position: relative;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-  }
-
-  /* Phần banner xanh nhạt bên trên */
-  .tvlk-banner {
-    background: linear-gradient(135deg, #e0f8f8 0%, #ccecf8 100%);
-    padding: 24px 20px 20px 24px;
+  <header style="
+    width: 100%; background: white; padding: 18px 80px;
     display: flex; justify-content: space-between; align-items: center;
-    position: relative;
-  }
-  .tvlk-banner-text {
-    font-size: 20px; font-weight: 800; color: #1a1a1a;
-    line-height: 1.3; max-width: 65%;
-  }
-  .tvlk-banner-img {
-    width: 80px; height: 80px; 
-    background: url('https://cdn-icons-png.flaticon.com/512/3024/3024310.png') no-repeat center center;
-    background-size: contain;
-  }
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  ">
+    <a href="/" style="font-size: 24px; font-weight: 700; color: #003580; text-decoration: none;">
+      +84Booking.com
+    </a>
 
-  .close-tvlk {
-    position: absolute; top: 12px; right: 15px; font-size: 20px;
-    cursor: pointer; color: #555; z-index: 10;
-  }
+    <div style="display: flex; align-items: center; gap: 50px;">
+      <div style="display: flex; align-items: center; gap: 30px;">
+        <span style="font-size:16px; font-weight:600; color: #2e2d2d;">VND</span>
+        <img src="https://flagcdn.com/w40/vn.png" style="width:25px; border-radius:3px;">
+        <a href="#" style="text-decoration: none; color: #2e2d2d; font-size: 16px; font-weight:600;">Hỗ trợ</a>
+      </div>
 
-  .tvlk-body { padding: 24px; text-align: center; }
+      <div style="display: flex; align-items: center; gap: 10px;">
+        
+        <% if (typeof user !== 'undefined' && user) { %>
+          <span style="font-weight: 600; color: #003580; font-size: 15px; margin-right: 10px;">
+            Xin chào, <%= user.username %>!
+          </span>
+          <a href="/users/logout" style="
+            padding: 7px 14px; border: 1px solid #003580; border-radius: 6px;
+            color: #003580; text-decoration: none; font-size: 15px; font-weight: 600;
+          ">Đăng xuất</a>
+        <% } else { %>
+          
+          <button id="open-register-top" style="
+            padding: 7px 14px; border: 1px solid #003580; border-radius: 6px;
+            color: #003580; font-size: 15px; font-weight:600; background: transparent; cursor: pointer;
+          ">Đăng ký</button>
 
-  /* Nút đăng nhập MXH */
-  .social-btn {
-    width: 100%; padding: 12px; margin-bottom: 12px;
-    border: 1px solid #d1d5db; border-radius: 30px;
-    background: white; font-size: 15px; font-weight: 700; color: #333;
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    cursor: pointer; transition: background 0.2s; position: relative;
-  }
-  .social-btn:hover { background: #f9fafb; }
-  
-  .social-row { display: flex; gap: 12px; margin-bottom: 20px; }
-  .social-row .social-btn { flex: 1; margin-bottom: 0; }
+          <button id="open-login-top" style="
+            background: #003580; color: white; padding: 7px 14px; border: none;
+            border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer;
+          ">Đăng nhập</button>
 
-  .badge-recent {
-    position: absolute; top: -10px; right: 10px;
-    background: #ec4899; color: white; font-size: 11px;
-    padding: 2px 8px; border-radius: 10px; font-weight: bold;
-    box-shadow: 0 2px 4px rgba(236, 72, 153, 0.3);
-  }
-  .badge-recent::after {
-    content: ''; position: absolute; bottom: -4px; right: 10px;
-    border-width: 4px 4px 0 0; border-style: solid;
-    border-color: #ec4899 transparent transparent transparent;
-  }
+        <% } %>
 
-  .tvlk-link { color: #0284c7; font-weight: 700; cursor: pointer; text-decoration: none; font-size: 14px; display: inline-block; margin: 10px 0; }
-  .tvlk-link:hover { text-decoration: underline; }
-  
-  .tvlk-desc { font-size: 12px; color: #6b7280; margin-bottom: 20px; line-height: 1.5; }
-  .tvlk-terms { font-size: 11px; color: #9ca3af; margin-top: 20px; margin-bottom: 20px; line-height: 1.5; }
-  .tvlk-terms a { color: #0284c7; text-decoration: none; font-weight: 600; }
-
-  /* Form Đăng nhập & Đăng ký */
-  .tvlk-form-container { display: none; text-align: left; }
-  .tvlk-form-title { font-size: 18px; font-weight: bold; color: #003580; margin-bottom: 15px; text-align: center; }
-  .tvlk-input { width: 100%; padding: 12px 15px; margin-bottom: 12px; border: 1px solid #cbd5e1; background-color: #f0f6ff; border-radius: 8px; font-size: 14px; box-sizing: border-box; transition: 0.2s;}
-  .tvlk-input:focus { outline: none; border-color: #0284c7; background-color: #fff; }
-  .tvlk-submit { width: 100%; padding: 12px; background: #0284c7; color: white; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 15px; margin-top: 5px; transition: 0.2s; }
-  .tvlk-submit:hover { background: #026aa1; }
-  
-  .switch-form-text { font-size: 13px; text-align: center; margin-top: 15px; color: #555; }
-
-  /* ✅ STYLING CHO NAV LINK HOTELS */
-  .nav-link {
-    text-decoration: none;
-    color: #9d9999;
-    font-weight: 600;
-    transition: color 0.3s;
-  }
-  .nav-link:hover {
-    color: #003580;
-  }
-</style>
-
-<header style="width: 100%; background: white; padding: 18px 80px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">
-  <a href="/" style="font-size: 24px; font-weight: 700; color: #003580; text-decoration: none;">
-    +84Booking.com
-  </a>
-  <div style="display: flex; align-items: center; gap: 50px;">
-    <div style="display: flex; align-items: center; gap: 30px;">
-      <span style="font-size:16px; font-weight:600; color: #2e2d2d;">VND</span>
-      <img src="https://flagcdn.com/w40/vn.png" style="width:25px; border-radius:3px;">
-      <a href="#" style="text-decoration: none; color: #2e2d2d; font-size: 16px; font-weight:600;">Support</a>
+      </div>
     </div>
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <% if (typeof user !== 'undefined' && user) { %>
-        <span style="font-weight: 600; color: #003580; font-size: 15px; margin-right: 10px;">Hello, <%= user.username %>!</span>
-        <a href="/users/logout" class="btn-outline">Log out</a>
-      <% } else { %>
-        <button id="open-auth-modal" class="btn-solid" style="border-radius: 20px; padding: 8px 20px;">Log in / Register</button>
-      <% } %>
-    </div>
+  </header>
+
+  <div style="
+    width: 100%;
+    background: white;
+    padding: 12px 80px;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+
+    position: relative;   /* 🔥 thêm */
+    z-index: 9999;        /* 🔥 thêm */
+  ">
+    <a href="/" style="text-decoration: none; color: #9d9999; font-weight: 600;">Hotels</a>
+    <a href="/flight" style="text-decoration: none; color: #9d9999; font-weight: 600;">Flights</a>
+    <a href="#" style="text-decoration: none; color: #9d9999; font-weight: 600;">More</a>
   </div>
-</header>
 
-<!-- ✅ SỬA ĐÃY: Thêm href="/hotels" -->
-<div style="width: 100%; background: white; padding: 12px 80px; display: flex; justify-content: center; gap: 60px; box-shadow: 0 2px 6px rgba(0,0,0,0.04);">
-  <a href="/hotels" class="nav-link"> Hotels</a>
-  <a href="#" class="nav-link"> Flights</a>
-  <a href="#" class="nav-link"> More</a>
-</div>
-<div class="header-divider"></div>
+  <div class="header-divider"></div>
 
-<div id="authModal" class="modal-overlay">
-  <div class="tvlk-box">
-    <div class="tvlk-banner">
-      <span class="close-tvlk" id="close-modal">&times;</span>
-      <div class="tvlk-banner-text">We've got a deal you can't resist!</div>
-      <div class="tvlk-banner-img"></div>
-    </div>
-
-    <div class="tvlk-body">
+  <div id="loginModal" class="modal-overlay">
+    <div class="modal-box">
+      <span class="close-btn" id="close-login">&times;</span>
+      <h2 style="color: #003580; margin-bottom: 20px; text-align: center;">Đăng nhập</h2>
       
-      <div id="social-box">
-        <button class="social-btn" style="box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-          <i class="fa-brands fa-google" style="color: #DB4437; font-size: 18px;"></i> Google
-          <span class="badge-recent">Recently used</span>
-        </button>
-        <div class="social-row">
-          <button class="social-btn"><i class="fa-brands fa-apple" style="font-size: 20px;"></i> Apple</button>
-          <button class="social-btn"><i class="fa-brands fa-facebook" style="color: #1877F2; font-size: 18px;"></i> Facebook</button>
-        </div>
-        <span class="tvlk-link" id="btn-other-options">Other options</span>
-        <div class="tvlk-desc">Lower price and rewards are waiting. Unlock them by logging in!</div>
-      </div>
-
-      <div id="login-box" class="tvlk-form-container">
-        <div class="tvlk-form-title">Log in to your account</div>
-        <form action="/users/login" method="POST">
-          <input type="text" name="username" class="tvlk-input" placeholder="Email or Username" required>
-          <input type="password" name="password" class="tvlk-input" placeholder="Password" required>
-          <button type="submit" class="tvlk-submit">Log in now</button>
-        </form>
-        <div class="switch-form-text">
-          Don't have an account? <span class="tvlk-link" id="go-to-register" style="margin:0;">Register now</span>
-        </div>
-        <div style="text-align: center; margin-top: 5px;">
-          <span class="tvlk-link back-to-social" style="font-size: 13px; font-weight: normal;">Back to other options</span>
-        </div>
-      </div>
-
-      <div id="register-box" class="tvlk-form-container">
-        <div class="tvlk-form-title">Create a new account</div>
-        <form action="/users/register" method="POST">
-          <input type="text" name="username" class="tvlk-input" placeholder="Username" required>
-          <input type="email" name="email" class="tvlk-input" placeholder="Email address" required>
-          <input type="password" name="password" class="tvlk-input" placeholder="Password" required>
-          <button type="submit" class="tvlk-submit">Register now</button>
-        </form>
-        <div class="switch-form-text">
-          Already have an account? <span class="tvlk-link" id="go-to-login" style="margin:0;">Log in</span>
-        </div>
-        <div style="text-align: center; margin-top: 5px;">
-          <span class="tvlk-link back-to-social" style="font-size: 13px; font-weight: normal;">Back to other options</span>
-        </div>
-      </div>
-
-      <div class="tvlk-terms">
-        By continuing, you agree to these <a href="#">Terms & Conditions</a> and acknowledge that you have been informed about our <a href="#">Privacy Notice</a>.
-      </div>
-      <a href="#" class="tvlk-link" style="font-size: 15px;" id="guest-btn">Browse as a guest</a>
+      <form action="/users/login" method="POST">
+        <input type="text" name="username" class="modal-input" placeholder="Tên đăng nhập" required>
+        <input type="password" name="password" class="modal-input" placeholder="Mật khẩu" required>
+        <button type="submit" class="modal-submit">Đăng nhập ngay</button>
+      </form>
     </div>
   </div>
-</div>
 
-<script>
-  // DOM Elements
-  const authModal = document.getElementById('authModal');
-  const openModalBtn = document.getElementById('open-auth-modal');
-  const closeModalBtn = document.getElementById('close-modal');
-  const guestBtn = document.getElementById('guest-btn');
-  
-  // Containers
-  const socialBox = document.getElementById('social-box');
-  const loginBox = document.getElementById('login-box');
-  const registerBox = document.getElementById('register-box');
-  
-  // Triggers
-  const btnOtherOptions = document.getElementById('btn-other-options');
-  const btnGoToRegister = document.getElementById('go-to-register');
-  const btnGoToLogin = document.getElementById('go-to-login');
-  const btnsBackToSocial = document.querySelectorAll('.back-to-social');
+  <div id="registerModal" class="modal-overlay">
+    <div class="modal-box">
+      <span class="close-btn" id="close-register">&times;</span>
+      <h2 style="color: #003580; margin-bottom: 20px; text-align: center;">Tạo tài khoản</h2>
+      
+      <form action="/users/register" method="POST">
+        <input type="text" name="username" class="modal-input" placeholder="Tên đăng nhập" required>
+        <input type="email" name="email" class="modal-input" placeholder="Email" required>
+        <input type="password" name="password" class="modal-input" placeholder="Mật khẩu" required>
+        <button type="submit" class="modal-submit">Đăng ký ngay</button>
+      </form>
+    </div>
+  </div>
 
-  const hideAllViews = () => {
-    socialBox.style.display = 'none';
-    loginBox.style.display = 'none';
-    registerBox.style.display = 'none';
-  };
+  <script>
+    // Lấy các phần tử từ DOM
+    const btnLogin = document.getElementById('open-login-top');
+    const btnRegister = document.getElementById('open-register-top');
+    
+    const loginModal = document.getElementById('loginModal');
+    const registerModal = document.getElementById('registerModal');
+    
+    const closeLogin = document.getElementById('close-login');
+    const closeRegister = document.getElementById('close-register');
 
-  if (openModalBtn) {
-    openModalBtn.addEventListener('click', () => {
-      authModal.style.display = 'flex';
-      hideAllViews();
-      socialBox.style.display = 'block';
+    // NẾU CÓ NÚT ĐĂNG NHẬP THÌ MỚI GẮN SỰ KIỆN CLICK (Tránh lỗi khi đã đăng nhập)
+    if (btnLogin) {
+      btnLogin.addEventListener('click', () => {
+        loginModal.style.display = 'flex';
+      });
+    }
+
+    if (btnRegister) {
+      btnRegister.addEventListener('click', () => {
+        registerModal.style.display = 'flex';
+      });
+    }
+
+    // TẮT POPUP KHI BẤM DẤU X
+    if (closeLogin) {
+      closeLogin.addEventListener('click', () => {
+        loginModal.style.display = 'none';
+      });
+    }
+    
+    if (closeRegister) {
+      closeRegister.addEventListener('click', () => {
+        registerModal.style.display = 'none';
+      });
+    }
+
+    // TẮT POPUP KHI BẤM RA NGOÀI VÙNG TỐI
+    window.addEventListener('click', (e) => {
+      if (e.target === loginModal) loginModal.style.display = 'none';
+      if (e.target === registerModal) registerModal.style.display = 'none';
     });
-  }
+  </script>
 
-  const closeModal = () => { authModal.style.display = 'none'; };
-  if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
-  if (guestBtn) guestBtn.addEventListener('click', (e) => { e.preventDefault(); closeModal(); });
-  window.addEventListener('click', (e) => { if (e.target === authModal) closeModal(); });
-
-  if (btnOtherOptions) {
-    btnOtherOptions.addEventListener('click', () => {
-      hideAllViews();
-      loginBox.style.display = 'block';
-    });
-  }
-
-  if (btnGoToRegister) {
-    btnGoToRegister.addEventListener('click', () => {
-      hideAllViews();
-      registerBox.style.display = 'block';
-    });
-  }
-
-  if (btnGoToLogin) {
-    btnGoToLogin.addEventListener('click', () => {
-      hideAllViews();
-      loginBox.style.display = 'block';
-    });
-  }
-
-  btnsBackToSocial.forEach(btn => {
-    btn.addEventListener('click', () => {
-      hideAllViews();
-      socialBox.style.display = 'block';
-    });
-  });
-</script>
+</body>
+</html>
