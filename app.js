@@ -49,10 +49,6 @@ const locationRoutes = require('./routes/locationRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const homeRoutes = require('./routes/homeRoutes');
 
-// 👉 THÊM DÒNG NÀY: Import Route của Admin
-const adminRoutes = require('./routes/adminRoutes'); 
-
-// (Đã xóa đoạn app.get('/dashboard' cũ ở đây để chuyển quyền quản lý cho adminRoutes)
 
 // 6. Sử dụng Routes con
 app.use('/', homeRoutes);        // Trang chủ
