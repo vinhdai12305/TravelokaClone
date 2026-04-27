@@ -3,7 +3,7 @@ const Product = require('./models/Product');
 const Hotel = require('./models/Hotel'); // 1. NHỚ THÊM DÒNG NÀY
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/travelokaclone')
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/traveloka_clone')
   .then(async () => {
     console.log("Đã kết nối để nạp data...");
 

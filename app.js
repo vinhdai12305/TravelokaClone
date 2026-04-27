@@ -60,6 +60,7 @@ app.use('/users', userRoutes);
 app.use('/products', productRoutes);
 app.use('/flight', flightRoutes);    
 app.use('/locations', locationRoutes);
+app.use('/api/flight', flightRoutes);    
 
 // 👉 THÊM DÒNG NÀY: Khai báo tiền tố /admin cho tất cả các route của Admin
 app.use('/admin', adminRoutes);
