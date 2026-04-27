@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; }
+        .sidebar { width: 250px; background: #0143a3; height: 100vh; position: fixed; color: white; padding: 20px; }
+        .sidebar a { color: white; text-decoration: none; display: block; padding: 10px 0; border-bottom: 1px solid #1a5ab5; }
+        .content { margin-left: 250px; padding: 30px; }
+        .header { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Booking Admin</h2>
+        <a href="/">🏠 Quay lại trang Web</a>
+        <a href="#">👥 Quản lý User</a>
+        <a href="#">🏨 Quản lý Khách sạn</a>
+        <a href="/users/logout">🚪 Đăng xuất</a>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <h1>Xin chào Sếp, <%= user.name %>! 👋</h1>
+            <p>Email: <%= user.email %></p>
+            <p>Quyền hạn: <strong style="color: red; text-transform: uppercase;"><%= user.role %></strong></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,8 +1,10 @@
 <div class="auth-form" id="register-form" style="display: none;">
   <form action="/users/register" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
-    <input type="text" name="name" placeholder="Họ và tên" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+    <input type="text" name="username" placeholder="Họ và tên" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
     <input type="email" name="email" placeholder="Email" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
     <input type="password" name="password" placeholder="Mật khẩu" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+    <input type="password" name="confirmPassword" placeholder="Nhập lại mật khẩu" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+    
     <button type="submit" class="btn btn-primary" style="padding: 10px; border-radius: 5px; font-weight: bold;">Đăng ký tài khoản</button>
   </form>
 </div>

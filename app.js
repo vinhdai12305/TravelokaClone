@@ -46,15 +46,12 @@ const hotelRoutes = require('./routes/hotelRoutes');
 const productRoutes = require('./routes/productRoutes');
 const flightRoutes = require('./routes/flightRoutes');
 const locationRoutes = require('./routes/locationRoutes');
-
-// 👉 THÊM dòng này
 const homeRoutes = require('./routes/homeRoutes');
 
-// Route Dashboard
-app.get('/dashboard', (req, res) => {
-    if (!req.session.user) return res.redirect('/');
-    res.render('dashboard', { user: req.session.user });
-});
+// 👉 THÊM DÒNG NÀY: Import Route của Admin
+const adminRoutes = require('./routes/adminRoutes'); 
+
+// (Đã xóa đoạn app.get('/dashboard' cũ ở đây để chuyển quyền quản lý cho adminRoutes)
 
 // 6. Sử dụng Routes con
 app.use('/', homeRoutes);        // Trang chủ
@@ -63,6 +60,9 @@ app.use('/users', userRoutes);
 app.use('/products', productRoutes);
 app.use('/flight', flightRoutes);    
 app.use('/locations', locationRoutes);
+
+// 👉 THÊM DÒNG NÀY: Khai báo tiền tố /admin cho tất cả các route của Admin
+app.use('/admin', adminRoutes);
 
 // 7. Xử lý lỗi 404
 app.use((req, res) => {
