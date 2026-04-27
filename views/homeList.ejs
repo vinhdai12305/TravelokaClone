@@ -1,0 +1,810 @@
+<!-- filepath: e:\TravelokaClone\views\homeList.ejs -->
+<%- include('./partials/header') %>
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traveloka Clone - Trang Chủ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f7f9fa;
+      color: #03121a;
+    }
+
+    .flatpickr-calendar {
+      border-radius: 15px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      top: 100% !important;
+      left: 0 !important;
+      margin-top: 10px;
+    }
+
+    :root {
+        --primary-blue: #0194f3;
+        --dark-blue: #0143a3;
+        --price-orange: #ff5e1f;
+        --text-gray: #687176;
+        --tag-purple: #8e44ad;
+        --bg-gray: #f7f9fa;
+    }
+
+    /* HERO BANNER */
+    .hero-banner {
+      width: 100%;
+      padding: 30px 80px;
+    }
+
+    .hero-banner-img {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .hero-banner-img img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      bottom: 50px;
+      left: 0;
+      width: 100%;
+      padding: 40px;
+      background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+      color: white;
+    }
+
+    .hero-overlay h1 {
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .hero-overlay p {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    /* SEARCH BOX */
+    .search-container {
+      width: 100%;
+      margin-top: -100px;
+      padding: 0 80px;
+      position: relative;
+      z-index: 10;
+      margin-bottom: 40px;
+    }
+
+    .search-box {
+      background: white;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+      display: flex;
+      gap: 25px;
+      align-items: flex-end;
+    }
+
+    .search-field {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+    }
+
+    .search-field label {
+      font-size: 13px;
+      color: #000000;
+      font-weight: 600;
+    }
+
+    .search-field input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    .search-field input:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(1, 148, 243, 0.1);
+    }
+
+    #dropdown {
+      position: absolute;
+      top: 75px;
+      left: 0;
+      width: 130%;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 999;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    #guestDropdown {
+      position: absolute;
+      top: 75px;
+      left: 0;
+      width: 100%;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      padding: 20px;
+      display: none;
+      z-index: 999;
+    }
+
+    .guest-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .guest-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .guest-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .guest-controls button {
+      width: 30px;
+      height: 30px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      background: white;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .guest-controls button:hover {
+      background: var(--primary-blue);
+      color: white;
+      border-color: var(--primary-blue);
+    }
+
+    .search-btn {
+      background: var(--primary-blue);
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 40px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .search-btn:hover {
+      background: var(--dark-blue);
+    }
+
+    .done-btn {
+      background: var(--primary-blue);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 20px;
+      float: right;
+    }
+
+    .done-btn:hover {
+      background: var(--dark-blue);
+    }
+
+    /* CONTENT WRAPPER */
+    .content-wrapper {
+      padding: 0 8%;
+    }
+
+    /* HEADER SECTION */
+    .header-section {
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+
+    .header-title {
+      color: #03121a;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-subtitle {
+      color: var(--text-gray);
+      font-size: 15px;
+      margin: 0;
+    }
+
+    /* CAROUSEL */
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .hotel-container {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 15px 5px 25px 5px;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+    }
+
+    .hotel-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* HOTEL CARD */
+    .hotel-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      width: 300px;
+      flex-shrink: 0;
+      overflow: hidden;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: 1px solid #e6eaed;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hotel-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    }
+
+    .hotel-image-wrapper {
+      position: relative;
+      width: 100%;
+      height: 230px;
+      flex-shrink: 0;
+    }
+
+    .hotel-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .location-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(3, 18, 26, 0.6);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      z-index: 2;
+      backdrop-filter: blur(2px);
+    }
+
+    .hotel-info {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-grow: 1;
+    }
+
+    .hotel-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #03121a;
+      line-height: 1.3;
+      height: 48px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      margin: 0;
+    }
+
+    .stars {
+      color: #febb02;
+      font-size: 11px;
+    }
+
+    .tag-group {
+      display: flex;
+      gap: 5px;
+      margin: 6px 0;
+      flex-wrap: wrap;
+    }
+
+    .tag-mini {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .tag-xtra {
+      background: #e8f3ff;
+      color: var(--primary-blue);
+    }
+
+    .tag-refund {
+      background: #f3e5f5;
+      color: var(--tag-purple);
+    }
+
+    .rating-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .rating-score {
+      color: var(--primary-blue);
+      font-weight: 800;
+    }
+
+    .review-count {
+      color: var(--text-gray);
+      font-size: 11px;
+    }
+
+    .price-section {
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .original-price {
+      color: var(--text-gray);
+      text-decoration: line-through;
+      font-size: 12px;
+      margin: 0;
+    }
+
+    .discount-price {
+      color: var(--price-orange);
+      font-size: 18px;
+      font-weight: 800;
+      margin: 4px 0 0 0;
+    }
+
+    .price-unit {
+      color: #03121a;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* NAVIGATION BUTTONS */
+    .nav-btn-round {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: white;
+      color: var(--primary-blue);
+      font-size: 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+    }
+
+    .nav-btn-round:hover {
+      background: var(--primary-blue);
+      color: white;
+    }
+
+    .prev-btn {
+      left: -20px;
+      display: none;
+    }
+
+    .next-btn {
+      right: -20px;
+    }
+
+    /* BANNER */
+    .app-banner {
+      width: 100%;
+      height: auto;
+      margin: 20px 0 40px 0;
+      border-radius: 16px;
+      position: relative;
+      padding-top: 35%;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      background-color: #f0f0f0;
+    }
+
+    .app-banner img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* VIEW MORE */
+    .view-more-container {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0 40px 0;
+    }
+
+    .btn-view-more {
+      color: var(--primary-blue);
+      padding: 10px 24px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .btn-view-more:hover {
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HERO BANNER -->
+<div class="hero-banner">
+  <div class="hero-banner-img">
+    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Hero Banner">
+    <div class="hero-overlay">
+      <h1>Where to next? Book your next hotel for less</h1>
+      <p>Discover hotels, villas, resorts and more.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH BOX -->
+<div class="search-container">
+  <div class="search-box">
+
+    <!-- LOCATION -->
+    <div class="search-field">
+      <label>City, destination, or hotel name</label>
+      <input id="searchInput" type="text" placeholder="City, hotel, place to go">
+      <div id="dropdown"></div>
+    </div>
+
+    <!-- DATE -->
+    <div class="search-field">
+      <label>Check-in & Check-out Dates</label>
+      <input id="dateInput" type="text" placeholder="Select dates">
+    </div>
+
+    <!-- GUEST -->
+    <div class="search-field">
+      <label>Guests and Rooms</label>
+      <input id="guestInput" readonly value="2 Adult(s), 0 Child, 1 Room">
+      <div id="guestDropdown">
+        
+        <div class="guest-item">
+          <span>Adult</span>
+          <div class="guest-controls">
+            <button onclick="change('adult', -1)">−</button>
+            <span id="adult" style="min-width: 20px; text-align: center;">2</span>
+            <button onclick="change('adult', 1)">+</button>
+          </div>
+        </div>
+
+        <div class="guest-item">
+          <span>Children</span>
+          <div class="guest-controls">
+            <button onclick="change('child', -1)">−</button>
+            <span id="child" style="min-width: 20px; text-align: center;">0</span>
+            <button onclick="change('child', 1)">+</button>
+          </div>
+        </div>
+
+        <div class="guest-item" style="margin-bottom: 0;">
+          <span>Room</span>
+          <div class="guest-controls">
+            <button onclick="change('room', -1)">−</button>
+            <span id="room" style="min-width: 20px; text-align: center;">1</span>
+            <button onclick="change('room', 1)">+</button>
+          </div>
+        </div>
+
+        <button class="done-btn" onclick="closeGuest()">Done</button>
+        <div style="clear: both;"></div>
+
+      </div>
+    </div>
+
+    <!-- SEARCH BUTTON -->
+    <button class="search-btn">Search</button>
+
+  </div>
+</div>
+
+<!-- CONTENT WRAPPER -->
+<div class="content-wrapper">
+
+    <!-- HOTELS SECTION -->
+    <div class="header-section">
+        <h2 class="header-title">🏨 Nhiều lựa chọn khách sạn</h2>
+        <p class="header-subtitle">Khám phá các điểm đến nghỉ dưỡng hàng đầu</p>
+    </div>
+
+    <div class="carousel-wrapper">
+        <button class="nav-btn-round prev-btn" id="prevHotelBtn"><i class="fas fa-chevron-left"></i></button>
+        <div class="hotel-container" id="hotelList">
+            <% if (typeof hotels !== 'undefined' && hotels.length > 0) { %>
+                <% hotels.forEach(function(hotel) { %>
+                    <div class="hotel-card">
+                        <div class="hotel-image-wrapper">
+                            <div class="location-badge">
+                                <i class="fas fa-map-marker-alt"></i> <%= hotel.location %>
+                            </div>
+                            <img src="<%= hotel.image %>" class="hotel-image" onerror="this.src='/images/default-hotel.jpg'">
+                        </div>
+                        <div class="hotel-info">
+                            <h3 class="hotel-name"><%= hotel.name %></h3>
+                            <div class="stars">
+                                <% for(let i=0; i < (hotel.stars || 0); i++) { %>
+                                    <i class="fas fa-star"></i>
+                                <% } %>
+                            </div>
+                            <div class="tag-group">
+                                <span class="tag-mini tag-xtra">Traveloka Xtra</span>
+                                <span class="tag-mini tag-refund">Hoàn tiền</span>
+                            </div>
+                            <div class="rating-wrapper">
+                                <span class="rating-score">💙 <%= hotel.rating %>/10</span>
+                                <span class="review-count">(<%= (hotel.reviewCount || 0) %> đánh giá)</span>
+                            </div>
+                            <div class="price-section">
+                                <p class="original-price"><%= hotel.discountPrice ? (hotel.discountPrice * 1.2).toLocaleString('vi-VN') : '' %> VND</p>
+                                <p class="discount-price">
+                                    <%= hotel.discountPrice ? hotel.discountPrice.toLocaleString('vi-VN') : '---' %> <span class="price-unit">VND/đêm</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } %>
+        </div>
+        <button class="nav-btn-round next-btn" id="nextHotelBtn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+    
+    <div class="view-more-container">
+        <a href="/hotels" class="btn-view-more">Xem thêm khách sạn <i class="fas fa-chevron-right" style="font-size: 10px;"></i></a>
+    </div>
+
+    <!-- BANNER -->
+    <div class="app-banner">
+        <img src="/images/banner1.jpg" alt="Deal xịn chỉ có trên app" onerror="this.src='https://ik.imagekit.io/tvlk/imageResource/2023/12/12/1702374630596-5f0f3a6a9b8f4e2f9d3f1a6f8e5d4c3b.jpeg'">
+    </div>
+
+    <!-- ACTIVITIES SECTION -->
+    <div class="header-section">
+        <h2 class="header-title">🎡 Hoạt động vui chơi giải trí</h2>
+        <p class="header-subtitle">Trải nghiệm những khoảnh khắc thú vị nhất</p>
+    </div>
+
+    <div class="carousel-wrapper">
+        <button class="nav-btn-round prev-btn" id="prevActivityBtn"><i class="fas fa-chevron-left"></i></button>
+        <div class="hotel-container" id="activityList">
+            <% if (typeof activities !== 'undefined' && activities.length > 0) { %>
+                <% activities.forEach(function(act) { %>
+                    <div class="hotel-card">
+                        <div class="hotel-image-wrapper">
+                            <div class="location-badge">
+                                <i class="fas fa-map-marker-alt"></i> <%= act.location %>
+                            </div>
+                            <img src="<%= act.image %>" class="hotel-image" onerror="this.src='/images/default-act.jpg'">
+                        </div>
+                        <div class="hotel-info">
+                            <h3 class="hotel-name"><%= act.name %></h3>
+                            <div class="tag-group">
+                                <span class="tag-mini tag-xtra">Xtra</span>
+                                <span class="tag-mini tag-refund">Xác nhận tức thì</span>
+                            </div>
+                            <div class="rating-wrapper">
+                                <i class="fas fa-star" style="color: #febb02; font-size: 10px;"></i>
+                                <span class="rating-score"><%= act.rating %>/10</span>
+                                <span class="review-count">Đã đặt <%= act.reviewCount || 0 %>+</span>
+                            </div>
+                            <div class="price-section">
+                                <p class="original-price"><%= act.discountPrice ? (act.discountPrice * 1.1).toLocaleString('vi-VN') : '' %> VND</p>
+                                <p class="discount-price">
+                                    <%= act.discountPrice ? act.discountPrice.toLocaleString('vi-VN') : '0' %> <span class="price-unit">VND</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } %>
+        </div>
+        <button class="nav-btn-round next-btn" id="nextActivityBtn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <div class="view-more-container">
+        <a href="/hotels" class="btn-view-more">Xem thêm hoạt động <i class="fas fa-chevron-right" style="font-size: 10px;"></i></a>
+    </div>
+
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<!-- SEARCH SCRIPT -->
+<script>
+const input = document.getElementById('searchInput');
+const dropdown = document.getElementById('dropdown');
+
+input.addEventListener('input', async () => {
+  const q = input.value;
+  if (!q) { dropdown.style.display = 'none'; return; }
+
+  try {
+    const res = await fetch(`/locations/search?q=${q}`);
+    const data = await res.json();
+    if (data.length === 0) { dropdown.style.display = 'none'; return; }
+
+    dropdown.innerHTML = '';
+    data.forEach(loc => {
+      const item = document.createElement('div');
+      item.style.cssText = 'padding:15px; border-bottom:1px solid #eee; cursor:pointer; display:flex; justify-content:space-between; align-items:center;';
+      item.onmouseover = () => item.style.background = '#f5f7fa';
+      item.onmouseout = () => item.style.background = 'white';
+
+      item.innerHTML = `
+        <div>
+          <div style="font-weight:700; font-size:14px;">${loc.name}</div>
+          <div style="font-size:14px; color:#777; margin-top:6px;">${loc.description}, ${loc.country}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="background:#e6f0ff; color:#0071c2; padding:4px 10px; border-radius:20px; font-size:11px; display:flex; align-items:center; justify-content:center; height:20px; min-width:45px;">City</div>
+          <div style="font-size:13px; color:#666; margin-top:6px;">${loc.hotelsCount || 0} hotels nearby</div>
+        </div>
+      `;
+
+      item.onclick = () => {
+        input.value = loc.name;
+        dropdown.style.display = 'none';
+      };
+
+      dropdown.appendChild(item);
+    });
+
+    dropdown.style.display = 'block';
+  } catch (error) {
+    console.error('Lỗi tìm kiếm:', error);
+  }
+});
+</script>
+
+<!-- FLATPICKR -->
+<script>
+flatpickr("#dateInput", {
+  mode: "range",
+  dateFormat: "D, d M Y",
+  minDate: "today",
+  showMonths: 2,
+  position: "below",
+  static: true
+});
+</script>
+
+<!-- GUEST SCRIPT -->
+<script>
+const guestInput = document.getElementById('guestInput');
+const guestDropdown = document.getElementById('guestDropdown');
+
+let state = {
+  adult: 2,
+  child: 0,
+  room: 1
+};
+
+guestInput.onclick = () => {
+  guestDropdown.style.display = 'block';
+};
+
+function closeGuest() {
+  guestDropdown.style.display = 'none';
+}
+
+function change(type, value) {
+  state[type] += value;
+
+  if (type === 'adult' && state[type] < 1) state[type] = 1;
+  if (type !== 'adult' && state[type] < 0) state[type] = 0;
+
+  document.getElementById(type).innerText = state[type];
+  updateInput();
+}
+
+function updateInput() {
+  guestInput.value = `${state.adult} Adult(s), ${state.child} Child, ${state.room} Room`;
+}
+</script>
+
+<!-- CAROUSEL SCRIPT -->
+<script>
+function setupCarousel(containerId, nextBtnId, prevBtnId, scrollVal) {
+    const container = document.getElementById(containerId);
+    const nextBtn = document.getElementById(nextBtnId);
+    const prevBtn = document.getElementById(prevBtnId);
+    
+    if (!container || !nextBtn || !prevBtn) return;
+
+    const updateButtons = () => {
+        prevBtn.style.display = container.scrollLeft > 20 ? 'flex' : 'none';
+        const isAtEnd = container.scrollLeft + container.offsetWidth >= container.scrollWidth - 20;
+        nextBtn.style.display = isAtEnd ? 'none' : 'flex';
+    };
+
+    nextBtn.addEventListener('click', () => { 
+        container.scrollBy({ left: scrollVal, behavior: 'smooth' }); 
+    });
+
+    prevBtn.addEventListener('click', () => { 
+        container.scrollBy({ left: -scrollVal, behavior: 'smooth' }); 
+    });
+
+    container.addEventListener('scroll', updateButtons);
+    window.addEventListener('resize', updateButtons);
+    setTimeout(updateButtons, 500);
+}
+
+setupCarousel('hotelList', 'nextHotelBtn', 'prevHotelBtn', 500);
+setupCarousel('activityList', 'nextActivityBtn', 'prevActivityBtn', 500);
+</script>
+
+</body>
+</html>
