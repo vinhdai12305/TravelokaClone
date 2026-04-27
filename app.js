@@ -63,6 +63,7 @@ app.use('/users', userRoutes);
 app.use('/products', productRoutes);
 app.use('/flight', flightRoutes);    
 app.use('/locations', locationRoutes);
+app.use('/api/flight', flightRoutes);    
 
 // 7. Xử lý lỗi 404
 app.use((req, res) => {
