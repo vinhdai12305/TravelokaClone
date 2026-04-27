@@ -4,76 +4,60 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Traveloka Clone</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
     body { background-color: #f5f5f5; }
-    .header-divider {
-      height: 10px;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.08), transparent);
-    }
+    .header-divider { height: 10px; background: linear-gradient(to bottom, rgba(0,0,0,0.08), transparent); }
 
     /* CSS CHO POPUP (MODAL) */
     .modal-overlay {
-      display: none; /* Ẩn mặc định */
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;
     }
     .modal-box {
-      background: white;
-      width: 400px;
-      padding: 30px;
-      border-radius: 12px;
-      position: relative;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      background: white; width: 400px; padding: 30px; border-radius: 12px;
+      position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
-    .close-btn {
-      position: absolute;
-      top: 15px; right: 20px;
-      font-size: 24px;
-      cursor: pointer;
-      color: #666;
-    }
-    .modal-input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 15px;
-    }
+    .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #666; }
+    .modal-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; }
     .modal-submit {
-      width: 100%;
-      padding: 12px;
-      background: #003580;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
+      width: 100%; padding: 12px; background: #003580; color: white; border: none;
+      border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px;
     }
+
+    /* CSS DROPDOWN MORE */
+    .more-dropdown-container { position: relative; display: inline-block; cursor: pointer; }
+    .more-trigger {
+      color: #9d9999; font-weight: 600; text-decoration: none; display: flex;
+      align-items: center; gap: 6px; user-select: none; transition: color 0.2s;
+    }
+    .more-trigger:hover, .more-trigger.active { color: #003580; }
+    .more-dropdown-menu {
+      display: none; position: absolute; top: 100%; right: -20px; background-color: #ffffff;
+      min-width: 240px; box-shadow: 0px 8px 24px rgba(0,0,0,0.15); border-radius: 12px; 
+      z-index: 10000; padding: 8px 0; margin-top: 18px;
+    }
+    .more-dropdown-menu::before {
+      content: ''; position: absolute; top: -6px; right: 35px; width: 12px; height: 12px;
+      background: white; transform: rotate(45deg); box-shadow: -3px -3px 5px rgba(0,0,0,0.04);
+    }
+    .more-dropdown-menu a.dropdown-item {
+      color: #333; padding: 14px 20px; text-decoration: none; display: flex;
+      align-items: center; gap: 15px; font-size: 15px; font-weight: 500; transition: background 0.2s;
+    }
+    .more-dropdown-menu a.dropdown-item i { color: #666; font-size: 18px; width: 20px; text-align: center; transition: color 0.2s; }
+    .more-dropdown-menu a.dropdown-item:hover { background-color: #f0f6ff; color: #003580; }
+    .more-dropdown-menu a.dropdown-item:hover i { color: #003580; }
+    .show-dropdown { display: block; }
   </style>
 </head>
 <body>
 
-  <header style="
-    width: 100%; background: white; padding: 18px 80px;
-    display: flex; justify-content: space-between; align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-  ">
-    <a href="/" style="font-size: 24px; font-weight: 700; color: #003580; text-decoration: none;">
-      +84Booking.com
-    </a>
+  <header style="width: 100%; background: white; padding: 18px 80px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">
+    <a href="/" style="font-size: 24px; font-weight: 700; color: #003580; text-decoration: none;">+84Booking.com</a>
 
     <div style="display: flex; align-items: center; gap: 50px;">
       <div style="display: flex; align-items: center; gap: 30px;">
@@ -83,48 +67,34 @@
       </div>
 
       <div style="display: flex; align-items: center; gap: 10px;">
-        
         <% if (typeof user !== 'undefined' && user) { %>
           <span style="font-weight: 600; color: #003580; font-size: 15px; margin-right: 10px;">
             Xin chào, <%= user.username %>!
           </span>
-          <a href="/users/logout" style="
-            padding: 7px 14px; border: 1px solid #003580; border-radius: 6px;
-            color: #003580; text-decoration: none; font-size: 15px; font-weight: 600;
-          ">Đăng xuất</a>
+          <a href="/users/logout" style="padding: 7px 14px; border: 1px solid #003580; border-radius: 6px; color: #003580; text-decoration: none; font-size: 15px; font-weight: 600;">Đăng xuất</a>
         <% } else { %>
-          
-          <button id="open-register-top" style="
-            padding: 7px 14px; border: 1px solid #003580; border-radius: 6px;
-            color: #003580; font-size: 15px; font-weight:600; background: transparent; cursor: pointer;
-          ">Đăng ký</button>
-
-          <button id="open-login-top" style="
-            background: #003580; color: white; padding: 7px 14px; border: none;
-            border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer;
-          ">Đăng nhập</button>
-
+          <button id="open-register-top" style="padding: 7px 14px; border: 1px solid #003580; border-radius: 6px; color: #003580; font-size: 15px; font-weight:600; background: transparent; cursor: pointer;">Đăng ký</button>
+          <button id="open-login-top" style="background: #003580; color: white; padding: 7px 14px; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer;">Đăng nhập</button>
         <% } %>
-
       </div>
     </div>
   </header>
 
-  <div style="
-    width: 100%;
-    background: white;
-    padding: 12px 80px;
-    display: flex;
-    justify-content: center;
-    gap: 60px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-
-    position: relative;   /* 🔥 thêm */
-    z-index: 9999;        /* 🔥 thêm */
-  ">
+  <div style="width: 100%; background: white; padding: 12px 80px; display: flex; justify-content: center; align-items: center; gap: 60px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); position: relative; z-index: 9000;">
     <a href="/hotels" style="text-decoration: none; color: #9d9999; font-weight: 600;">Hotels</a>
     <a href="/flight" style="text-decoration: none; color: #9d9999; font-weight: 600;">Flights</a>
-    <a href="#" style="text-decoration: none; color: #9d9999; font-weight: 600;">More</a>
+    
+    <div class="more-dropdown-container">
+      <div class="more-trigger" id="moreBtn">
+        More <i class="fas fa-chevron-down" style="font-size: 12px; margin-top: 2px;"></i>
+      </div>
+
+      <div class="more-dropdown-menu" id="moreMenu">
+        <a href="/users/flight-history" class="dropdown-item"><i class="fas fa-plane-departure"></i> Lịch sử chuyến bay</a>
+        <a href="/users/booking-history" class="dropdown-item"><i class="fas fa-bed"></i> Lịch sử đặt phòng</a>
+        <a href="/users/settings" class="dropdown-item"><i class="fas fa-user-cog"></i> Cài đặt</a>
+      </div>
+    </div>
   </div>
 
   <div class="header-divider"></div>
@@ -133,7 +103,6 @@
     <div class="modal-box">
       <span class="close-btn" id="close-login">&times;</span>
       <h2 style="color: #003580; margin-bottom: 20px; text-align: center;">Đăng nhập</h2>
-      
       <form action="/users/login" method="POST">
         <input type="text" name="username" class="modal-input" placeholder="Tên đăng nhập" required>
         <input type="password" name="password" class="modal-input" placeholder="Mật khẩu" required>
@@ -146,59 +115,50 @@
     <div class="modal-box">
       <span class="close-btn" id="close-register">&times;</span>
       <h2 style="color: #003580; margin-bottom: 20px; text-align: center;">Tạo tài khoản</h2>
-      
       <form action="/users/register" method="POST">
         <input type="text" name="username" class="modal-input" placeholder="Tên đăng nhập" required>
         <input type="email" name="email" class="modal-input" placeholder="Email" required>
         <input type="password" name="password" class="modal-input" placeholder="Mật khẩu" required>
+        <input type="password" name="confirmPassword" class="modal-input" placeholder="Xác nhận mật khẩu" required>
         <button type="submit" class="modal-submit">Đăng ký ngay</button>
       </form>
     </div>
   </div>
 
   <script>
-    // Lấy các phần tử từ DOM
-    const btnLogin = document.getElementById('open-login-top');
-    const btnRegister = document.getElementById('open-register-top');
-    
-    const loginModal = document.getElementById('loginModal');
-    const registerModal = document.getElementById('registerModal');
-    
-    const closeLogin = document.getElementById('close-login');
-    const closeRegister = document.getElementById('close-register');
+    document.addEventListener("DOMContentLoaded", function() {
+      const btnLogin = document.getElementById('open-login-top');
+      const btnRegister = document.getElementById('open-register-top');
+      const loginModal = document.getElementById('loginModal');
+      const registerModal = document.getElementById('registerModal');
+      const closeLogin = document.getElementById('close-login');
+      const closeRegister = document.getElementById('close-register');
 
-    // NẾU CÓ NÚT ĐĂNG NHẬP THÌ MỚI GẮN SỰ KIỆN CLICK (Tránh lỗi khi đã đăng nhập)
-    if (btnLogin) {
-      btnLogin.addEventListener('click', () => {
-        loginModal.style.display = 'flex';
-      });
-    }
+      if (btnLogin) btnLogin.addEventListener('click', () => { loginModal.style.display = 'flex'; });
+      if (btnRegister) btnRegister.addEventListener('click', () => { registerModal.style.display = 'flex'; });
+      if (closeLogin) closeLogin.addEventListener('click', () => { loginModal.style.display = 'none'; });
+      if (closeRegister) closeRegister.addEventListener('click', () => { registerModal.style.display = 'none'; });
 
-    if (btnRegister) {
-      btnRegister.addEventListener('click', () => {
-        registerModal.style.display = 'flex';
-      });
-    }
+      const moreBtn = document.getElementById('moreBtn');
+      const moreMenu = document.getElementById('moreMenu');
 
-    // TẮT POPUP KHI BẤM DẤU X
-    if (closeLogin) {
-      closeLogin.addEventListener('click', () => {
-        loginModal.style.display = 'none';
-      });
-    }
-    
-    if (closeRegister) {
-      closeRegister.addEventListener('click', () => {
-        registerModal.style.display = 'none';
-      });
-    }
+      if (moreBtn && moreMenu) {
+        moreBtn.addEventListener('click', function(e) {
+          e.stopPropagation(); 
+          moreMenu.classList.toggle('show-dropdown');
+          moreBtn.classList.toggle('active');
+        });
+      }
 
-    // TẮT POPUP KHI BẤM RA NGOÀI VÙNG TỐI
-    window.addEventListener('click', (e) => {
-      if (e.target === loginModal) loginModal.style.display = 'none';
-      if (e.target === registerModal) registerModal.style.display = 'none';
+      window.addEventListener('click', (e) => {
+        if (e.target === loginModal) loginModal.style.display = 'none';
+        if (e.target === registerModal) registerModal.style.display = 'none';
+        if (moreMenu && moreBtn) {
+          if (!moreMenu.contains(e.target) && e.target !== moreBtn) {
+            moreMenu.classList.remove('show-dropdown');
+            moreBtn.classList.remove('active');
+          }
+        }
+      });
     });
   </script>
-
-</body>
-</html>

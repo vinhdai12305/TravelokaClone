@@ -46,15 +46,9 @@ const hotelRoutes = require('./routes/hotelRoutes');
 const productRoutes = require('./routes/productRoutes');
 const flightRoutes = require('./routes/flightRoutes');
 const locationRoutes = require('./routes/locationRoutes');
-
-// 👉 THÊM dòng này
+const adminRoutes = require('./routes/adminRoutes');
 const homeRoutes = require('./routes/homeRoutes');
 
-// Route Dashboard
-app.get('/dashboard', (req, res) => {
-    if (!req.session.user) return res.redirect('/');
-    res.render('dashboard', { user: req.session.user });
-});
 
 // 6. Sử dụng Routes con
 app.use('/', homeRoutes);        // Trang chủ
@@ -64,6 +58,9 @@ app.use('/products', productRoutes);
 app.use('/flight', flightRoutes);    
 app.use('/locations', locationRoutes);
 app.use('/api/flight', flightRoutes);    
+
+// 👉 THÊM DÒNG NÀY: Khai báo tiền tố /admin cho tất cả các route của Admin
+app.use('/admin', adminRoutes);
 
 // 7. Xử lý lỗi 404
 app.use((req, res) => {

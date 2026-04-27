@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Create Hotel</title>
+</head>
+
+<body style="
+margin:0;
+font-family:Arial;
+background:#f1f5f9;
+">
+
+<div style="display:flex;">
+
+    <!-- SIDEBAR -->
+    <div style="
+    width:260px;
+    background:#0f172a;
+    min-height:100vh;
+    color:white;
+    padding:30px;
+    ">
+
+        <h1>ADMIN</h1>
+
+        <div style="margin-top:40px;">
+
+            <a href="/admin"
+               style="
+               display:block;
+               color:white;
+               text-decoration:none;
+               margin-bottom:20px;
+               ">
+               Dashboard
+            </a>
+
+            <a href="/admin/hotels"
+               style="
+               display:block;
+               color:white;
+               text-decoration:none;
+               ">
+               Hotels
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div style="flex:1;padding:40px;">
+
+        <h1>Create Hotel</h1>
+
+        <form action="/admin/hotels/create"
+              method="POST"
+              enctype="multipart/form-data"
+              style="
+              background:white;
+              padding:30px;
+              border-radius:20px;
+              max-width:700px;
+              ">
+
+            <!-- HOTEL NAME -->
+            <div style="margin-bottom:20px;">
+
+                <label style="
+                display:block;
+                margin-bottom:10px;
+                font-weight:bold;
+                ">
+                    Hotel Name
+                </label>
+
+                <input type="text"
+                       name="name"
+                       required
+                       style="
+                       width:100%;
+                       padding:15px;
+                       border:1px solid #ddd;
+                       border-radius:10px;
+                       font-size:16px;
+                       ">
+
+            </div>
+
+            <!-- LOCATION -->
+            <div style="margin-bottom:20px;">
+
+                <label style="
+                display:block;
+                margin-bottom:10px;
+                font-weight:bold;
+                ">
+                    Location
+                </label>
+
+                <input type="text"
+                       name="location"
+                       required
+                       style="
+                       width:100%;
+                       padding:15px;
+                       border:1px solid #ddd;
+                       border-radius:10px;
+                       font-size:16px;
+                       ">
+
+            </div>
+
+            <!-- PRICE -->
+            <div style="margin-bottom:20px;">
+
+                <label style="
+                display:block;
+                margin-bottom:10px;
+                font-weight:bold;
+                ">
+                    Price
+                </label>
+
+                <input type="number"
+                       name="price"
+                       required
+                       style="
+                       width:100%;
+                       padding:15px;
+                       border:1px solid #ddd;
+                       border-radius:10px;
+                       font-size:16px;
+                       ">
+
+            </div>
+
+            <!-- IMAGE -->
+            <div style="margin-bottom:30px;">
+
+                <label style="
+                display:block;
+                margin-bottom:10px;
+                font-weight:bold;
+                ">
+                    Hotel Image
+                </label>
+
+                <input type="file"
+                       name="image"
+                       accept="image/*"
+                       required
+                       style="
+                       width:100%;
+                       padding:15px;
+                       border:1px solid #ddd;
+                       border-radius:10px;
+                       background:white;
+                       font-size:16px;
+                       ">
+
+            </div>
+
+            <!-- BUTTON -->
+            <button type="submit"
+                    style="
+                    background:#2563eb;
+                    color:white;
+                    border:none;
+                    padding:15px 30px;
+                    border-radius:10px;
+                    cursor:pointer;
+                    font-size:16px;
+                    font-weight:bold;
+                    ">
+                Create Hotel
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

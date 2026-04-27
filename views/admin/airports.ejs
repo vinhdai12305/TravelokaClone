@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Airports</title>
+</head>
+
+<body style="
+margin:0;
+font-family:Arial;
+background:#f1f5f9;
+">
+
+<div style="display:flex;">
+
+    <!-- SIDEBAR -->
+    <div style="
+    width:260px;
+    background:#0f172a;
+    min-height:100vh;
+    color:white;
+    padding:30px;
+    ">
+
+        <h1>ADMIN</h1>
+
+        <div style="margin-top:40px;">
+
+            <a href="/admin"
+               style="
+               display:block;
+               color:white;
+               text-decoration:none;
+               margin-bottom:20px;
+               ">
+               Dashboard
+            </a>
+
+            <a href="/admin/hotels"
+               style="
+               display:block;
+               color:white;
+               text-decoration:none;
+               margin-bottom:20px;
+               ">
+               Hotels
+            </a>
+
+            <a href="/admin/airports"
+               style="
+               display:block;
+               color:#60a5fa;
+               text-decoration:none;
+               font-weight:bold;
+               ">
+               Airports
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div style="
+    flex:1;
+    padding:40px;
+    ">
+
+        <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:30px;
+        ">
+
+            <h1 style="margin:0;">Airports</h1>
+
+            <a href="/admin/airports/create"
+               style="
+               background:#2563eb;
+               color:white;
+               text-decoration:none;
+               padding:12px 20px;
+               border-radius:10px;
+               font-weight:bold;
+               ">
+               + Add Airport
+            </a>
+
+        </div>
+
+        <div style="
+        background:white;
+        border-radius:20px;
+        overflow:hidden;
+        ">
+
+            <table style="
+            width:100%;
+            border-collapse:collapse;
+            ">
+
+                <tr style="
+                background:#e2e8f0;
+                text-align:left;
+                ">
+
+                    <th style="padding:20px;">Code</th>
+                    <th>Name</th>
+                    <th>City</th>
+                    <th>Country</th>
+
+                </tr>
+
+                <% airports.forEach(airport => { %>
+
+                    <tr style="border-top:1px solid #ddd;">
+
+                        <td style="padding:20px;">
+                            <%= airport.code %>
+                        </td>
+
+                        <td>
+                            <%= airport.name %>
+                        </td>
+
+                        <td>
+                            <%= airport.city %>
+                        </td>
+
+                        <td>
+                            <%= airport.country %>
+                        </td>
+
+                    </tr>
+
+                <% }) %>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<%- include('../partials/header') %>
+
+<style>
+  .page-container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+  .page-title { color: #003580; margin-bottom: 25px; font-size: 24px; }
+  .flight-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #eaeaea; }
+  .flight-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; }
+  .flight-body { display: flex; justify-content: space-between; align-items: center; }
+  .status-badge { background: #e6f4ea; color: #137333; padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+  .airline-info { display: flex; align-items: center; gap: 10px; font-weight: bold; color: #333; }
+  .flight-time { text-align: center; }
+  .flight-price { font-size: 20px; font-weight: bold; color: #ff5e1f; }
+  .btn-action { padding: 8px 16px; background: white; border: 1px solid #003580; color: #003580; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+  .btn-action:hover { background: #003580; color: white; }
+</style>
+
+<div class="page-container">
+  <h2 class="page-title"><i class="fas fa-plane-departure"></i> Lịch sử chuyến bay của <%= user ? user.username : 'bạn' %></h2>
+
+  <div class="flight-card">
+    <div class="flight-header">
+      <div class="airline-info">
+        <i class="fas fa-plane" style="color: #003580; font-size: 20px;"></i>
+        <span>Vietnam Airlines (VN-246)</span>
+      </div>
+      <span class="status-badge">Đã hoàn tất</span>
+    </div>
+    
+    <div class="flight-body">
+      <div>
+        <h3 style="color: #333; font-size: 22px;">SGN</h3>
+        <p style="color: #666; font-size: 14px;">Hồ Chí Minh</p>
+        <p style="color: #333; font-weight: bold; margin-top: 5px;">08:30 - 12/06</p>
+      </div>
+      
+      <div class="flight-time">
+        <p style="color: #999; font-size: 13px;">2h 10m</p>
+        <div style="width: 150px; height: 2px; background: #ccc; margin: 5px 0; position: relative;">
+          <i class="fas fa-plane" style="position: absolute; top: -7px; right: -5px; color: #ccc;"></i>
+        </div>
+        <p style="color: #666; font-size: 13px;">Bay thẳng</p>
+      </div>
+
+      <div style="text-align: right;">
+        <h3 style="color: #333; font-size: 22px;">HAN</h3>
+        <p style="color: #666; font-size: 14px;">Hà Nội</p>
+        <p style="color: #333; font-weight: bold; margin-top: 5px;">10:40 - 12/06</p>
+      </div>
+
+      <div style="text-align: right; border-left: 1px solid #eaeaea; padding-left: 20px;">
+        <p style="color: #666; font-size: 13px; margin-bottom: 5px;">Mã đặt chỗ: <strong>ABCDE1</strong></p>
+        <p class="flight-price">3.200.000 VND</p>
+        <button class="btn-action" style="margin-top: 10px;">Đặt lại</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
