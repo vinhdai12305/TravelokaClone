@@ -46,6 +46,7 @@ const hotelRoutes = require('./routes/hotelRoutes');
 const productRoutes = require('./routes/productRoutes');
 const flightRoutes = require('./routes/flightRoutes');
 const locationRoutes = require('./routes/locationRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 const homeRoutes = require('./routes/homeRoutes');
 
 // 👉 THÊM DÒNG NÀY: Import Route của Admin

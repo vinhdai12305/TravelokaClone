@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Create Airport</title>
+</head>
+
+<body style="
+margin:0;
+font-family:Arial;
+background:#f1f5f9;
+">
+
+<div style="display:flex;">
+
+    <!-- SIDEBAR -->
+    <div style="
+    width:260px;
+    min-height:100vh;
+    background:linear-gradient(180deg,#0f172a,#111827);
+    padding:30px;
+    color:white;
+    box-sizing:border-box;
+    ">
+
+        <h1 style="
+        margin:0;
+        font-size:48px;
+        margin-bottom:50px;
+        ">
+        ADMIN
+        </h1>
+
+        <!-- MENU -->
+        <div>
+
+            <a href="/admin"
+               style="
+               display:block;
+               text-decoration:none;
+               color:white;
+               padding:16px 20px;
+               border-radius:14px;
+               margin-bottom:15px;
+               background:rgba(255,255,255,0.05);
+               ">
+               📊 Dashboard
+            </a>
+
+            <a href="/admin/hotels"
+               style="
+               display:block;
+               text-decoration:none;
+               color:white;
+               padding:16px 20px;
+               border-radius:14px;
+               margin-bottom:15px;
+               background:rgba(255,255,255,0.05);
+               ">
+               🏨 Hotels
+            </a>
+
+            <a href="/admin/airports"
+               style="
+               display:block;
+               text-decoration:none;
+               color:white;
+               padding:16px 20px;
+               border-radius:14px;
+               background:#2563eb;
+               font-weight:bold;
+               ">
+               ✈️ Airports
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div style="
+    flex:1;
+    padding:50px;
+    ">
+
+        <!-- HEADER -->
+        <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:40px;
+        ">
+
+            <div>
+
+                <h1 style="
+                margin:0;
+                font-size:58px;
+                color:#0f172a;
+                ">
+                Create Airport
+                </h1>
+
+                <p style="
+                color:#64748b;
+                margin-top:10px;
+                font-size:20px;
+                ">
+                Add a new airport into your booking system
+                </p>
+
+            </div>
+
+            <div style="
+            background:white;
+            padding:16px 24px;
+            border-radius:18px;
+            box-shadow:0 5px 20px rgba(0,0,0,0.08);
+            color:#2563eb;
+            font-weight:bold;
+            ">
+            ✈️ Airport Panel
+            </div>
+
+        </div>
+
+        <!-- FORM BOX -->
+        <div style="
+        background:white;
+        border-radius:35px;
+        padding:60px;
+        width:100%;
+        max-width:1150px;
+        min-height:650px;
+        box-shadow:0 20px 50px rgba(0,0,0,0.08);
+        box-sizing:border-box;
+        ">
+
+            <form action="/admin/airports/create"
+                  method="POST">
+
+                <!-- CODE -->
+                <div style="margin-bottom:30px;">
+
+                    <label style="
+                    display:block;
+                    margin-bottom:12px;
+                    font-size:22px;
+                    font-weight:bold;
+                    color:#0f172a;
+                    ">
+                    Airport Code
+                    </label>
+
+                    <input type="text"
+                           name="code"
+                           placeholder="VD: DAD"
+                           style="
+                           width:100%;
+                           padding:22px;
+                           border-radius:18px;
+                           border:1px solid #dbeafe;
+                           font-size:18px;
+                           box-sizing:border-box;
+                           outline:none;
+                           ">
+
+                </div>
+
+                <!-- NAME -->
+                <div style="margin-bottom:30px;">
+
+                    <label style="
+                    display:block;
+                    margin-bottom:12px;
+                    font-size:22px;
+                    font-weight:bold;
+                    color:#0f172a;
+                    ">
+                    Airport Name
+                    </label>
+
+                    <input type="text"
+                           name="name"
+                           placeholder="Enter airport name"
+                           style="
+                           width:100%;
+                           padding:22px;
+                           border-radius:18px;
+                           border:1px solid #dbeafe;
+                           font-size:18px;
+                           box-sizing:border-box;
+                           outline:none;
+                           ">
+
+                </div>
+
+                <!-- CITY -->
+                <div style="margin-bottom:30px;">
+
+                    <label style="
+                    display:block;
+                    margin-bottom:12px;
+                    font-size:22px;
+                    font-weight:bold;
+                    color:#0f172a;
+                    ">
+                    City
+                    </label>
+
+                    <input type="text"
+                           name="city"
+                           placeholder="Enter city"
+                           style="
+                           width:100%;
+                           padding:22px;
+                           border-radius:18px;
+                           border:1px solid #dbeafe;
+                           font-size:18px;
+                           box-sizing:border-box;
+                           outline:none;
+                           ">
+
+                </div>
+
+                <!-- COUNTRY -->
+                <div style="margin-bottom:40px;">
+
+                    <label style="
+                    display:block;
+                    margin-bottom:12px;
+                    font-size:22px;
+                    font-weight:bold;
+                    color:#0f172a;
+                    ">
+                    Country
+                    </label>
+
+                    <input type="text"
+                           name="country"
+                           placeholder="Enter country"
+                           style="
+                           width:100%;
+                           padding:22px;
+                           border-radius:18px;
+                           border:1px solid #dbeafe;
+                           font-size:18px;
+                           box-sizing:border-box;
+                           outline:none;
+                           ">
+
+                </div>
+
+                <!-- BUTTONS -->
+                <div style="
+                display:flex;
+                gap:20px;
+                ">
+
+                    <button type="submit"
+                            style="
+                            background:#2563eb;
+                            color:white;
+                            border:none;
+                            padding:20px 40px;
+                            border-radius:18px;
+                            font-size:20px;
+                            font-weight:bold;
+                            cursor:pointer;
+                            box-shadow:0 10px 20px rgba(37,99,235,0.3);
+                            ">
+                        + Create Airport
+                    </button>
+
+                    <a href="/admin/airports"
+                       style="
+                       background:#e2e8f0;
+                       color:#0f172a;
+                       text-decoration:none;
+                       padding:20px 35px;
+                       border-radius:18px;
+                       font-size:20px;
+                       font-weight:bold;
+                       ">
+                       Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

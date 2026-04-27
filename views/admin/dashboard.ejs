@@ -1,31 +1,95 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; }
-        .sidebar { width: 250px; background: #0143a3; height: 100vh; position: fixed; color: white; padding: 20px; }
-        .sidebar a { color: white; text-decoration: none; display: block; padding: 10px 0; border-bottom: 1px solid #1a5ab5; }
-        .content { margin-left: 250px; padding: 30px; }
-        .header { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    </style>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
 </head>
-<body>
-    <div class="sidebar">
-        <h2>Booking Admin</h2>
-        <a href="/">🏠 Quay lại trang Web</a>
-        <a href="#">👥 Quản lý User</a>
-        <a href="#">🏨 Quản lý Khách sạn</a>
-        <a href="/users/logout">🚪 Đăng xuất</a>
+
+<body style="
+  margin:0;
+  font-family:Arial;
+  display:flex;
+">
+
+  <!-- SIDEBAR -->
+  <div style="
+    width:250px;
+    height:100vh;
+    background:#0f172a;
+    color:white;
+    padding:20px;
+  ">
+
+    <h2>ADMIN</h2>
+
+    <div style="margin-top:30px; display:flex; flex-direction:column; gap:20px;">
+
+      <a href="/admin"
+         style="color:white; text-decoration:none;">
+         Dashboard
+      </a>
+
+      <a href="/admin/hotels"
+         style="color:white; text-decoration:none;">
+         Hotels
+      </a>
+
+      <a href="/admin/airports"
+         style="color:white; text-decoration:none;">
+         Airports
+      </a>
+
+      <a href="/admin/users"
+         style="color:white; text-decoration:none;">
+         Users
+      </a>
+
+      <a href="/admin/bookings"
+         style="color:white; text-decoration:none;">
+         Bookings
+      </a>
+
     </div>
 
-    <div class="content">
-        <div class="header">
-            <h1>Xin chào Sếp, <%= user.name %>! 👋</h1>
-            <p>Email: <%= user.email %></p>
-            <p>Quyền hạn: <strong style="color: red; text-transform: uppercase;"><%= user.role %></strong></p>
-        </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div style="
+    flex:1;
+    padding:40px;
+    background:#f1f5f9;
+  ">
+
+    <h1>Dashboard</h1>
+
+    <div style="
+      display:flex;
+      gap:20px;
+      margin-top:30px;
+    ">
+
+      <div style="
+        background:white;
+        padding:30px;
+        border-radius:15px;
+        width:250px;
+      ">
+        <h2>Hotels</h2>
+        <h1><%= totalHotels %></h1>      </div>
+
+      <div style="
+        background:white;
+        padding:30px;
+        border-radius:15px;
+        width:250px;
+      ">
+        <h2>Users</h2>
+        <h1><%= totalUsers %></h1>   
+       </div>
+
     </div>
+
+  </div>
+
 </body>
 </html>
