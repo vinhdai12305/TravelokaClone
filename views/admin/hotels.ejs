@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Create Hotel</title>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body style="
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:#f1f5f9;
+">
+
+<div style="display:flex; min-height:100vh;">
+
+    <!-- SIDEBAR -->
+    <div style="
+    width:260px;
+    background:linear-gradient(to bottom,#0f172a,#1e293b);
+    color:white;
+    padding:35px 25px;
+    box-shadow:5px 0 20px rgba(0,0,0,0.1);
+    ">
+
+        <h1 style="
+        margin:0;
+        font-size:38px;
+        letter-spacing:1px;
+        ">
+            ADMIN
+        </h1>
+
+        <div style="margin-top:60px;">
+
+            <a href="/admin"
+               style="
+               display:flex;
+               align-items:center;
+               gap:12px;
+               color:white;
+               text-decoration:none;
+               padding:14px 18px;
+               border-radius:12px;
+               margin-bottom:15px;
+               transition:0.3s;
+               background:rgba(255,255,255,0.08);
+               ">
+
+               <i class="fa-solid fa-chart-line"></i>
+               Dashboard
+
+            </a>
+
+            <a href="/admin/hotels"
+               style="
+               display:flex;
+               align-items:center;
+               gap:12px;
+               color:white;
+               text-decoration:none;
+               padding:14px 18px;
+               border-radius:12px;
+               background:#2563eb;
+               font-weight:600;
+               ">
+
+               <i class="fa-solid fa-hotel"></i>
+               Hotels
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div style="
+    flex:1;
+    padding:50px;
+    ">
+
+        <!-- TOP BAR -->
+        <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:35px;
+        ">
+
+            <div>
+
+                <h1 style="
+                margin:0;
+                font-size:42px;
+                color:#0f172a;
+                ">
+                    Create Hotel
+                </h1>
+
+                <p style="
+                margin-top:10px;
+                color:#64748b;
+                font-size:16px;
+                ">
+                    Add a new hotel to your booking system
+                </p>
+
+            </div>
+
+            <div style="
+            background:white;
+            padding:12px 18px;
+            border-radius:14px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.05);
+            font-weight:600;
+            color:#2563eb;
+            ">
+
+                <i class="fa-solid fa-user-shield"></i>
+                Admin Panel
+
+            </div>
+
+        </div>
+
+        <!-- FORM -->
+        <div style="
+        background:white;
+        border-radius:30px;
+        padding:45px;
+        max-width:950px;
+        box-shadow:0 15px 40px rgba(0,0,0,0.08);
+        ">
+
+            <form action="/admin/hotels/create"
+                  method="POST"
+                  enctype="multipart/form-data">
+
+                <!-- HOTEL NAME -->
+                <div style="margin-bottom:30px;">
+
+                    <label style="
+                    display:block;
+                    margin-bottom:12px;
+                    font-weight:700;
+                    color:#0f172a;
+                    font-size:16px;
+                    ">
+
+                        <i class="fa-solid fa-hotel"
+                           style="color:#2563eb;margin-right:8px;"></i>
+
+                        Hotel Name
+
+                    </label>
+
+                    <input type="text"
+                           name="name"
+                           required
+                           placeholder="Enter hotel name"
+                           style="
+                           width:100%;
+                           padding:18px;
+                           border:1px solid #dbe2ea;
+                           border-radius:16px;
+                           font-size:16px;
+                           outline:none;
+                           transition:0.3s;
+                           background:#f8fafc;
+                           ">
+
+                </div>
+
+                <!-- LOCATION -->
+                <div style="margin-bottom:30px;">
+
+                    <label style="
+                    display:block;
+                    margin-bottom:12px;
+                    font-weight:700;
+                    color:#0f172a;
+                    font-size:16px;
+                    ">
+
+                        <i class="fa-solid fa-location-dot"
+                           style="color:#2563eb;margin-right:8px;"></i>
+
+                        Location
+
+                    </label>
+
+                    <input type="text"
+                           name="location"
+                           required
+                           placeholder="Enter location"
+                           style="
+                           width:100%;
+                           padding:18px;
+                           border:1px solid #dbe2ea;
+                           border-radius:16px;
+                           font-size:16px;
+                           outline:none;
+                           background:#f8fafc;
+                           ">
+
+                </div>
+
+                <!-- PRICE -->
+                <div style="margin-bottom:30px;">
+
+                    <label style="
+                    display:block;
+                    margin-bottom:12px;
+                    font-weight:700;
+                    color:#0f172a;
+                    font-size:16px;
+                    ">
+
+                        <i class="fa-solid fa-dollar-sign"
+                           style="color:#2563eb;margin-right:8px;"></i>
+
+                        Price Per Night
+
+                    </label>
+
+                    <input type="number"
+                           name="price"
+                           required
+                           placeholder="Enter price"
+                           style="
+                           width:100%;
+                           padding:18px;
+                           border:1px solid #dbe2ea;
+                           border-radius:16px;
+                           font-size:16px;
+                           outline:none;
+                           background:#f8fafc;
+                           ">
+
+                </div>
+
+                <!-- IMAGE -->
+                <div style="margin-bottom:40px;">
+
+                    <label style="
+                    display:block;
+                    margin-bottom:12px;
+                    font-weight:700;
+                    color:#0f172a;
+                    font-size:16px;
+                    ">
+
+                        <i class="fa-solid fa-image"
+                           style="color:#2563eb;margin-right:8px;"></i>
+
+                        Hotel Image
+
+                    </label>
+
+                    <div style="
+                    border:2px dashed #cbd5e1;
+                    border-radius:20px;
+                    padding:35px;
+                    text-align:center;
+                    background:#f8fafc;
+                    ">
+
+                        <input type="file"
+                               name="image"
+                               accept="image/*"
+                               required
+                               style="
+                               font-size:16px;
+                               ">
+
+                        <p style="
+                        margin-top:15px;
+                        color:#64748b;
+                        ">
+                            Upload hotel thumbnail or cover image
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- BUTTONS -->
+                <div style="
+                display:flex;
+                gap:20px;
+                ">
+
+                    <button type="submit"
+                            style="
+                            background:#2563eb;
+                            color:white;
+                            border:none;
+                            padding:18px 35px;
+                            border-radius:16px;
+                            cursor:pointer;
+                            font-size:16px;
+                            font-weight:700;
+                            box-shadow:0 10px 25px rgba(37,99,235,0.3);
+                            ">
+
+                        <i class="fa-solid fa-plus"></i>
+                        Create Hotel
+
+                    </button>
+
+                    <a href="/admin/hotels"
+                       style="
+                       background:#e2e8f0;
+                       color:#0f172a;
+                       text-decoration:none;
+                       padding:18px 35px;
+                       border-radius:16px;
+                       font-weight:700;
+                       ">
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

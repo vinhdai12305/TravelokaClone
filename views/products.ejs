@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Danh sách sản phẩm</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main class="page">
+    <section class="products">
+      <div class="section-header">
+        <h2>Chào mừng <%= user.name %></h2>
+        <p>Đây là trang sản phẩm demo cho Traveloka Clone.</p>
+      </div>
+      <div class="cards-grid">
+        <article class="card">
+          <div class="card__tag">Khách sạn</div>
+          <div class="card__title">Khách sạn Hà Nội</div>
+          <div class="card__subtitle">Từ 1.200.000 VND/đêm</div>
+        </article>
+        <article class="card">
+          <div class="card__tag">Vé máy bay</div>
+          <div class="card__title">Hải Phòng → TP.HCM</div>
+          <div class="card__subtitle">Từ 899.000 VND</div>
+        </article>
+        <article class="card">
+          <div class="card__tag">Tour</div>
+          <div class="card__title">Tour Đà Nẵng 3 ngày</div>
+          <div class="card__subtitle">Từ 2.450.000 VND</div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>
