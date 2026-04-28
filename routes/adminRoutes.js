@@ -29,7 +29,7 @@ router.post(
     adminHotelCtrl.store
 );
 
-
+router.post('/hotels/delete/:id', adminHotelCtrl.delete);
 // ================= FLIGHTS =================
 
 router.get('/flights', isAdmin, adminFlightCtrl.index);
@@ -54,5 +54,7 @@ router.post(
     isAdmin,
     adminAirportCtrl.store
 );
+
+router.post('/airports/delete/:id', adminAirportCtrl.delete);
 
 module.exports = router;

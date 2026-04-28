@@ -1,148 +1,587 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Airports</title>
+  <meta charset="UTF-8">
+  <title>Airports</title>
+
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:Arial, sans-serif;
+      background:#f4f7fb;
+      display:flex;
+    }
+
+    .table-row:hover{
+      background:#f8fafc;
+    }
+
+  </style>
 </head>
 
-<body style="
-margin:0;
-font-family:Arial;
-background:#f1f5f9;
-">
+<script>
 
-<div style="display:flex;">
+  function toggleMenu(id){
 
-    <!-- SIDEBAR -->
-    <div style="
+    document.querySelectorAll('[id^="menu-"]').forEach(menu => {
+
+      if(menu.id !== id){
+        menu.style.display = 'none';
+      }
+
+    });
+
+    const menu = document.getElementById(id);
+
+    if(menu.style.display === 'block'){
+      menu.style.display = 'none';
+    }else{
+      menu.style.display = 'block';
+    }
+
+  }
+
+  document.addEventListener('click', function(e){
+
+    if(!e.target.closest('[onclick^="toggleMenu"]') &&
+       !e.target.closest('[id^="menu-"]')){
+
+      document.querySelectorAll('[id^="menu-"]').forEach(menu => {
+        menu.style.display = 'none';
+      });
+
+    }
+
+  });
+
+</script>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <div style="
     width:260px;
-    background:#0f172a;
-    min-height:100vh;
-    color:white;
-    padding:30px;
-    ">
+    height:100vh;
+    background:white;
+    border-right:1px solid #e2e8f0;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    position:fixed;
+    left:0;
+    top:0;
+  ">
 
-        <h1>ADMIN</h1>
+    <!-- TOP -->
+    <div>
 
-        <div style="margin-top:40px;">
+      <!-- LOGO -->
+      <div style="
+        padding:35px 30px;
+      ">
+        <h2 style="
+          margin:0;
+          color:#0f172a;
+          font-size:30px;
+        ">
+          +84Booking
+        </h2>
 
-            <a href="/admin"
-               style="
-               display:block;
-               color:white;
-               text-decoration:none;
-               margin-bottom:20px;
-               ">
-               Dashboard
-            </a>
+        <p style="
+          margin-top:5px;
+          color:#94a3b8;
+          letter-spacing:2px;
+          font-size:12px;
+        ">
+          .COM
+        </p>
+      </div>
 
-            <a href="/admin/hotels"
-               style="
-               display:block;
-               color:white;
-               text-decoration:none;
-               margin-bottom:20px;
-               ">
-               Hotels
-            </a>
+      <!-- MENU -->
+      <div style="
+        margin-top:20px;
+        display:flex;
+        flex-direction:column;
+      ">
 
-            <a href="/admin/airports"
-               style="
-               display:block;
-               color:#60a5fa;
-               text-decoration:none;
-               font-weight:bold;
-               ">
-               Airports
-            </a>
+        <a href="/admin" style="
+          padding:18px 30px;
+          text-decoration:none;
+          color:#64748b;
+          display:flex;
+          align-items:center;
+          gap:15px;
+        ">
+          <i class="fa-solid fa-table-columns"></i>
+          Dashboard
+        </a>
 
-        </div>
+        <a href="/admin/hotels" style="
+          padding:18px 30px;
+          text-decoration:none;
+          color:#64748b;
+          display:flex;
+          align-items:center;
+          gap:15px;
+        ">
+          <i class="fa-solid fa-hotel"></i>
+          Hotels
+        </a>
+
+        <!-- ACTIVE -->
+        <a href="/admin/airports" style="
+          padding:18px 30px;
+          text-decoration:none;
+          color:#0f172a;
+          background:#f1f5f9;
+          border-right:4px solid #0f4c81;
+          display:flex;
+          align-items:center;
+          gap:15px;
+          font-weight:bold;
+        ">
+          <i class="fa-solid fa-plane-departure"></i>
+          Airports
+        </a>
+
+        <a href="/admin/flights" style="
+          padding:18px 30px;
+          text-decoration:none;
+          color:#64748b;
+          display:flex;
+          align-items:center;
+          gap:15px;
+        ">
+          <i class="fa-solid fa-plane"></i>
+          Flights
+        </a>
+
+      </div>
 
     </div>
 
-    <!-- CONTENT -->
+    <!-- BOTTOM -->
     <div style="
-    flex:1;
-    padding:40px;
+      padding:30px;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
     ">
 
+      <a href="#" style="
+        text-decoration:none;
+        color:#64748b;
+        display:flex;
+        align-items:center;
+        gap:12px;
+      ">
+        <i class="fa-regular fa-circle-question"></i>
+        Support
+      </a>
+
+      <a href="/users/logout" style="
+        text-decoration:none;
+        color:#64748b;
+        display:flex;
+        align-items:center;
+        gap:12px;
+      ">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        Logout
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- MAIN -->
+  <div style="
+    margin-left:260px;
+    flex:1;
+    padding:30px 40px;
+    background:#c7dbf6;
+    min-height:100vh;
+  ">
+
+    <!-- TOPBAR -->
+    <div style="
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+      margin-bottom:40px;
+    ">
+
+      <div style="
+        display:flex;
+        align-items:center;
+        gap:20px;
+      ">
+
+        <i class="fa-regular fa-bell"
+        style="
+          font-size:20px;
+          color:#0f172a;
+        "></i>
+
+        <i class="fa-solid fa-gear"
+        style="
+          font-size:20px;
+          color:#0f172a;
+        "></i>
+
+        <!-- PROFILE -->
         <div style="
+          display:flex;
+          align-items:center;
+          gap:12px;
+        ">
+
+          <div style="text-align:right;">
+
+            <h4 style="
+              margin:0;
+              color:#0f172a;
+            ">
+              <%= user.username %>
+            </h4>
+
+            <p style="
+              margin:3px 0 0;
+              font-size:12px;
+              color:#94a3b8;
+              letter-spacing:1px;
+            ">
+              Admin
+            </p>
+
+          </div>
+
+          <!-- AVATAR -->
+          <div style="
+            width:50px;
+            height:50px;
+            border-radius:50%;
+            background:#2563eb;
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:22px;
+            font-weight:700;
+            text-transform:uppercase;
+          ">
+            <%= user && user.username
+                ? user.username.charAt(0)
+                : 'G'
+            %>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- HEADER -->
+    <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:40px;
+    ">
+
+      <div>
+        <h1 style="
+          margin:0;
+          font-size:60px;
+          color:#0f172a;
+        ">
+          AIRPORT MANAGEMENT
+        </h1>
+
+      </div>
+
+      <a href="/admin/airports/create"
+      style="
+        background:#0f4c81;
+        color:white;
+        text-decoration:none;
+        padding:18px 32px;
+        border-radius:18px;
+        font-size:20px;
+        font-weight:600;
+        box-shadow:0 10px 30px rgba(15,76,129,0.2);
+      ">
+        + Add New Airport
+      </a>
+
+    </div>
+
+    <!-- TABLE -->
+    <div style="
+      background:white;
+      border-radius:24px;
+      overflow:hidden;
+    ">
+
+      <!-- TABLE HEADER -->
+      <div style="
+        display:grid;
+        grid-template-columns:1fr 2fr 1.5fr 1.5fr 80px;
+        padding:25px 35px;
+        border-bottom:1px solid #e2e8f0;
+        color:#64748b;
+        font-size:14px;
+        letter-spacing:2px;
+        font-weight:bold;
+      ">
+
+        <div>CODE</div>
+
+        <div>AIRPORT NAME</div>
+
+        <div>CITY</div>
+
+        <div>COUNTRY</div>
+
+        <div>ACTIONS</div>
+
+      </div>
+
+      <!-- AIRPORTS -->
+      <% airports.forEach((airport,index) => { %>
+
+      <div class="table-row"
+      style="
+        display:grid;
+        grid-template-columns:1fr 2fr 1.5fr 1.5fr 80px;
+        padding:30px 35px;
+        align-items:center;
+        border-bottom:1px solid #f1f5f9;
+      ">
+
+        <!-- CODE -->
+        <div style="
+          color:#0f172a;
+          font-size:20px;
+          font-weight:bold;
+        ">
+          <%= airport.code %>
+        </div>
+
+        <!-- NAME -->
+        <div>
+
+          <h2 style="
+            margin:0;
+            color:#0f172a;
+            line-height:1.4;
+          ">
+            <%= airport.name %>
+          </h2>
+
+          <p style="
+            margin-top:8px;
+            color:#64748b;
+          ">
+            International Airport
+          </p>
+
+        </div>
+
+        <!-- CITY -->
+        <div style="
+          color:#475569;
+          font-size:18px;
+          line-height:1.6;
+        ">
+
+          <i class="fa-solid fa-location-dot"></i>
+
+          <%= airport.city %>
+
+        </div>
+
+        <!-- COUNTRY -->
+        <div style="
+          color:#0f172a;
+          font-size:18px;
+          font-weight:600;
+        ">
+          <%= airport.country %>
+        </div>
+
+        <!-- ACTION -->
+<div style="
+  position:relative;
+  text-align:center;
+">
+
+  <!-- BUTTON -->
+  <button
+    type="button"
+    onclick="toggleMenu('menu-<%= airport._id %>')"
+    style="
+      border:none;
+      background:none;
+      color:#64748b;
+      font-size:22px;
+      cursor:pointer;
+    "
+  >
+    <i class="fa-solid fa-ellipsis-vertical"></i>
+  </button>
+
+  <!-- DROPDOWN -->
+  <div
+    id="menu-<%= airport._id %>"
+    style="
+      display:none;
+      position:absolute;
+      top:35px;
+      right:0;
+      background:white;
+      border-radius:14px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.12);
+      overflow:hidden;
+      min-width:150px;
+      z-index:999;
+    "
+  >
+
+    <!-- EDIT -->
+    <a
+      href="/admin/airports/edit/<%= airport._id %>"
+      style="
+        display:flex;
+        align-items:center;
+        gap:12px;
+        padding:14px 18px;
+        text-decoration:none;
+        color:#0f172a;
+        font-size:15px;
+        border-bottom:1px solid #f1f5f9;
+      "
+    >
+      <i class="fa-solid fa-pen"></i>
+      Edit
+    </a>
+
+    <form
+  action="/admin/airports/delete/<%= airport._id %>"
+  method="POST"
+  style="margin:0;"
+>
+
+  <button
+    type="submit"
+    onclick="return confirm('Delete this airport?')"
+    style="
+      width:100%;
+      border:none;
+      background:none;
+      padding:14px 18px;
+      text-align:left;
+      cursor:pointer;
+      color:#dc2626;
+      font-size:15px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    "
+  >
+    <i class="fa-solid fa-trash"></i>
+    Delete
+  </button>
+
+</form>
+  </div>
+
+</div>
+
+      </div>
+
+      <% }) %>
+
+      <!-- FOOTER -->
+      <div style="
         display:flex;
         justify-content:space-between;
         align-items:center;
-        margin-bottom:30px;
-        ">
-
-            <h1 style="margin:0;">Airports</h1>
-
-            <a href="/admin/airports/create"
-               style="
-               background:#2563eb;
-               color:white;
-               text-decoration:none;
-               padding:12px 20px;
-               border-radius:10px;
-               font-weight:bold;
-               ">
-               + Add Airport
-            </a>
-
-        </div>
+        padding:30px 35px;
+      ">
 
         <div style="
-        background:white;
-        border-radius:20px;
-        overflow:hidden;
+          color:#64748b;
+          letter-spacing:1px;
+          font-size:14px;
+        ">
+          SHOWING <%= airports.length %> AIRPORTS
+        </div>
+
+        <!-- PAGINATION -->
+        <div style="
+          display:flex;
+          align-items:center;
+          gap:12px;
         ">
 
-            <table style="
-            width:100%;
-            border-collapse:collapse;
-            ">
+          <div style="
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            border:1px solid #e2e8f0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#64748b;
+          ">
+            <i class="fa-solid fa-chevron-left"></i>
+          </div>
 
-                <tr style="
-                background:#e2e8f0;
-                text-align:left;
-                ">
+          <div style="
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            background:#0f4c81;
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:bold;
+          ">
+            1
+          </div>
 
-                    <th style="padding:20px;">Code</th>
-                    <th>Name</th>
-                    <th>City</th>
-                    <th>Country</th>
-
-                </tr>
-
-                <% airports.forEach(airport => { %>
-
-                    <tr style="border-top:1px solid #ddd;">
-
-                        <td style="padding:20px;">
-                            <%= airport.code %>
-                        </td>
-
-                        <td>
-                            <%= airport.name %>
-                        </td>
-
-                        <td>
-                            <%= airport.city %>
-                        </td>
-
-                        <td>
-                            <%= airport.country %>
-                        </td>
-
-                    </tr>
-
-                <% }) %>
-
-            </table>
+          <div style="
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            border:1px solid #e2e8f0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#64748b;
+          ">
+            2
+          </div>
 
         </div>
+
+      </div>
 
     </div>
 
-</div>
+  </div>
 
 </body>
 </html>

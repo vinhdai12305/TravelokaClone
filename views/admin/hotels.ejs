@@ -1,179 +1,629 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Hotels</title>
+  <meta charset="UTF-8">
+  <title>Hotels</title>
 
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:Arial, sans-serif;
+      background:#f4f7fb;
+      display:flex;
+    }
+
+    .table-row:hover{
+      background:#f8fafc;
+    }
+
+  </style>
 </head>
 
-<body style="
-margin:0;
-font-family:Arial;
-background:#f5f7fb;
-">
+<script>
 
-<div style="display:flex; min-height:100vh;">
+  function toggleMenu(id){
 
-    <!-- SIDEBAR -->
-    <div style="
+    // đóng menu khác
+    document.querySelectorAll('[id^="menu-"]').forEach(menu => {
+
+      if(menu.id !== id){
+        menu.style.display = 'none';
+      }
+
+    });
+
+    const menu = document.getElementById(id);
+
+    if(menu.style.display === 'block'){
+      menu.style.display = 'none';
+    }else{
+      menu.style.display = 'block';
+    }
+
+  }
+
+  // click ngoài -> đóng menu
+  document.addEventListener('click', function(e){
+
+    if(!e.target.closest('[onclick^="toggleMenu"]') &&
+       !e.target.closest('[id^="menu-"]')){
+
+      document.querySelectorAll('[id^="menu-"]').forEach(menu => {
+        menu.style.display = 'none';
+      });
+
+    }
+
+  });
+
+</script>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <div style="
     width:260px;
-    background:linear-gradient(180deg,#0f172a,#111827);
-    color:white;
-    padding:30px;
-    box-sizing:border-box;
-    ">
+    height:100vh;
+    background:white;
+    border-right:1px solid #e2e8f0;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    position:fixed;
+    left:0;
+    top:0;
+  ">
 
-        <h1 style="
-        margin:0;
-        font-size:48px;
-        font-weight:800;
+    <!-- TOP -->
+    <div>
+
+      <!-- LOGO -->
+      <div style="
+        padding:35px 30px;
+      ">
+        <h2 style="
+          margin:0;
+          color:#0f172a;
+          font-size:30px;
         ">
-            ADMIN
-        </h1>
+          +84Booking
+        </h2>
 
-        <div style="margin-top:60px;">
+        <p style="
+          margin-top:5px;
+          color:#94a3b8;
+          letter-spacing:2px;
+          font-size:12px;
+        ">
+          .COM
+        </p>
+      </div>
 
-            <a href="/admin"
-            style="
-            display:flex;
-            align-items:center;
-            gap:12px;
-            color:white;
-            text-decoration:none;
-            padding:16px 18px;
-            border-radius:16px;
-            background:rgba(255,255,255,0.08);
-            margin-bottom:18px;
-            ">
-                <i class="fa-solid fa-chart-line"></i>
-                Dashboard
-            </a>
+      <!-- MENU -->
+      <div style="
+        margin-top:20px;
+        display:flex;
+        flex-direction:column;
+      ">
 
-            <a href="/admin/hotels"
-            style="
-            display:flex;
-            align-items:center;
-            gap:12px;
-            color:white;
-            text-decoration:none;
-            padding:16px 18px;
-            border-radius:16px;
-            background:#2563eb;
-            ">
-                <i class="fa-solid fa-hotel"></i>
-                Hotels
-            </a>
+        <a href="/admin" style="
+          padding:18px 30px;
+          text-decoration:none;
+          color:#64748b;
+          display:flex;
+          align-items:center;
+          gap:15px;
+        ">
+          <i class="fa-solid fa-table-columns"></i>
+          Dashboard
+        </a>
 
-        </div>
+        <!-- ACTIVE -->
+        <a href="/admin/hotels" style="
+          padding:18px 30px;
+          text-decoration:none;
+          color:#0f172a;
+          background:#f1f5f9;
+          border-right:4px solid #0f4c81;
+          display:flex;
+          align-items:center;
+          gap:15px;
+          font-weight:bold;
+        ">
+          <i class="fa-solid fa-hotel"></i>
+          Hotels
+        </a>
+
+        <a href="/admin/airports" style="
+          padding:18px 30px;
+          text-decoration:none;
+          color:#64748b;
+          display:flex;
+          align-items:center;
+          gap:15px;
+        ">
+          <i class="fa-solid fa-plane-departure"></i>
+          Airports
+        </a>
+
+        <a href="/admin/flights" style="
+          padding:18px 30px;
+          text-decoration:none;
+          color:#64748b;
+          display:flex;
+          align-items:center;
+          gap:15px;
+        ">
+          <i class="fa-solid fa-plane"></i>
+          Flights
+        </a>
+
+      </div>
 
     </div>
 
-    <!-- CONTENT -->
+    <!-- BOTTOM -->
     <div style="
-    flex:1;
-    padding:50px;
+      padding:30px;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
     ">
 
+      <a href="#" style="
+        text-decoration:none;
+        color:#64748b;
+        display:flex;
+        align-items:center;
+        gap:12px;
+      ">
+        <i class="fa-regular fa-circle-question"></i>
+        Support
+      </a>
+
+      <a href="/users/logout" style="
+        text-decoration:none;
+        color:#64748b;
+        display:flex;
+        align-items:center;
+        gap:12px;
+      ">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        Logout
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- MAIN -->
+  <div style="
+    margin-left:260px;
+    flex:1;
+    padding:30px 40px;
+    background:#c7dbf6;
+    min-height:100vh;
+  ">
+
+    <!-- TOPBAR -->
+    <div style="
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+      margin-bottom:40px;
+    ">
+
+      <div style="
+        display:flex;
+        align-items:center;
+        gap:20px;
+      ">
+
+        <i class="fa-regular fa-bell"
+        style="
+          font-size:20px;
+          color:#0f172a;
+        "></i>
+
+        <i class="fa-solid fa-gear"
+        style="
+          font-size:20px;
+          color:#0f172a;
+        "></i>
+
+        <!-- PROFILE -->
         <div style="
+          display:flex;
+          align-items:center;
+          gap:12px;
+        ">
+
+          <div style="text-align:right;">
+
+            <h4 style="
+              margin:0;
+              color:#0f172a;
+            ">
+              <%= user.username %>
+            </h4>
+
+            <p style="
+              margin:3px 0 0;
+              font-size:12px;
+              color:#94a3b8;
+              letter-spacing:1px;
+            ">
+              Admin
+            </p>
+
+          </div>
+
+          <!-- AVATAR -->
+          <div style="
+            width:50px;
+            height:50px;
+            border-radius:50%;
+            background:#2563eb;
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:22px;
+            font-weight:700;
+            text-transform:uppercase;
+          ">
+            <%= user && user.username
+                ? user.username.charAt(0)
+                : 'G'
+            %>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- HEADER -->
+    <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:40px;
+    ">
+
+      <div>
+        <h1 style="
+          margin:0;
+          font-size:60px;
+          color:#0f172a;
+        ">
+          HOTEL MANAGEMENT
+        </h1>
+
+      </div>
+
+      <a href="/admin/hotels/create"
+      style="
+        background:#0f4c81;
+        color:white;
+        text-decoration:none;
+        padding:18px 32px;
+        border-radius:18px;
+        font-size:20px;
+        font-weight:600;
+        box-shadow:0 10px 30px rgba(15,76,129,0.2);
+      ">
+        + Add New Property
+      </a>
+
+    </div>
+
+    <!-- TABLE -->
+    <div style="
+      background:white;
+      border-radius:24px;
+      overflow:hidden;
+    ">
+
+      <!-- TABLE HEADER -->
+      <div style="
+        display:grid;
+        grid-template-columns:2fr 1.5fr 1fr 1fr 80px;
+        padding:25px 35px;
+        border-bottom:1px solid #e2e8f0;
+        color:#64748b;
+        font-size:14px;
+        letter-spacing:2px;
+        font-weight:bold;
+      ">
+
+        <div>HOTEL NAME</div>
+
+        <div>LOCATION</div>
+
+        <div>PRICE</div>
+
+        <div>STATUS</div>
+
+        <div>ACTIONS</div>
+
+      </div>
+
+      <!-- HOTELS -->
+      <% hotels.forEach((hotel,index) => { %>
+
+      <div class="table-row"
+      style="
+        display:grid;
+        grid-template-columns:2fr 1.5fr 1fr 1fr 80px;
+        padding:30px 35px;
+        align-items:center;
+        border-bottom:1px solid #f1f5f9;
+      ">
+
+        <!-- HOTEL -->
+        <div style="
+          display:flex;
+          align-items:center;
+          gap:18px;
+        ">
+
+          <img
+          src="/uploads/<%= hotel.image %>"
+          style="
+            width:90px;
+            height:90px;
+            object-fit:cover;
+            border-radius:18px;
+          ">
+
+          <div>
+
+            <h2 style="
+              margin:0;
+              color:#0f172a;
+              line-height:1.4;
+            ">
+              <%= hotel.name %>
+            </h2>
+
+            <p style="
+              margin-top:8px;
+              color:#64748b;
+            ">
+              <%= hotel.type %>
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- LOCATION -->
+        <div style="
+          color:#475569;
+          font-size:18px;
+          line-height:1.6;
+        ">
+
+          <i class="fa-solid fa-location-dot"></i>
+
+          <%= hotel.location %>
+
+        </div>
+
+        <!-- PRICE -->
+        <div style="
+          color:#0f172a;
+          font-size:22px;
+          font-weight:bold;
+        ">
+          $<%= hotel.discountPrice %>
+        </div>
+
+        <!-- STATUS -->
+        <div>
+
+          <% if(index % 2 === 0){ %>
+
+            <span style="
+              background:#dcfce7;
+              color:#15803d;
+              padding:10px 18px;
+              border-radius:999px;
+              font-size:12px;
+              font-weight:bold;
+              letter-spacing:1px;
+            ">
+              ACTIVE
+            </span>
+
+          <% } else { %>
+
+            <span style="
+              background:#fef3c7;
+              color:#b45309;
+              padding:10px 18px;
+              border-radius:999px;
+              font-size:12px;
+              font-weight:bold;
+              letter-spacing:1px;
+            ">
+              MAINTENANCE
+            </span>
+
+          <% } %>
+
+        </div>
+
+        <!-- ACTION -->
+        <div style="
+  position:relative;
+  text-align:center;
+">
+
+  <!-- BUTTON -->
+  <div
+    onclick="toggleMenu('menu-<%= hotel._id %>')"
+    style="
+      color:#64748b;
+      font-size:22px;
+      cursor:pointer;
+    "
+  >
+    <i class="fa-solid fa-ellipsis-vertical"></i>
+  </div>
+
+  <!-- DROPDOWN -->
+  <div
+    id="menu-<%= hotel._id %>"
+    style="
+      display:none;
+      position:absolute;
+      top:35px;
+      right:0;
+      background:white;
+      border-radius:14px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.12);
+      overflow:hidden;
+      min-width:150px;
+      z-index:999;
+    "
+  >
+
+    <!-- EDIT -->
+    <a
+      href="/admin/hotels/edit/<%= hotel._id %>"
+      style="
+        display:flex;
+        align-items:center;
+        gap:12px;
+        padding:14px 18px;
+        text-decoration:none;
+        color:#0f172a;
+        font-size:15px;
+        border-bottom:1px solid #f1f5f9;
+      "
+    >
+      <i class="fa-solid fa-pen"></i>
+      Edit
+    </a>
+
+    <!-- DELETE -->
+<form 
+  action="/admin/hotels/delete/<%= hotel._id %>" 
+  method="POST"
+  onsubmit="return confirm('Delete this hotel?')"
+>
+
+  <button type="submit"
+    style="
+      display:flex;
+      align-items:center;
+      gap:12px;
+      width:100%;
+      border:none;
+      background:none;
+      color:#dc2626;
+      cursor:pointer;
+      padding:14px 18px;
+      font-size:15px;
+    "
+  >
+    <i class="fa-solid fa-trash"></i>
+    Delete
+  </button>
+
+</form>
+    </a>
+
+  </div>
+
+</div>
+
+      </div>
+
+      <% }) %>
+
+      <!-- FOOTER -->
+      <div style="
         display:flex;
         justify-content:space-between;
         align-items:center;
-        margin-bottom:40px;
-        ">
+        padding:30px 35px;
+      ">
 
-            <div>
-                <h1 style="
-                margin:0;
-                font-size:56px;
-                color:#0f172a;
-                ">
-                    Hotels
-                </h1>
-
-                <p style="
-                color:#64748b;
-                font-size:22px;
-                ">
-                    Manage all hotels
-                </p>
-            </div>
-
-            <a href="/admin/hotels/create"
-            style="
-            background:#2563eb;
-            color:white;
-            padding:16px 26px;
-            border-radius:16px;
-            text-decoration:none;
-            font-size:20px;
-            font-weight:600;
-            ">
-                + Add Hotel
-            </a>
-
-        </div>
-
-        <!-- HOTEL LIST -->
         <div style="
-        display:grid;
-        grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-        gap:30px;
+          color:#64748b;
+          letter-spacing:1px;
+          font-size:14px;
+        ">
+          SHOWING <%= hotels.length %> PROPERTIES
+        </div>
+
+        <!-- PAGINATION -->
+        <div style="
+          display:flex;
+          align-items:center;
+          gap:12px;
         ">
 
-            <% hotels.forEach(hotel => { %>
+          <div style="
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            border:1px solid #e2e8f0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#64748b;
+          ">
+            <i class="fa-solid fa-chevron-left"></i>
+          </div>
 
-                <div style="
-                background:white;
-                border-radius:24px;
-                overflow:hidden;
-                box-shadow:0 10px 30px rgba(0,0,0,0.08);
-                ">
+          <div style="
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            background:#0f4c81;
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:bold;
+          ">
+            1
+          </div>
 
-                    <img
-                    src="/uploads/<%= hotel.image %>"
-                    style="
-                    width:100%;
-                    height:240px;
-                    object-fit:cover;
-                    ">
-
-                    <div style="padding:24px;">
-
-                        <h2 style="
-                        margin:0 0 10px;
-                        color:#0f172a;
-                        ">
-                            <%= hotel.name %>
-                        </h2>
-
-                        <p style="
-                        color:#64748b;
-                        margin-bottom:10px;
-                        ">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <%= hotel.location %>
-                        </p>
-
-                        <h3 style="
-                        color:#2563eb;
-                        margin:0;
-                        ">
-                            $<%= hotel.price %> / night
-                        </h3>
-
-                    </div>
-
-                </div>
-
-            <% }) %>
+          <div style="
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            border:1px solid #e2e8f0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#64748b;
+          ">
+            2
+          </div>
 
         </div>
+
+      </div>
 
     </div>
 
-</div>
+  </div>
 
 </body>
 </html>

@@ -18,15 +18,60 @@ exports.create = (req, res) => {
 
 exports.store = async (req, res) => {
 
-    const newHotel = new Hotel({
-        name: req.body.name,
-        location: req.body.location,
-        price: req.body.price,
-        image: req.body.image
-    });
+    try {
 
-    await newHotel.save();
+        const newHotel = new Hotel({
 
-    res.redirect('/admin/hotels');
+            name: req.body.name,
+
+            location: req.body.location,
+
+            // 👇 lấy ảnh upload từ multer
+            image: req.file ? req.file.filename : '',
+
+            stars: req.body.stars,
+
+            rating: req.body.rating,
+
+            reviewCount: req.body.reviewCount,
+
+            discountPrice: req.body.discountPrice,
+
+            tag: req.body.tag,
+
+            type: req.body.type,
+
+            // 👇 checkbox amenities
+            amenities: req.body.amenities
+
+        });
+
+        await newHotel.save();
+
+        res.redirect('/admin/hotels');
+
+    } catch (error) {
+
+        console.log(error);
+        res.status(500).send('Create Hotel Error');
+
+    }
+
+};
+
+exports.delete = async (req, res) => {
+
+   try {
+
+      await Hotel.findByIdAndDelete(req.params.id);
+
+      res.redirect('/admin/hotels');
+
+   } catch (error) {
+
+      console.log(error);
+      res.status(500).send('Delete Error');
+
+   }
 
 };

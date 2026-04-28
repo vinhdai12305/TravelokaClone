@@ -1,70 +1,332 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Flight</title>
-</head>
-
-<body style="
-font-family:Arial;
-background:#f5f7fb;
-padding:50px;
-">
-
-<h1>Create Flight</h1>
-
 <form
 action="/admin/flights/create"
 method="POST"
-style="
-background:white;
-padding:40px;
-border-radius:20px;
-max-width:700px;
-">
+style="padding:40px;"
+>
 
-    <input type="text" name="airlineName" placeholder="Airline Name"
-    style="width:100%;padding:18px;margin-bottom:20px;">
+  <!-- GRID -->
+  <div style="
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+  ">
 
-    <input type="text" name="airlineLogo" placeholder="Airline Logo URL"
-    style="width:100%;padding:18px;margin-bottom:20px;">
+    <!-- AIRLINE NAME -->
+    <div>
+      <label style="
+        display:block;
+        margin-bottom:10px;
+        font-weight:700;
+        color:#64748b;
+      ">
+        AIRLINE NAME
+      </label>
 
-    <input type="number" name="stops" placeholder="Stops"
-    style="width:100%;padding:18px;margin-bottom:20px;">
+      <input
+      type="text"
+      name="airlineName"
+      required
+      placeholder="Vietnam Airlines"
+      style="
+        width:100%;
+        height:60px;
+        border:1px solid #dbe2ea;
+        border-radius:16px;
+        padding:0 18px;
+        font-size:16px;
+        box-sizing:border-box;
+      ">
+    </div>
 
-    <input type="number" name="price" placeholder="Price"
-    style="width:100%;padding:18px;margin-bottom:20px;">
+    <!-- AIRLINE LOGO -->
+    <div>
+      <label style="
+        display:block;
+        margin-bottom:10px;
+        font-weight:700;
+        color:#64748b;
+      ">
+        AIRLINE LOGO URL
+      </label>
 
-    <input type="text" name="departureTime" placeholder="Departure Time"
-    style="width:100%;padding:18px;margin-bottom:20px;">
+      <input
+      type="text"
+      name="airlineLogo"
+      required
+      placeholder="https://..."
+      style="
+        width:100%;
+        height:60px;
+        border:1px solid #dbe2ea;
+        border-radius:16px;
+        padding:0 18px;
+        font-size:16px;
+        box-sizing:border-box;
+      ">
+    </div>
 
-    <input type="text" name="arrivalTime" placeholder="Arrival Time"
-    style="width:100%;padding:18px;margin-bottom:20px;">
+    <!-- FROM CODE -->
+    <div>
+      <label style="
+        display:block;
+        margin-bottom:10px;
+        font-weight:700;
+        color:#64748b;
+      ">
+        FROM CODE
+      </label>
 
-    <input type="text" name="fromCode" placeholder="From Code"
-    style="width:100%;padding:18px;margin-bottom:20px;">
+      <input
+      type="text"
+      name="fromCode"
+      required
+      placeholder="DAD"
+      style="
+        width:100%;
+        height:60px;
+        border:1px solid #dbe2ea;
+        border-radius:16px;
+        padding:0 18px;
+        font-size:16px;
+        box-sizing:border-box;
+      ">
+    </div>
 
-    <input type="text" name="toCode" placeholder="To Code"
-    style="width:100%;padding:18px;margin-bottom:20px;">
+    <!-- TO CODE -->
+    <div>
+      <label style="
+        display:block;
+        margin-bottom:10px;
+        font-weight:700;
+        color:#64748b;
+      ">
+        TO CODE
+      </label>
 
-    <input type="text" name="class" placeholder="Class"
-    style="width:100%;padding:18px;margin-bottom:20px;">
+      <input
+      type="text"
+      name="toCode"
+      required
+      placeholder="SGN"
+      style="
+        width:100%;
+        height:60px;
+        border:1px solid #dbe2ea;
+        border-radius:16px;
+        padding:0 18px;
+        font-size:16px;
+        box-sizing:border-box;
+      ">
+    </div>
 
-    <input type="text" name="duration" placeholder="Duration"
-    style="width:100%;padding:18px;margin-bottom:20px;">
+    <!-- DEPARTURE -->
+    <div>
+      <label style="
+        display:block;
+        margin-bottom:10px;
+        font-weight:700;
+        color:#64748b;
+      ">
+        DEPARTURE TIME
+      </label>
 
-    <button style="
-    padding:18px 30px;
-    border:none;
-    background:#2563eb;
-    color:white;
-    border-radius:14px;
-    font-size:18px;
+      <input
+      type="text"
+      name="departureTime"
+      required
+      placeholder="08:00"
+      style="
+        width:100%;
+        height:60px;
+        border:1px solid #dbe2ea;
+        border-radius:16px;
+        padding:0 18px;
+        font-size:16px;
+        box-sizing:border-box;
+      ">
+    </div>
+
+    <!-- ARRIVAL -->
+    <div>
+      <label style="
+        display:block;
+        margin-bottom:10px;
+        font-weight:700;
+        color:#64748b;
+      ">
+        ARRIVAL TIME
+      </label>
+
+      <input
+      type="text"
+      name="arrivalTime"
+      required
+      placeholder="09:30"
+      style="
+        width:100%;
+        height:60px;
+        border:1px solid #dbe2ea;
+        border-radius:16px;
+        padding:0 18px;
+        font-size:16px;
+        box-sizing:border-box;
+      ">
+    </div>
+
+    <!-- STOPS -->
+    <div>
+      <label style="
+        display:block;
+        margin-bottom:10px;
+        font-weight:700;
+        color:#64748b;
+      ">
+        STOPS
+      </label>
+
+      <input
+      type="number"
+      name="stops"
+      required
+      placeholder="0"
+      style="
+        width:100%;
+        height:60px;
+        border:1px solid #dbe2ea;
+        border-radius:16px;
+        padding:0 18px;
+        font-size:16px;
+        box-sizing:border-box;
+      ">
+    </div>
+
+    <!-- CLASS -->
+    <div>
+      <label style="
+        display:block;
+        margin-bottom:10px;
+        font-weight:700;
+        color:#64748b;
+      ">
+        CLASS
+      </label>
+
+      <select
+      name="class"
+      required
+      style="
+        width:100%;
+        height:60px;
+        border:1px solid #dbe2ea;
+        border-radius:16px;
+        padding:0 18px;
+        font-size:16px;
+        box-sizing:border-box;
+        background:white;
+      ">
+
+        <option value="Economy">Economy</option>
+        <option value="Business">Business</option>
+        <option value="First Class">First Class</option>
+
+      </select>
+    </div>
+
+    <!-- DURATION -->
+    <div>
+      <label style="
+        display:block;
+        margin-bottom:10px;
+        font-weight:700;
+        color:#64748b;
+      ">
+        DURATION
+      </label>
+
+      <input
+      type="text"
+      name="duration"
+      required
+      placeholder="1h 30m"
+      style="
+        width:100%;
+        height:60px;
+        border:1px solid #dbe2ea;
+        border-radius:16px;
+        padding:0 18px;
+        font-size:16px;
+        box-sizing:border-box;
+      ">
+    </div>
+
+    <!-- PRICE -->
+    <div>
+      <label style="
+        display:block;
+        margin-bottom:10px;
+        font-weight:700;
+        color:#64748b;
+      ">
+        PRICE
+      </label>
+
+      <input
+      type="number"
+      name="price"
+      required
+      placeholder="2686706"
+      style="
+        width:100%;
+        height:60px;
+        border:1px solid #dbe2ea;
+        border-radius:16px;
+        padding:0 18px;
+        font-size:16px;
+        box-sizing:border-box;
+      ">
+    </div>
+
+  </div>
+
+  <!-- BUTTONS -->
+  <div style="
+    margin-top:40px;
+    display:flex;
+    gap:20px;
+  ">
+
+    <button type="submit"
+    style="
+      height:60px;
+      padding:0 30px;
+      border:none;
+      border-radius:18px;
+      background:#0f4c81;
+      color:white;
+      font-size:18px;
+      font-weight:700;
+      cursor:pointer;
     ">
-        Create Flight
+      + Create Flight
     </button>
 
-</form>
+    <a href="/admin/flights"
+    style="
+      height:60px;
+      padding:0 30px;
+      border-radius:18px;
+      background:#e2e8f0;
+      color:#0f172a;
+      text-decoration:none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:18px;
+      font-weight:700;
+    ">
+      Cancel
+    </a>
 
-</body>
-</html>
+  </div>
+
+</form>
