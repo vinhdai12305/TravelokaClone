@@ -1,0 +1,22 @@
+<%- include('../partials/header') %>
+<div style="margin-top: 180px; text-align: center; padding-bottom: 100px;">
+    <div style="background: white; max-width: 550px; margin: 0 auto; padding: 50px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.08);">
+        <div style="width: 100px; height: 100px; background: #e8f7ee; color: #2ecc71; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px;">
+            <i class="fas fa-check" style="font-size: 50px;"></i>
+        </div>
+        
+        <h1 style="color: #0194f3; font-size: 28px; margin-bottom: 10px;">Đặt phòng hoàn tất!</h1>
+        <p style="color: #687176; margin-bottom: 30px;">Cảm ơn <strong><%= guestName %></strong>, yêu cầu của bạn đã được xác nhận.</p>
+        
+        <div style="background: #f8fbff; border: 2px dashed #0194f3; padding: 25px; border-radius: 16px; text-align: left;">
+            <p style="margin-bottom: 10px;"><strong>Khách sạn:</strong> <%= hotelName %></p>
+            <p style="margin-bottom: 10px;"><strong>Mã đặt chỗ:</strong> <span style="color: #0194f3; font-weight: 800;"><%= bookingId %></span></p>
+            <p><strong>Trạng thái:</strong> <span style="color: #2ecc71; font-weight: 600;">Đã thanh toán</span></p>
+        </div>
+
+        <div style="margin-top: 40px; display: flex; gap: 15px;">
+            <a href="/" style="flex: 1; padding: 14px; background: #0194f3; color: white; text-decoration: none; border-radius: 10px; font-weight: 600;">Về Trang Chủ</a>
+            <a href="/hotels" style="flex: 1; padding: 14px; border: 1px solid #0194f3; color: #0194f3; text-decoration: none; border-radius: 10px; font-weight: 600;">Tiếp tục tìm</a>
+        </div>
+    </div>
+</div>
