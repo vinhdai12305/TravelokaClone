@@ -415,6 +415,47 @@
       font-size: 12px;
       font-weight: 500;
     }
+    /* --- FIX LỖI ẢNH MÁY BAY TO (VIETJET) --- */
+    .flight-container {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 15px 5px 25px 5px; /* Giống hotel-container */
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+    }
+
+    .flight-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      width: 300px;
+      flex-shrink: 0;
+      overflow: hidden;
+      border: 1px solid #e6eaed;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+   }
+   .flight-card:hover {
+    transform: translateY(-6px); 
+    box-shadow: 0 12px 24px rgba(0,0,0,0.12); 
+}
+
+    .flight-logo {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      background: #f0f0f0;
+    }
+
+    .flight-info {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px; /* Tăng khoảng cách một chút */
+    }
 
     /* NAVIGATION BUTTONS */
     .nav-btn-round {
@@ -629,53 +670,58 @@
         <img src="/images/banner1.jpg" alt="Deal xịn chỉ có trên app" onerror="this.src='https://ik.imagekit.io/tvlk/imageResource/2023/12/12/1702374630596-5f0f3a6a9b8f4e2f9d3f1a6f8e5d4c3b.jpeg'">
     </div>
 
-    <!-- ACTIVITIES SECTION -->
     <div class="header-section">
-        <h2 class="header-title">🎡 Máy bay giá rẻ</h2>
-        <p class="header-subtitle">Trải nghiệm những chuyến bay tuyệt vời nhất</p>
-    </div>
+    <h2 class="header-title">✈️ Máy bay giá rẻ</h2>
+    <p class="header-subtitle">Trải nghiệm những chuyến bay tuyệt vời nhất</p>
+</div>
 
-    <div class="carousel-wrapper">
-        <button class="nav-btn-round prev-btn" id="prevActivityBtn"><i class="fas fa-chevron-left"></i></button>
-        <div class="hotel-container" id="activityList">
-            <% if (typeof activities !== 'undefined' && activities.length > 0) { %>
-                <% activities.forEach(function(act) { %>
-                    <div class="hotel-card">
-                        <div class="hotel-image-wrapper">
-                            <div class="location-badge">
-                                <i class="fas fa-map-marker-alt"></i> <%= act.location %>
-                            </div>
-                            <img src="<%= act.image %>" class="hotel-image" onerror="this.src='/images/default-act.jpg'">
+<div class="carousel-wrapper">
+    <button class="nav-btn-round prev-btn" id="prevFlightBtn"><i class="fas fa-chevron-left"></i></button>
+    <div class="flight-container" id="flightList">
+        <% if (typeof flights !== 'undefined' && flights.length > 0) { %>
+            <% flights.forEach(function(flight) { %>
+                <div class="flight-card">
+                    <div class="flight-image-wrapper">
+                        <div class="location-badge" style="position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(0,0,0,0.6);">
+                            <i class="fas fa-plane"></i> <%= flight.fromCode %> ➔ <%= flight.toCode %>
                         </div>
-                        <div class="hotel-info">
-                            <h3 class="hotel-name"><%= act.name %></h3>
-                            <div class="tag-group">
-                                <span class="tag-mini tag-xtra">Xtra</span>
-                                <span class="tag-mini tag-refund">Xác nhận tức thì</span>
-                            </div>
-                            <div class="rating-wrapper">
-                                <i class="fas fa-star" style="color: #febb02; font-size: 10px;"></i>
-                                <span class="rating-score"><%= act.rating %>/10</span>
-                                <span class="review-count">Đã đặt <%= act.reviewCount || 0 %>+</span>
-                            </div>
-                            <div class="price-section">
-                                <p class="original-price"><%= act.discountPrice ? (act.discountPrice * 1.1).toLocaleString('vi-VN') : '' %> VND</p>
-                                <p class="discount-price">
-                                    <%= act.discountPrice ? act.discountPrice.toLocaleString('vi-VN') : '0' %> <span class="price-unit">VND</span>
-                                </p>
-                            </div>
+                        <img src="https://img.pikbest.com/templates/20230420/bg/05ef84a20100b.png!w700wp" class="flight-logo" onerror="this.src='/images/default-flight.png'">
+                    </div>
+                    
+                    <div class="flight-info">
+                        <h3 class="flight-name"><%= flight.airlineName %></h3>
+                        
+                        <div class="tag-group">
+                            <span class="tag-mini tag-xtra"><%= flight.class || 'Phổ thông' %></span>
+                            <span class="tag-mini tag-refund">
+                                <%= (typeof flight.stops === 'undefined' || flight.stops === 0) ? 'Bay thẳng' : flight.stops + ' điểm dừng' %>
+                            </span>
+                        </div>
+
+                        <div class="flight-time">
+                            <i class="fas fa-clock"></i>
+                            <span><%= flight.departureTime %> - <%= flight.arrivalTime %></span>
+                            <small>(<%= flight.duration %>)</small>
+                        </div>
+
+                        <div class="price-section">
+                            <p class="discount-price">
+                                <%= (flight.price) ? flight.price.toLocaleString('vi-VN') : '0' %> <span class="price-unit">VND</span>
+                            </p>
                         </div>
                     </div>
-                <% }); %>
-            <% } %>
-        </div>
-        <button class="nav-btn-round next-btn" id="nextActivityBtn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="empty-state">Đang cập nhật chuyến bay...</div>
+        <% } %>
     </div>
+    <button class="nav-btn-round next-btn" id="nextFlightBtn"><i class="fas fa-chevron-right"></i></button>
+</div>
 
-    <div class="view-more-container">
-        <a href="/hotels" class="btn-view-more">Xem thêm hoạt động <i class="fas fa-chevron-right" style="font-size: 10px;"></i></a>
-    </div>
-
+<div class="view-more-container">
+    <a href="/flight" class="btn-view-more">Xem thêm chuyến bay <i class="fas fa-chevron-right" style="font-size: 10px;"></i></a>
+</div>
 </div>
 
 <!-- SCRIPTS -->
@@ -803,7 +849,7 @@ function setupCarousel(containerId, nextBtnId, prevBtnId, scrollVal) {
 }
 
 setupCarousel('hotelList', 'nextHotelBtn', 'prevHotelBtn', 500);
-setupCarousel('activityList', 'nextActivityBtn', 'prevActivityBtn', 500);
+setupCarousel('flightList', 'nextFlightBtn', 'prevFlightBtn', 500);
 </script>
 
 </body>

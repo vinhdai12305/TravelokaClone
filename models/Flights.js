@@ -7,7 +7,8 @@ const flightSchema = new mongoose.Schema({
   departureTime: String,
   arrivalTime: String,
   fromCode: String,
-  toCode: String
+  toCode: String, 
+  stops: { type: Number, default: 0 }
 });
 
-module.exports = mongoose.models.Flight || mongoose.model('Flight', flightSchema);
+module.exports = mongoose.models.Flight || mongoose.model('Flight', flightSchema); 

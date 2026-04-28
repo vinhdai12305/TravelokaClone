@@ -12,5 +12,4 @@ const homeSchema = new mongoose.Schema({
     type: String // Trường type này rất quan trọng để fen filter 'hotel' hay 'activity' ở controller nhé
 });
 
-// Đổi 'Hotel' thành 'Home'
 module.exports = mongoose.model('Home', homeSchema);

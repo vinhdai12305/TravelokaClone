@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Hotel = require('../models/Hotel');
 
-// Trang chủ
+const Hotel = require('../models/Hotel');
+const Flight = require('../models/Flights'); // nhớ đúng tên file
+
 router.get('/', async (req, res) => {
     try {
-        // Lấy hotels (không phải activity)
+        // Hotels
         const hotels = await Hotel.find({ 
             $or: [
                 { type: 'hotel' },
@@ -13,15 +14,15 @@ router.get('/', async (req, res) => {
             ]
         }).limit(10);
 
-        // Lấy activities
-        const activities = await Hotel.find({ type: 'activity' }).limit(10);
+        // Flights (THAY cho activities)
+        const flights = await Flight.find().limit(10);
 
         console.log('🏨 Hotels:', hotels.length);
-        console.log('🎡 Activities:', activities.length);
+        console.log('✈️ Flights:', flights.length);
 
         res.render('homeList', {
             hotels: hotels,
-            activities: activities
+            flights: flights   // 🔥 QUAN TRỌNG
         });
 
     } catch (error) {

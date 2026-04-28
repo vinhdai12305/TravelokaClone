@@ -1,23 +1,24 @@
 const Hotel = require('../models/Hotel');
+const Flight = require('../models/Flights');
 
 exports.index = async (req, res) => {
     try {
-        // 1. Lấy danh sách khách sạn (Lấy loại 'hotel' hoặc các bản ghi cũ không có trường type)
+        // 1. Lấy danh sách khách sạn
         const hotels = await Hotel.find({
             $or: [
                 { type: 'hotel' },
                 { type: { $exists: false } }
             ]
-        }).lean(); // Thêm .lean() để dữ liệu nhẹ hơn và dễ truy cập trong EJS
+        }).limit(10).lean();
 
-        // 2. Lấy danh sách hoạt động (vui chơi, tour...)
-        const activities = await Hotel.find({ type: 'activity' }).lean();
+        // 2. Lấy danh sách chuyến bay (Dữ liệu máy bay thật)
+        const flights = await Flight.find().limit(10).lean();
 
         // 3. Render trang chủ kèm theo đầy đủ các biến mà EJS đang chờ đợi
-        res.render('index', {
+        res.render('homeList', {
             hotels: hotels,
-            activities: activities,
-            
+            flights: flights,
+
             // Các biến điều khiển Modal Đăng nhập/Đăng ký (Tránh lỗi undefined)
             formDisplayStyle: 'none', // Mặc định ẩn form khi vào trang chủ
             isFormActive: false,      // Trạng thái modal
@@ -40,3 +41,4 @@ exports.index = async (req, res) => {
         });
     }
 };
+console.log("Flights:", flights.length);
