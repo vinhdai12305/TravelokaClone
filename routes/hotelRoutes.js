@@ -2,24 +2,85 @@ const express = require('express');
 const router = express.Router();
 const Hotel = require('../models/Hotel');
 
+/**
+ * Helper: Đảm bảo dữ liệu khách sạn luôn an toàn khi render
+ * Tránh lỗi .toLocaleString() của undefined
+ */
+const getSafeHotelData = (hotel) => {
+    return {
+        _id: hotel._id,
+        name: hotel.name || 'Khách sạn Traveloka Clone',
+        image: hotel.image || '/images/default-hotel.jpg',
+        price: hotel.price || 0,
+        address: hotel.address || 'Đà Nẵng, Việt Nam'
+    };
+};
+
+// ✅ 1. TRANG DANH SÁCH
 // ==========================================
 // ✅ 1. TRANG DANH SÁCH HOTELS
 // ==========================================
 router.get('/', async (req, res) => {
-    try {
-        // Lấy danh sách mặc định (loại trừ activity nếu có)
+    try {        // Lấy danh sách mặc định (loại trừ activity nếu có)
         const hotels = await Hotel.find({ type: { $ne: 'activity' } }).limit(20);
 
         res.render('hotels/list', { 
-            hotels 
+            hotels,
+            user: req.session?.user || null 
         });
-
     } catch (error) {
-        console.error(error);
+        console.error("Lỗi lấy danh sách:", error);
         res.status(500).send('Lỗi server');
     }
 });
 
+// ✅ 2. TRANG ĐIỀN THÔNG TIN (Booking Form)
+// Quan trọng: Phải đặt trước route /:id
+router.get('/booking-form/:id', async (req, res) => {
+    try {
+        const hotel = await Hotel.findById(req.params.id);
+        if (!hotel) return res.redirect('/hotels');
+
+        const safeHotel = getSafeHotelData(hotel);
+
+        res.render('hotels/booking-form', { 
+            hotel: safeHotel, 
+            user: req.session?.user || null 
+        });
+    } catch (error) {
+        console.error("Lỗi trang form:", error);
+        res.redirect('/hotels');
+    }
+});
+
+// ✅ 3. XỬ LÝ LOGIC ĐẶT PHÒNG (POST)
+router.post('/book-room/:id', async (req, res) => {
+    try {
+        const hotel = await Hotel.findById(req.params.id);
+        if (!hotel) return res.status(404).send('Khách sạn không tồn tại');
+
+        // Lấy dữ liệu từ form (bao gồm các trường ngày tháng mới thêm)
+        const { guestName, email, phone, checkIn, checkOut, guests } = req.body;
+
+        // Render file hotels/booking-success.ejs
+        // Đảm bảo file này tồn tại trong thư mục views/hotels/
+        res.render('hotels/booking-success', { 
+            hotelName: hotel.name,
+            guestName: guestName || "Quý khách",
+            checkIn: checkIn || "Chưa chọn",
+            checkOut: checkOut || "Chưa chọn",
+            guests: guests || 1,
+            bookingId: "TVL" + Math.floor(Math.random() * 900000 + 100000),
+            user: req.session?.user || null 
+        });
+
+    } catch (error) {
+        console.error("Lỗi khi xử lý đặt phòng:", error);
+        res.status(500).send('Đã có lỗi xảy ra khi đặt phòng!');
+    }
+});
+
+// ✅ 4. TRANG CHI TIẾT (Detail) - Luôn để cuối cùng
 // ==========================================
 // ✅ 2. API LỌC KHÁCH SẠN 
 // ==========================================
@@ -93,24 +154,25 @@ router.get('/api/filter', async (req, res) => {
 // ==========================================
 router.get('/:id', async (req, res) => {
     try {
-        const hotelId = req.params.id;
-        const foundHotel = await Hotel.findById(hotelId);
+        const foundHotel = await Hotel.findById(req.params.id);
+        if (!foundHotel) return res.status(404).render('404');
 
+        const hotelId = req.params.id;
         if (!foundHotel) {
             return res.status(404).send('Không tìm thấy khách sạn!');
         }
 
         // Dữ liệu mix giữa DB thật và Giả lập để không lỗi EJS
         const detailedHotel = {
-            _id: foundHotel._id,
-            name: foundHotel.name,
-            location_breadcrumb: `Hotel / Đà Nẵng / Bán đảo Sơn Trà / ${foundHotel.name}`,
-            address: foundHotel.location || `Bán đảo Sơn Trà, Đà Nẵng, Việt Nam`,
-            type: "Khách sạn",
-            stars: foundHotel.stars || 5,
-            rating: foundHotel.rating || 9.0,
-            rating_text: "Exceptional",
-            review_count: 173,
+    ...getSafeHotelData(foundHotel),
+    _id: foundHotel._id,
+    name: foundHotel.name,
+    location_breadcrumb: `Hotel / Đà Nẵng / Bán đảo Sơn Trà / ${foundHotel.name}`,
+    address: foundHotel.location || `Bán đảo Sơn Trà, Đà Nẵng, Việt Nam`,
+    type: "Khách sạn",
+    stars: foundHotel.stars || 5,
+    rating: foundHotel.rating || 9.0,
+    rating_text: "Exceptional",
             images: {
                 large: foundHotel.image || "/images/intercontinental1.jpg",
                 small: [
@@ -124,23 +186,21 @@ router.get('/:id', async (req, res) => {
             discountPrice: foundHotel.discountPrice,
             
             nearby: [
-                { name: "My Dinh Bus Station", distance: "1.56 km" },
-                { name: "Lang Pagoda", distance: "1.58 km" },
-                { name: "Big C Thăng Long", distance: "2.69 km" },
-                { name: "Chùa Hà", distance: "524 m" }
+                { name: "Biển Mỹ Khê", distance: "500m" },
+                { name: "Cầu Rồng", distance: "2km" }
             ],
             
             facilities: [
-                { name: "WiFi" },
-                { name: "Hồ bơi" },
-                { name: "Nhà hàng" }
+                { name: "WiFi", icon: "wifi" },
+                { name: "Hồ bơi", icon: "swimming-pool" },
+                { name: "Nhà hàng", icon: "utensils" }
             ]
         };
 
         res.render('hotels/detail', { 
-            hotel: detailedHotel
+            hotel: detailedHotel,
+            user: req.session?.user || null
         });
-
     } catch (error) {
         console.error("Lỗi xem chi tiết:", error);
         res.status(500).send('Lỗi server');
