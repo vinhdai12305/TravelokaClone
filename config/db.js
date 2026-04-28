@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 module.exports = async function connectDB() {
-  const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/travelokaclone';
+  const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/traveloka_clone';
 
   mongoose.set('strictQuery', false);
 
