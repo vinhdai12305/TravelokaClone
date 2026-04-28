@@ -194,32 +194,149 @@
     </div>
 
     <div class="summary-card">
-        <h3 style="margin-bottom: 20px; font-weight: 700; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">Chi tiết chỗ nghỉ</h3>
-        
-        <img src="<%= hotel.image || '/images/default-hotel.jpg' %>" class="hotel-img" alt="Hotel">
-        
-        <h4 style="font-size: 18px; color: #1a202c; margin-bottom: 8px; font-weight: 700;"><%= hotel.name %></h4>
-        
-        <div style="display: flex; align-items: center; gap: 8px; color: #687176; font-size: 13px; margin-bottom: 20px;">
-            <i class="fas fa-map-marker-alt" style="color: #ff5e1f;"></i> 
-            <%= hotel.address || 'Đà Nẵng, Việt Nam' %>
+
+    <%
+        const roomPrice = hotel.discountPrice || hotel.price || 0;
+    %>
+
+    <h3 style="margin-bottom: 20px; font-weight: 700; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">
+        Chi tiết chỗ nghỉ
+    </h3>
+
+    <img 
+        src="<%= hotel.image || '/images/default-hotel.jpg' %>" 
+        class="hotel-img" 
+        alt="Hotel"
+    >
+
+    <h4 style="
+        font-size: 18px;
+        color: #1a202c;
+        margin-bottom: 8px;
+        font-weight: 700;
+    ">
+        <%= hotel.name %>
+    </h4>
+
+    <div style="
+        display:flex;
+        align-items:center;
+        gap:8px;
+        color:#687176;
+        font-size:13px;
+        margin-bottom:20px;
+    ">
+        <i class="fas fa-map-marker-alt" style="color:#ff5e1f;"></i>
+
+        <%= hotel.address || 'Đà Nẵng, Việt Nam' %>
+    </div>
+
+    <div style="
+        background:#fff8f5;
+        padding:20px;
+        border-radius:10px;
+        border:1px dashed #ff5e1f;
+    ">
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:10px;
+        ">
+            <span style="font-weight:600;">Giá mỗi đêm</span>
+
+            <span id="roomPrice">
+                <%= roomPrice.toLocaleString('vi-VN') %> VND
+            </span>
         </div>
 
-        <div style="background: #fff8f5; padding: 20px; border-radius: 10px; border: 1px dashed #ff5e1f;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: 600; color: #4a5568; font-size: 14px;">Tổng cộng</span>
-                <span style="color: #ff5e1f; font-size: 20px; font-weight: 800;">
-                    <%= (hotel && hotel.price) ? hotel.price.toLocaleString() : '0' %> VND
-                </span>
-            </div>
-            <p style="font-size: 11px; color: #a0aec0; margin-top: 8px; text-align: right;">Đã bao gồm thuế và phí dịch vụ</p>
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:10px;
+        ">
+            <span style="font-weight:600;">Số đêm</span>
+
+            <span id="nightCount">1</span>
         </div>
+
+        <hr style="border:none;border-top:1px solid #ffd8c7;margin:15px 0;">
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        ">
+            <span style="
+                font-weight:700;
+                color:#4a5568;
+                font-size:16px;
+            ">
+                Tổng cộng
+            </span>
+
+            <span id="totalPrice" style="
+                color:#ff5e1f;
+                font-size:24px;
+                font-weight:800;
+            ">
+                <%= roomPrice.toLocaleString('vi-VN') %> VND
+            </span>
+        </div>
+
+        <p style="
+            font-size:11px;
+            color:#a0aec0;
+            margin-top:8px;
+            text-align:right;
+        ">
+            Đã bao gồm thuế và phí dịch vụ
+        </p>
+
     </div>
 </div>
 
 <script>
-    // Logic đơn giản để ngăn chọn ngày quá khứ
+
     const today = new Date().toISOString().split('T')[0];
-    document.getElementById('checkIn').setAttribute('min', today);
-    document.getElementById('checkOut').setAttribute('min', today);
+
+    const checkInInput = document.getElementById('checkIn');
+    const checkOutInput = document.getElementById('checkOut');
+
+    checkInInput.setAttribute('min', today);
+    checkOutInput.setAttribute('min', today);
+
+    const roomPrice = Number("<%= hotel.discountPrice || hotel.price || 0 %>");
+
+    function calculateTotal() {
+
+        const checkIn = new Date(checkInInput.value);
+        const checkOut = new Date(checkOutInput.value);
+
+        let nights = 1;
+
+        if (checkInInput.value && checkOutInput.value) {
+
+            const diffTime = checkOut - checkIn;
+
+            nights = Math.ceil(
+                diffTime / (1000 * 60 * 60 * 24)
+            );
+
+            if (nights <= 0) {
+                nights = 1;
+            }
+        }
+
+        const total = roomPrice * nights;
+
+        document.getElementById('nightCount').innerText = nights;
+
+        document.getElementById('totalPrice').innerText =
+            total.toLocaleString('vi-VN') + ' VND';
+    }
+
+    checkInInput.addEventListener('change', calculateTotal);
+    checkOutInput.addEventListener('change', calculateTotal);
+
 </script>

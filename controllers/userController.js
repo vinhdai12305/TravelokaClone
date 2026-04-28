@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const Booking = require('../models/Booking');
 
 exports.register = async (req, res) => {
   try {
@@ -145,16 +146,24 @@ exports.getFlightHistory = (req, res) => {
   });
 };
 
-// Booking History
-exports.getBookingHistory = (req, res) => {
+exports.getBookingHistory = async (req, res) => {
 
-  if (!req.session.user) {
-    return res.redirect('/');
-  }
+    try {
 
-  res.render('users/booking-history', {
-    user: req.session.user
-  });
+        const bookings = await Booking.find()
+            .sort({ createdAt: -1 });
+
+        res.render('users/booking-history', {
+            bookings,
+            user: req.session?.user || null
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).send('Lỗi server');
+    }
 };
 
 // Settings

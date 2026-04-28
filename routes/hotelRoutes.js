@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Hotel = require('../models/Hotel');
+const Booking = require('../models/Booking');
 
 /**
  * Helper: Đảm bảo dữ liệu khách sạn luôn an toàn khi render
@@ -12,6 +13,7 @@ const getSafeHotelData = (hotel) => {
         name: hotel.name || 'Khách sạn Traveloka Clone',
         image: hotel.image || '/images/default-hotel.jpg',
         price: hotel.price || 0,
+        discountPrice: hotel.discountPrice || null,
         address: hotel.address || 'Đà Nẵng, Việt Nam'
     };
 };
@@ -54,29 +56,113 @@ router.get('/booking-form/:id', async (req, res) => {
 });
 
 // ✅ 3. XỬ LÝ LOGIC ĐẶT PHÒNG (POST)
-router.post('/book-room/:id', async (req, res) => {
+     router.post('/book-room/:id', async (req, res) => {
+
     try {
+
         const hotel = await Hotel.findById(req.params.id);
-        if (!hotel) return res.status(404).send('Khách sạn không tồn tại');
 
-        // Lấy dữ liệu từ form (bao gồm các trường ngày tháng mới thêm)
-        const { guestName, email, phone, checkIn, checkOut, guests } = req.body;
+        if (!hotel) {
+            return res.status(404).send('Khách sạn không tồn tại');
+        }
 
-        // Render file hotels/booking-success.ejs
-        // Đảm bảo file này tồn tại trong thư mục views/hotels/
-        res.render('hotels/booking-success', { 
+        const {
+            guestName,
+            email,
+            phone,
+            checkIn,
+            checkOut,
+            guests
+        } = req.body;
+
+        // TÍNH SỐ ĐÊM
+        let nights = 1;
+
+        if (checkIn && checkOut) {
+
+            const inDate = new Date(checkIn);
+            const outDate = new Date(checkOut);
+
+            nights = Math.ceil(
+                (outDate - inDate) / (1000 * 60 * 60 * 24)
+            );
+
+            if (nights <= 0) {
+                nights = 1;
+            }
+        }
+
+        // GIÁ PHÒNG
+        const roomPrice =
+            hotel.discountPrice || hotel.price || 0;
+
+        // TỔNG TIỀN
+        const totalPrice = roomPrice * nights;
+
+        // MÃ ĐẶT PHÒNG
+        const bookingCode =
+            "TVL" + Math.floor(Math.random() * 900000 + 100000);
+
+        // SAVE DATABASE
+        const newBooking = new Booking({
+
+            hotelId: hotel._id,
+
             hotelName: hotel.name,
+
+            guestName,
+
+            email,
+
+            phone,
+
+            checkIn,
+
+            checkOut,
+
+            guests,
+
+            nights,
+
+            roomPrice,
+
+            totalPrice,
+
+            bookingId: bookingCode
+
+        });
+
+        await newBooking.save();
+
+        // SUCCESS PAGE
+        res.render('hotels/booking-success', {
+
+            hotelName: hotel.name,
+
             guestName: guestName || "Quý khách",
-            checkIn: checkIn || "Chưa chọn",
-            checkOut: checkOut || "Chưa chọn",
-            guests: guests || 1,
-            bookingId: "TVL" + Math.floor(Math.random() * 900000 + 100000),
-            user: req.session?.user || null 
+
+            checkIn,
+
+            checkOut,
+
+            guests,
+
+            nights,
+
+            roomPrice,
+
+            totalPrice,
+
+            bookingId: bookingCode,
+
+            user: req.session?.user || null
         });
 
     } catch (error) {
-        console.error("Lỗi khi xử lý đặt phòng:", error);
-        res.status(500).send('Đã có lỗi xảy ra khi đặt phòng!');
+
+        console.error(error);
+
+        res.status(500).send('Lỗi server');
     }
 });
 

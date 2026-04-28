@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const flightCtrl = require('../controllers/flightController');
 const Airport = require('../models/Airport'); 
+const FlightBooking = require('../models/FlightBooking');
 
 // 👉 Render trang flight
 router.get('/', (req, res) => {
@@ -27,5 +28,28 @@ router.get('/search-airport', async (req, res) => {
 // 👉 THÊM MỚI: API tìm kiếm chuyến bay từ MongoDB
 // Route này sẽ gọi đến hàm searchFlights mà mình vừa viết ở Controller
 router.get('/search-flights', flightCtrl.searchFlights);
+
+router.get('/booking-form/:id', async (req, res) => {
+
+    try {
+
+        const flight = await Flight.findById(req.params.id);
+
+        if (!flight) {
+            return res.send('Không tìm thấy chuyến bay');
+        }
+
+        res.render('flights/booking-form', {
+            flight,
+            user: req.session?.user || null
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.send('Lỗi server');
+    }
+});
 
 module.exports = router;

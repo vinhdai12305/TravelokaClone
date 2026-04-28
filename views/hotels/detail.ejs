@@ -243,7 +243,11 @@
 
                 <div class="price-box">
                     <div class="price-label">Giá phòng/đêm từ</div>
-                    <div class="price-val"><%= hotel.price ? hotel.price.toLocaleString('vi-VN') : '0' %> VND</div>
+                    <div class="price-val">
+  <%= hotel.discountPrice 
+      ? hotel.discountPrice.toLocaleString('vi-VN')
+      : '0' %> VND
+</div>
                     
                     <a href="/hotels/booking-form/<%= hotel._id %>" class="btn-select">
                         Chọn phòng
