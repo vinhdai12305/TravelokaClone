@@ -143,7 +143,9 @@
             color: var(--primary-blue);
             font-weight: 600;
             cursor: pointer;
+            outline: none;
         }
+        .sort-select:hover { border-color: var(--primary-blue); }
 
         /* HOTEL ITEM RE-DESIGN */
         .hotel-card {
@@ -317,20 +319,20 @@
                 <div class="sidebar-title"><i class="fas fa-tags"></i> Khoảng giá</div>
                 <div class="price-box">
                     <span style="font-size: 12px; margin-right: 5px;">VND</span>
-                    <input type="text" value="0">
+                    <input type="text" id="minPriceInput" value="0" readonly>
                 </div>
                 <div class="price-box">
                     <span style="font-size: 12px; margin-right: 5px;">VND</span>
-                    <input type="text" value="24.000.000">
+                    <input type="text" id="maxPriceInput" value="24.000.000" readonly>
                 </div>
-                <input type="range" style="width: 100%; accent-color: var(--primary-blue);" min="0" max="24000000">
+                <input type="range" id="priceRange" style="width: 100%; accent-color: var(--primary-blue);" min="0" max="24000000" step="500000" value="24000000">
             </div>
 
             <div class="filter-section">
                 <div class="sidebar-title"><i class="fas fa-star"></i> Hạng sao</div>
                 <% [5,4,3].forEach(star => { %>
                 <label class="checkbox-label">
-                    <input type="checkbox">
+                    <input type="checkbox" class="star-filter" value="<%= star %>">
                     <span>
                         <% for(let i=0; i<star; i++) { %>
                             <i class="fas fa-star" style="color: #febb02; font-size: 12px;"></i>
@@ -342,116 +344,275 @@
 
             <div class="filter-section">
                 <div class="sidebar-title"><i class="fas fa-list-ul"></i> Tiện nghi</div>
-                <label class="checkbox-label"><input type="checkbox"> <span>Hồ bơi</span></label>
-                <label class="checkbox-label"><input type="checkbox"> <span>Wifi miễn phí</span></label>
-                <label class="checkbox-label"><input type="checkbox"> <span>Nhà hàng</span></label>
-                <label class="checkbox-label"><input type="checkbox"> <span>Dịch vụ Spa</span></label>
+                <label class="checkbox-label"><input type="checkbox" class="amenity-filter" value="wifi"> <span>Wifi miễn phí</span></label>
+                <label class="checkbox-label"><input type="checkbox" class="amenity-filter" value="pool"> <span>Hồ bơi</span></label>
+                <label class="checkbox-label"><input type="checkbox" class="amenity-filter" value="restaurant"> <span>Nhà hàng</span></label>
+                <label class="checkbox-label"><input type="checkbox" class="amenity-filter" value="spa"> <span>Dịch vụ Spa</span></label>
             </div>
+            
+            <button id="resetFilters" style="width: 100%; padding: 10px; border: 1px solid var(--primary-blue); background: white; color: var(--primary-blue); border-radius: 8px; font-weight: 700; cursor: pointer;">Đặt lại bộ lọc</button>
         </div>
     </div>
 
     <div class="content">
-    <div class="header-summary" style="border-radius: 16px; border: 1px solid var(--border-soft); box-shadow: var(--shadow);">
-        <div>
-            <h1 style="
-                font-size: 20px; 
-                font-weight: 700; 
-                color: var(--text-dark);
-                position: relative;
-                display: inline-block;
-                padding-bottom: 8px;
-            ">
-                Xem qua những khách sạn nổi bật và các đánh giá gần đây
-                <span style="
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    width: 800px; /* Độ dài đường kẻ */
-                    height: 4px; /* Độ dày */
-                    background: linear-gradient(90deg, var(--primary-blue), transparent);
-                    border-radius: 2px;
-                "></span>
-            </h1>
+        <div class="header-summary" style="border-radius: 16px; border: 1px solid var(--border-soft); box-shadow: var(--shadow);">
+            <div>
+                <h1 style="
+                    font-size: 20px; 
+                    font-weight: 700; 
+                    color: var(--text-dark);
+                    position: relative;
+                    display: inline-block;
+                    padding-bottom: 8px;
+                ">
+                    Xem qua những khách sạn nổi bật
+                    <span style="
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%; 
+                        height: 4px; 
+                        background: linear-gradient(90deg, var(--primary-blue), transparent);
+                        border-radius: 2px;
+                    "></span>
+                </h1>
+            </div>
+            
+            <select class="sort-select" id="sortSelect">
+                <option value="popular">Sắp xếp: Phổ biến nhất</option>
+                <option value="priceAsc">Giá thấp nhất</option>
+                <option value="ratingDesc">Điểm đánh giá</option>
+            </select>
+            
         </div>
-        <select class="sort-select">
-            <option>Sắp xếp: Phổ biến nhất</option>
-            <option>Giá thấp nhất</option>
-            <option>Điểm đánh giá</option>
-        </select>
-    </div>
-        <% if (typeof hotels !== 'undefined' && hotels.length > 0) { %>
-            <% hotels.forEach((hotel) => { %>
-                <a href="/hotels/<%= hotel._id %>" class="hotel-card">
-                    <div class="hotel-media">
-                        <img src="<%= hotel.image || '/images/default-hotel.jpg' %>" class="main-img" alt="hotel">
-                        <div class="thumb-row">
-                            <img src="<%= hotel.image %>" alt="thumb">
-                            <img src="<%= hotel.image %>" alt="thumb">
-                            <img src="<%= hotel.image %>" alt="thumb">
-                            <img src="<%= hotel.image %>" alt="thumb">
-                        </div>
-                    </div>
 
-                    <div class="hotel-details">
-                        <div class="badge-row">
-                            <span class="type-badge">Khách sạn</span>
-                            <div style="color: #febb02; font-size: 12px;">
-                                <% for(let i=0; i < (hotel.stars || 0); i++) { %>
-                                    <i class="fas fa-star"></i>
+        <div id="hotelListContainer">
+            <% if (typeof hotels !== 'undefined' && hotels.length > 0) { %>
+                <% hotels.forEach((hotel) => { %>
+                    <a href="/hotels/<%= hotel._id %>" class="hotel-card">
+                        <div class="hotel-media">
+                            <img src="<%= hotel.image || '/images/default-hotel.jpg' %>" class="main-img" alt="hotel">
+                            <div class="thumb-row">
+                                <img src="<%= hotel.image %>" alt="thumb">
+                                <img src="<%= hotel.image %>" alt="thumb">
+                                <img src="<%= hotel.image %>" alt="thumb">
+                                <img src="<%= hotel.image %>" alt="thumb">
+                            </div>
+                        </div>
+
+                        <div class="hotel-details">
+                            <div class="badge-row">
+                                <span class="type-badge"><%= hotel.type === 'activity' ? 'Hoạt động' : 'Khách sạn' %></span>
+                                <div style="color: #febb02; font-size: 12px;">
+                                    <% for(let i=0; i < (hotel.stars || 0); i++) { %>
+                                        <i class="fas fa-star"></i>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                            <h2 class="hotel-title"><%= hotel.name %></h2>
+                            
+                            <div class="rating-wrapper">
+                                <div class="rating-chip">
+                                    <i class="fas fa-award"></i> <%= hotel.rating || 8.5 %>
+                                </div>
+                                <span class="rating-label">Tuyệt vời</span>
+                                <span style="color: var(--text-gray); font-size: 12px;">(<%= hotel.reviewCount || '1,420' %> đánh giá)</span>
+                            </div>
+
+                            <div class="location-info">
+                                <i class="fas fa-map-marker-alt" style="color: var(--primary-blue);"></i> 
+                                <%= hotel.location || 'Đà Nẵng, Việt Nam' %>
+                            </div>
+
+                            <div class="amenity-list">
+                                <% if(hotel.amenities && hotel.amenities.includes('wifi')) { %> <span><i class="fas fa-wifi"></i> Wifi</span> <% } %>
+                                <% if(hotel.amenities && hotel.amenities.includes('pool')) { %> <span><i class="fas fa-swimming-pool"></i> Hồ bơi</span> <% } %>
+                                <% if(hotel.amenities && hotel.amenities.includes('restaurant')) { %> <span><i class="fas fa-utensils"></i> Nhà hàng</span> <% } %>
+                                <% if(!hotel.amenities || hotel.amenities.length === 0) { %>
+                                    <span><i class="fas fa-wifi"></i> Wifi</span>
+                                    <span><i class="fas fa-swimming-pool"></i> Hồ bơi</span>
                                 <% } %>
                             </div>
                         </div>
 
-                        <h2 class="hotel-title"><%= hotel.name %></h2>
-                        
-                        <div class="rating-wrapper">
-                            <div class="rating-chip">
-                                <i class="fas fa-award"></i> <%= hotel.rating || 8.5 %>
+                        <div class="price-section">
+                            <div style="font-size: 12px; color: var(--text-gray);">Giá mỗi đêm từ</div>
+                            <% if (hotel.discountPrice && hotel.discountPrice > 0) { %>
+                                <div class="strike-price"><%= (hotel.discountPrice * 1.2).toLocaleString('vi-VN') %> VND</div>
+                                <div class="actual-price"><%= hotel.discountPrice.toLocaleString('vi-VN') %> <span style="font-size: 14px;">VND</span></div>
+                            <% } else { %>
+                                <div class="actual-price"><%= (hotel.price || 0).toLocaleString('vi-VN') %> <span style="font-size: 14px;">VND</span></div>
+                            <% } %>
+                            <div class="tax-info">Đã bao gồm thuế & phí</div>
+                            
+                            <button class="select-btn">Xem chi tiết</button>
+                            
+                            <div class="booking-count">
+                                <i class="fas fa-fire"></i> Đang được quan tâm
                             </div>
-                            <span class="rating-label">Tuyệt vời</span>
-                            <span style="color: var(--text-gray); font-size: 12px;">(1,420 đánh giá)</span>
                         </div>
-
-                        <div class="location-info">
-                            <i class="fas fa-map-marker-alt" style="color: var(--primary-blue);"></i> 
-                            <%= hotel.location || 'Bali, Indonesia' %>
-                        </div>
-
-                        <div class="amenity-list">
-                            <span><i class="fas fa-wifi"></i> Wifi</span>
-                            <span><i class="fas fa-swimming-pool"></i> Hồ bơi</span>
-                            <span><i class="fas fa-utensils"></i> Nhà hàng</span>
-                            <span><i class="fas fa-spa"></i> Spa</span>
-                        </div>
-                    </div>
-
-                    <div class="price-section">
-                        <div style="font-size: 12px; color: var(--text-gray);">Giá mỗi đêm từ</div>
-                        <% if (hotel.discountPrice && hotel.discountPrice > 0) { %>
-                            <div class="strike-price"><%= (hotel.discountPrice * 1.2).toLocaleString('vi-VN') %> VND</div>
-                            <div class="actual-price"><%= hotel.discountPrice.toLocaleString('vi-VN') %> <span style="font-size: 14px;">VND</span></div>
-                        <% } else { %>
-                            <div class="actual-price"><%= (hotel.price || 0).toLocaleString('vi-VN') %> <span style="font-size: 14px;">VND</span></div>
-                        <% } %>
-                        <div class="tax-info">Đã bao gồm thuế & phí</div>
-                        
-                        <button class="select-btn">Chọn phòng</button>
-                        
-                        <div class="booking-count">
-                            <i class="fas fa-fire"></i> Đang được quan tâm
-                        </div>
-                    </div>
-                </a>
-            <% }); %>
-        <% } else { %>
-            <div class="empty-state">
-                <i class="fas fa-search" style="font-size: 48px; color: var(--border-soft); margin-bottom: 20px;"></i>
-                <h3 style="color: var(--text-gray);">Không tìm thấy khách sạn phù hợp</h3>
-                <p style="color: var(--text-gray); font-size: 14px;">Vui lòng thử thay đổi bộ lọc hoặc từ khóa tìm kiếm.</p>
-            </div>
-        <% } %>
+                    </a>
+                <% }); %>
+            <% } else { %>
+                <div class="empty-state">
+                    <i class="fas fa-search" style="font-size: 48px; color: var(--border-soft); margin-bottom: 20px;"></i>
+                    <h3 style="color: var(--text-gray);">Không tìm thấy khách sạn phù hợp</h3>
+                    <p style="color: var(--text-gray); font-size: 14px;">Vui lòng thử thay đổi bộ lọc hoặc từ khóa tìm kiếm.</p>
+                </div>
+            <% } %>
+        </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const priceRange = document.getElementById('priceRange');
+    const maxPriceInput = document.getElementById('maxPriceInput');
+    const hotelContainer = document.getElementById('hotelListContainer');
+    const starFilters = document.querySelectorAll('.star-filter');
+    const amenityFilters = document.querySelectorAll('.amenity-filter');
+    const sortSelect = document.getElementById('sortSelect');
+    const resetBtn = document.getElementById('resetFilters');
+
+    // 1. Cập nhật nhãn giá khi kéo thanh range
+    priceRange.addEventListener('input', (e) => {
+        const value = parseInt(e.target.value).toLocaleString('vi-VN');
+        maxPriceInput.value = value;
+    });
+
+    // 2. Hàm chính để gọi API lọc & sắp xếp
+    async function applyFilters() {
+        hotelContainer.style.opacity = '0.5';
+
+        const maxPrice = priceRange.value;
+        const stars = Array.from(starFilters).filter(i => i.checked).map(i => i.value).join(',');
+        const amenities = Array.from(amenityFilters).filter(i => i.checked).map(i => i.value).join(',');
+        const sort = sortSelect.value; // Lấy giá trị sắp xếp (priceAsc, ratingDesc...)
+
+        // DEBUG: In ra màn hình console (F12) để ní kiểm tra xem Frontend gửi đúng chữ chưa
+        console.log("🚀 Frontend gửi đi: sort =", sort, "| maxPrice =", maxPrice, "| stars =", stars);
+
+        try {
+            // Ní lưu ý: Nếu API của ní bị lỗi 404, hãy thử đổi thành `/api/hotels/filter` nhé
+            const apiUrl = `/hotels/api/filter?maxPrice=${maxPrice}&stars=${stars}&amenities=${amenities}&sort=${sort}`;
+            console.log("🔗 URL gọi API:", apiUrl);
+
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            if(data.success) {
+                renderHotels(data.hotels);
+            } else {
+                console.error("Lỗi từ server:", data.message);
+            }
+        } catch (error) {
+            console.error("❌ Lỗi fetch API:", error);
+        } finally {
+            hotelContainer.style.opacity = '1';
+        }
+    }
+
+    // 3. Hàm render lại danh sách hotel bằng JS 
+    function renderHotels(hotels) {
+        if (!hotels || hotels.length === 0) {
+            hotelContainer.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-search" style="font-size: 48px; color: var(--border-soft); margin-bottom: 20px;"></i>
+                    <h3 style="color: var(--text-gray);">Không tìm thấy kết quả phù hợp</h3>
+                    <p style="color: var(--text-gray); font-size: 14px;">Vui lòng thử nới lỏng bộ lọc hoặc tìm mức giá khác.</p>
+                </div>`;
+            return;
+        }
+
+        hotelContainer.innerHTML = hotels.map(hotel => {
+            // Logic hiển thị giá
+            let priceHtml = '';
+            if (hotel.discountPrice && hotel.discountPrice > 0) {
+                priceHtml = `
+                    <div class="strike-price">${(hotel.discountPrice * 1.2).toLocaleString('vi-VN')} VND</div>
+                    <div class="actual-price">${hotel.discountPrice.toLocaleString('vi-VN')} <span style="font-size: 14px;">VND</span></div>
+                `;
+            } else {
+                priceHtml = `
+                    <div class="actual-price">${(hotel.price || 0).toLocaleString('vi-VN')} <span style="font-size: 14px;">VND</span></div>
+                `;
+            }
+
+            // Logic render Tiện ích (Amenities)
+            let amenitiesHtml = '';
+            if(hotel.amenities && hotel.amenities.length > 0) {
+                if(hotel.amenities.includes('wifi')) amenitiesHtml += `<span><i class="fas fa-wifi"></i> Wifi</span>`;
+                if(hotel.amenities.includes('pool')) amenitiesHtml += `<span><i class="fas fa-swimming-pool"></i> Hồ bơi</span>`;
+                if(hotel.amenities.includes('restaurant')) amenitiesHtml += `<span><i class="fas fa-utensils"></i> Nhà hàng</span>`;
+                if(hotel.amenities.includes('spa')) amenitiesHtml += `<span><i class="fas fa-spa"></i> Spa</span>`;
+            } else {
+                amenitiesHtml = `<span><i class="fas fa-wifi"></i> Wifi</span><span><i class="fas fa-swimming-pool"></i> Hồ bơi</span>`;
+            }
+
+            return `
+            <a href="/hotels/${hotel._id}" class="hotel-card">
+                <div class="hotel-media">
+                    <img src="${hotel.image || '/images/default-hotel.jpg'}" class="main-img" alt="hotel">
+                    <div class="thumb-row">
+                        <img src="${hotel.image}" alt="thumb">
+                        <img src="${hotel.image}" alt="thumb">
+                        <img src="${hotel.image}" alt="thumb">
+                        <img src="${hotel.image}" alt="thumb">
+                    </div>
+                </div>
+                <div class="hotel-details">
+                    <div class="badge-row">
+                        <span class="type-badge">${hotel.type === 'activity' ? 'Hoạt động' : 'Khách sạn'}</span>
+                        <div style="color: #febb02; font-size: 12px;">
+                            ${Array(hotel.stars || 0).fill('<i class="fas fa-star"></i>').join('')}
+                        </div>
+                    </div>
+                    <h2 class="hotel-title">${hotel.name}</h2>
+                    <div class="rating-wrapper">
+                        <div class="rating-chip"><i class="fas fa-award"></i> ${hotel.rating || 8.5}</div>
+                        <span class="rating-label">Tuyệt vời</span>
+                        <span style="color: var(--text-gray); font-size: 12px;">(${hotel.reviewCount || '1,420'} đánh giá)</span>
+                    </div>
+                    <div class="location-info">
+                        <i class="fas fa-map-marker-alt" style="color: var(--primary-blue);"></i> 
+                        ${hotel.location || 'Đà Nẵng, Việt Nam'}
+                    </div>
+                    <div class="amenity-list">
+                        ${amenitiesHtml}
+                    </div>
+                </div>
+                <div class="price-section">
+                    <div style="font-size: 12px; color: var(--text-gray);">Giá mỗi đêm từ</div>
+                    ${priceHtml}
+                    <div class="tax-info">Đã bao gồm thuế & phí</div>
+                    <button class="select-btn">Xem chi tiết</button>
+                    <div class="booking-count">
+                        <i class="fas fa-fire"></i> Đang được quan tâm
+                    </div>
+                </div>
+            </a>
+        `}).join('');
+    }
+
+    // 4. LẮNG NGHE SỰ KIỆN TỪ NGƯỜI DÙNG
+    // Khi kéo giá, check sao, check tiện ích hay ĐỔI SẮP XẾP đều tự động gọi lại Data
+    priceRange.addEventListener('change', applyFilters);
+    starFilters.forEach(f => f.addEventListener('change', applyFilters));
+    amenityFilters.forEach(f => f.addEventListener('change', applyFilters));
+    sortSelect.addEventListener('change', applyFilters); // Bấm "Giá thấp nhất" là nó nhảy vào đây
+
+    // 5. Nút Reset
+    resetBtn.addEventListener('click', () => {
+        priceRange.value = 24000000;
+        maxPriceInput.value = "24.000.000";
+        starFilters.forEach(f => f.checked = false);
+        amenityFilters.forEach(f => f.checked = false);
+        sortSelect.value = "popular";
+        applyFilters();
+    });
+});
+</script>
 
 </body>
 </html>
