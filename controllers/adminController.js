@@ -1,5 +1,8 @@
 const Hotel = require('../models/Hotel');
 const User = require('../models/User');
+const Airport = require('../models/Airport');
+const Flight = require('../models/Flights');
+
 
 exports.dashboard = async (req, res) => {
 
@@ -7,9 +10,15 @@ exports.dashboard = async (req, res) => {
 
     const totalUsers = await User.countDocuments();
 
+    const totalAirports = await Airport.countDocuments();
+
+    const totalFlights = await Flight.countDocuments();
+
     res.render('admin/dashboard', {
         totalHotels,
-        totalUsers
-    });
+        totalUsers,
+        totalAirports,
+        totalFlights
+        });
 
 };

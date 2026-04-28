@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flights Admin</title>
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+
+<body style="
+margin:0;
+font-family:Arial;
+background:#f5f7fb;
+">
+
+<div style="display:flex; min-height:100vh;">
+
+    <!-- SIDEBAR -->
+    <div style="
+    width:260px;
+    background:linear-gradient(180deg,#0f172a,#111827);
+    color:white;
+    padding:30px;
+    ">
+
+        <h1 style="
+        margin:0;
+        font-size:48px;
+        font-weight:800;
+        ">
+            ADMIN
+        </h1>
+
+        <div style="margin-top:60px;">
+
+            <a href="/admin"
+            style="
+            display:flex;
+            align-items:center;
+            gap:12px;
+            color:white;
+            text-decoration:none;
+            padding:16px 18px;
+            border-radius:16px;
+            background:rgba(255,255,255,0.08);
+            margin-bottom:18px;
+            ">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </a>
+
+            <a href="/admin/flights"
+            style="
+            display:flex;
+            align-items:center;
+            gap:12px;
+            color:white;
+            text-decoration:none;
+            padding:16px 18px;
+            border-radius:16px;
+            background:#2563eb;
+            ">
+                <i class="fa-solid fa-plane"></i>
+                Flights
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div style="
+    flex:1;
+    padding:50px;
+    ">
+
+        <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:40px;
+        ">
+
+            <div>
+                <h1 style="
+                margin:0;
+                font-size:56px;
+                color:#0f172a;
+                ">
+                    Flights
+                </h1>
+
+                <p style="
+                color:#64748b;
+                font-size:22px;
+                ">
+                    Manage all flights
+                </p>
+            </div>
+
+            <a href="/admin/flights/create"
+            style="
+            background:#2563eb;
+            color:white;
+            padding:16px 26px;
+            border-radius:16px;
+            text-decoration:none;
+            font-size:20px;
+            font-weight:600;
+            ">
+                + Add Flight
+            </a>
+
+        </div>
+
+        <!-- FLIGHT LIST -->
+
+        <div style="
+        display:grid;
+        grid-template-columns:repeat(auto-fill,minmax(420px,1fr));
+        gap:30px;
+        ">
+
+            <% flights.forEach(flight => { %>
+
+                <div style="
+                background:white;
+                border-radius:24px;
+                padding:30px;
+                box-shadow:0 10px 30px rgba(0,0,0,0.08);
+                ">
+
+                    <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:16px;
+                    margin-bottom:24px;
+                    ">
+
+                        <img
+                        src="<%= flight.airlineLogo %>"
+                        style="
+                        width:70px;
+                        height:70px;
+                        object-fit:contain;
+                        ">
+
+                        <div>
+
+                            <h2 style="
+                            margin:0;
+                            color:#0f172a;
+                            ">
+                                <%= flight.airlineName %>
+                            </h2>
+
+                            <p style="
+                            margin-top:8px;
+                            color:#64748b;
+                            ">
+                                <%= flight.class %>
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    margin-bottom:24px;
+                    ">
+
+                        <div>
+
+                            <h1 style="margin:0;">
+                                <%= flight.fromCode %>
+                            </h1>
+
+                            <p><%= flight.departureTime %></p>
+
+                        </div>
+
+                        <div style="text-align:center;">
+
+                            <p style="color:#64748b;">
+                                <%= flight.duration %>
+                            </p>
+
+                            <i class="fa-solid fa-plane"></i>
+
+                            <p style="color:#64748b;">
+                                <%= flight.stops %> stop
+                            </p>
+
+                        </div>
+
+                        <div>
+
+                            <h1 style="margin:0;">
+                                <%= flight.toCode %>
+                            </h1>
+
+                            <p><%= flight.arrivalTime %></p>
+
+                        </div>
+
+                    </div>
+
+                    <h2 style="
+                    color:#2563eb;
+                    margin:0;
+                    ">
+                        <%= flight.price %> VND
+                    </h2>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

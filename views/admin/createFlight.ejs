@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Flight</title>
+</head>
+
+<body style="
+font-family:Arial;
+background:#f5f7fb;
+padding:50px;
+">
+
+<h1>Create Flight</h1>
+
+<form
+action="/admin/flights/create"
+method="POST"
+style="
+background:white;
+padding:40px;
+border-radius:20px;
+max-width:700px;
+">
+
+    <input type="text" name="airlineName" placeholder="Airline Name"
+    style="width:100%;padding:18px;margin-bottom:20px;">
+
+    <input type="text" name="airlineLogo" placeholder="Airline Logo URL"
+    style="width:100%;padding:18px;margin-bottom:20px;">
+
+    <input type="number" name="stops" placeholder="Stops"
+    style="width:100%;padding:18px;margin-bottom:20px;">
+
+    <input type="number" name="price" placeholder="Price"
+    style="width:100%;padding:18px;margin-bottom:20px;">
+
+    <input type="text" name="departureTime" placeholder="Departure Time"
+    style="width:100%;padding:18px;margin-bottom:20px;">
+
+    <input type="text" name="arrivalTime" placeholder="Arrival Time"
+    style="width:100%;padding:18px;margin-bottom:20px;">
+
+    <input type="text" name="fromCode" placeholder="From Code"
+    style="width:100%;padding:18px;margin-bottom:20px;">
+
+    <input type="text" name="toCode" placeholder="To Code"
+    style="width:100%;padding:18px;margin-bottom:20px;">
+
+    <input type="text" name="class" placeholder="Class"
+    style="width:100%;padding:18px;margin-bottom:20px;">
+
+    <input type="text" name="duration" placeholder="Duration"
+    style="width:100%;padding:18px;margin-bottom:20px;">
+
+    <button style="
+    padding:18px 30px;
+    border:none;
+    background:#2563eb;
+    color:white;
+    border-radius:14px;
+    font-size:18px;
+    ">
+        Create Flight
+    </button>
+
+</form>
+
+</body>
+</html>

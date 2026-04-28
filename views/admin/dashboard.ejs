@@ -1,91 +1,447 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard</title>
+
+  <!-- ICON -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
 </head>
 
 <body style="
   margin:0;
-  font-family:Arial;
+  font-family:Arial, sans-serif;
+  background:#f4f7fb;
   display:flex;
 ">
 
   <!-- SIDEBAR -->
   <div style="
-    width:250px;
+    width:260px;
     height:100vh;
-    background:#0f172a;
-    color:white;
-    padding:20px;
+    background:white;
+    border-right:1px solid #e2e8f0;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
   ">
 
-    <h2>ADMIN</h2>
+    <!-- TOP -->
+    <div>
 
-    <div style="margin-top:30px; display:flex; flex-direction:column; gap:20px;">
+      <!-- LOGO -->
+      <div style="
+        padding:35px 30px;
+      ">
+        <h2 style="
+          margin:0;
+          color:#0f172a;
+          font-size:30px;
+        ">
+          +84Booking
+        </h2>
 
-      <a href="/admin"
-         style="color:white; text-decoration:none;">
-         Dashboard
+        <p style="
+          margin-top:5px;
+          color:#94a3b8;
+          letter-spacing:2px;
+          font-size:12px;
+        ">
+          .COM
+        </p>
+      </div>
+
+      <!-- MENU -->
+      <div style="
+        margin-top:20px;
+        display:flex;
+        flex-direction:column;
+      ">
+
+        <!-- ACTIVE -->
+        <a href="/admin" style="
+          padding:18px 30px;
+          text-decoration:none;
+          color:#0f172a;
+          background:#f1f5f9;
+          border-right:4px solid #0f4c81;
+          display:flex;
+          align-items:center;
+          gap:15px;
+          font-weight:bold;
+        ">
+          <i class="fa-solid fa-table-columns"></i>
+          Dashboard
+        </a>
+
+        <a href="/admin/hotels" style="
+          padding:18px 30px;
+          text-decoration:none;
+          color:#64748b;
+          display:flex;
+          align-items:center;
+          gap:15px;
+        ">
+          <i class="fa-solid fa-hotel"></i>
+          Hotels
+        </a>
+
+        <a href="/admin/airports" style="
+          padding:18px 30px;
+          text-decoration:none;
+          color:#64748b;
+          display:flex;
+          align-items:center;
+          gap:15px;
+        ">
+          <i class="fa-solid fa-plane-departure"></i>
+          Airports
+        </a>
+
+        <a href="/admin/flights" style="
+          padding:18px 30px;
+          text-decoration:none;
+          color:#64748b;
+          display:flex;
+          align-items:center;
+          gap:15px;
+        ">
+          <i class="fa-solid fa-plane"></i>
+          Flights
+        </a>
+
+
+      </div>
+
+    </div>
+
+    <!-- BOTTOM -->
+    <div style="
+      padding:30px;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    ">
+
+      <a href="#" style="
+        text-decoration:none;
+        color:#64748b;
+        display:flex;
+        align-items:center;
+        gap:12px;
+      ">
+        <i class="fa-regular fa-circle-question"></i>
+        Support
       </a>
 
-      <a href="/admin/hotels"
-         style="color:white; text-decoration:none;">
-         Hotels
-      </a>
-
-      <a href="/admin/airports"
-         style="color:white; text-decoration:none;">
-         Airports
-      </a>
-
-      <a href="/admin/users"
-         style="color:white; text-decoration:none;">
-         Users
-      </a>
-
-      <a href="/admin/bookings"
-         style="color:white; text-decoration:none;">
-         Bookings
+      <a href="/logout" style="
+        text-decoration:none;
+        color:#64748b;
+        display:flex;
+        align-items:center;
+        gap:12px;
+      ">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        Logout
       </a>
 
     </div>
 
   </div>
 
-  <!-- CONTENT -->
+  <!-- MAIN CONTENT -->
+ <div style="
+  flex:1;
+  padding:30px 40px;
+  background:#c7dbf6;
+  min-height:100vh;
+">
+
+    <!-- TOPBAR -->
+<div style="
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  margin-bottom:40px;
+">
+
+  <!-- PROFILE -->
   <div style="
-    flex:1;
-    padding:40px;
-    background:#f1f5f9;
+    display:flex;
+    align-items:center;
+    gap:20px;
   ">
 
-    <h1>Dashboard</h1>
+    <i class="fa-regular fa-bell" style="
+      font-size:20px;
+      color:#0f172a;
+    "></i>
+
+    <i class="fa-solid fa-gear" style="
+      font-size:20px;
+      color:#0f172a;
+    "></i>
 
     <div style="
       display:flex;
-      gap:20px;
-      margin-top:30px;
+      align-items:center;
+      gap:12px;
     ">
 
-      <div style="
-        background:white;
-        padding:30px;
-        border-radius:15px;
-        width:250px;
-      ">
-        <h2>Hotels</h2>
-        <h1><%= totalHotels %></h1>      </div>
+      <div style="text-align:right;">
 
+        <h4 style="
+          margin:0;
+          color:#0f172a;
+        ">
+          <%= user.username %>
+        </h4>
+
+        <p style="
+          margin:3px 0 0;
+          font-size:12px;
+          color:#94a3b8;
+          letter-spacing:1px;
+        ">
+          Admin
+        </p>
+
+      </div>
+
+      <img src="https://i.pravatar.cc/50"
+        style="
+          width:50px;
+          height:50px;
+          border-radius:50%;
+        ">
+    </div>
+
+  </div>
+
+</div>
+
+    <!-- TITLE -->
+    <div>
+      <h1 style="
+        margin:0;
+        font-size:50px;
+        color:#0f172a;
+      ">
+        Welcome back, Alexander
+      </h1>
+
+      <p style="
+        margin-top:15px;
+        color:#64748b;
+        font-size:20px;
+        width:800px;
+        line-height:1.6;
+      ">
+        Manage your global elite travel operations with precision.
+        Your overview of current system health and itinerary performance.
+      </p>
+    </div>
+
+    <!-- STATISTICS -->
+    <div style="
+      display:flex;
+      gap:25px;
+      margin-top:40px;
+      flex-wrap:wrap;
+    ">
+
+      <!-- CARD -->
       <div style="
         background:white;
+        width:240px;
         padding:30px;
-        border-radius:15px;
-        width:250px;
+        border-radius:20px;
       ">
-        <h2>Users</h2>
-        <h1><%= totalUsers %></h1>   
-       </div>
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+        ">
+          <div style="
+            width:60px;
+            height:60px;
+            background:#dbeafe;
+            border-radius:15px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+          ">
+            <i class="fa-solid fa-hotel"
+              style="font-size:25px; color:#0f4c81;"></i>
+          </div>
+
+        
+        </div>
+
+        <p style="
+          margin-top:25px;
+          color:#64748b;
+          letter-spacing:2px;
+          font-weight:bold;
+        ">
+          TOTAL HOTELS
+        </p>
+
+        <h1 style="
+          margin-top:10px;
+          color:#0f172a;
+          font-size:50px;
+        ">
+          <%= totalHotels %>
+        </h1>
+
+      </div>
+
+      <!-- USERS -->
+      <div style="
+        background:white;
+        width:240px;
+        padding:30px;
+        border-radius:20px;
+      ">
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+        ">
+          <div style="
+            width:60px;
+            height:60px;
+            background:#dbeafe;
+            border-radius:15px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+          ">
+            <i class="fa-solid fa-user"
+              style="font-size:25px; color:#0f4c81;"></i>
+          </div>
+
+  
+        </div>
+
+        <p style="
+          margin-top:25px;
+          color:#64748b;
+          letter-spacing:2px;
+          font-weight:bold;
+        ">
+          ACTIVE USERS
+        </p>
+
+        <h1 style="
+          margin-top:10px;
+          color:#0f172a;
+          font-size:50px;
+        ">
+          <%= totalUsers %>
+        </h1>
+
+      </div>
+
+      <!-- AIRPORT -->
+      <div style="
+        background:white;
+        width:240px;
+        padding:30px;
+        border-radius:20px;
+      ">
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+        ">
+          <div style="
+            width:60px;
+            height:60px;
+            background:#dbeafe;
+            border-radius:15px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+          ">
+            <i class="fa-solid fa-plane-departure"
+              style="font-size:25px; color:#0f4c81;"></i>
+          </div>
+
+        </div>
+
+        <p style="
+          margin-top:25px;
+          color:#64748b;
+          letter-spacing:2px;
+          font-weight:bold;
+        ">
+          TOTAL AIRPORTS
+        </p>
+
+        <h1 style="
+          margin-top:10px;
+          color:#0f172a;
+          font-size:50px;
+        ">
+          <%= totalAirports %>
+        </h1>
+
+      </div>
+
+      <!-- FLIGHTS -->
+      <div style="
+        background:white;
+        width:240px;
+        padding:30px;
+        border-radius:20px;
+      ">
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+        ">
+          <div style="
+            width:60px;
+            height:60px;
+            background:#dbeafe;
+            border-radius:15px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+          ">
+            <i class="fa-solid fa-plane"
+              style="font-size:25px; color:#0f4c81;"></i>
+          </div>
+
+        </div>
+
+        <p style="
+          margin-top:25px;
+          color:#64748b;
+          letter-spacing:2px;
+          font-weight:bold;
+        ">
+          DAILY FLIGHTS
+        </p>
+
+        <h1 style="
+          margin-top:10px;
+          color:#0f172a;
+          font-size:50px;
+        ">
+          <%= totalFlights %>
+        </h1>
+
+      </div>
 
     </div>
 

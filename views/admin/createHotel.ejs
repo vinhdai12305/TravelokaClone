@@ -3,46 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <title>Create Hotel</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
 </head>
 
 <body style="
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#f1f5f9;
 ">
 
-<div style="display:flex;">
+
+<div style="display:flex; min-height:100vh;">
 
     <!-- SIDEBAR -->
     <div style="
     width:260px;
-    background:#0f172a;
-    min-height:100vh;
+    background:linear-gradient(180deg,#0f172a,#111827);
     color:white;
     padding:30px;
+    box-sizing:border-box;
     ">
 
-        <h1>ADMIN</h1>
+        <h1 style="
+        margin:0;
+        font-size:48px;
+        font-weight:800;
+        letter-spacing:2px;
+        ">
+            ADMIN
+        </h1>
 
-        <div style="margin-top:40px;">
+</h1>
 
+        <div style="margin-top:60px;">
+
+            <!-- DASHBOARD -->
             <a href="/admin"
                style="
-               display:block;
+               display:flex;
+               align-items:center;
+               gap:12px;
                color:white;
                text-decoration:none;
-               margin-bottom:20px;
+               padding:16px 18px;
+               border-radius:16px;
+               background:rgba(255,255,255,0.08);
+               margin-bottom:18px;
+               font-size:22px;
+               font-weight:600;
                ">
+
+               <i class="fa-solid fa-chart-line"></i>
                Dashboard
+
             </a>
 
+            <!-- HOTELS -->
             <a href="/admin/hotels"
                style="
-               display:block;
+               display:flex;
+               align-items:center;
+               gap:12px;
                color:white;
                text-decoration:none;
+               padding:16px 18px;
+               border-radius:16px;
+               background:#2563eb;
+               font-size:22px;
+               font-weight:600;
+               box-shadow:0 8px 20px rgba(37,99,235,0.4);
                ">
+
+               <i class="fa-solid fa-hotel"></i>
                Hotels
+
             </a>
 
         </div>
@@ -50,132 +87,508 @@ background:#f1f5f9;
     </div>
 
     <!-- CONTENT -->
-    <div style="flex:1;padding:40px;">
+    <div style="
+    flex:1;
+    padding:60px;
+    box-sizing:border-box;
+    ">
 
-        <h1>Create Hotel</h1>
+        <!-- HEADER -->
+        <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-start;
+        margin-bottom:40px;
+        ">
 
+            <div>
+
+                <h1 style="
+                margin:0;
+                font-size:70px;
+                color:#0f172a;
+                font-weight:800;
+                ">
+                    Create Hotel
+                </h1>
+
+                <p style="
+                margin-top:14px;
+                font-size:28px;
+                color:#64748b;
+                ">
+                    Add a new hotel to your booking system
+                </p>
+
+            </div>
+
+            <!-- ADMIN BADGE -->
+            <div style="
+            background:white;
+            padding:16px 24px;
+            border-radius:18px;
+            box-shadow:0 8px 25px rgba(0,0,0,0.08);
+            color:#2563eb;
+            font-size:24px;
+            font-weight:700;
+            ">
+
+                <i class="fa-solid fa-user-shield"></i>
+                Admin Panel
+
+            </div>
+
+        </div>
+
+        <!-- FORM -->
         <form action="/admin/hotels/create"
               method="POST"
               enctype="multipart/form-data"
               style="
               background:white;
-              padding:30px;
-              border-radius:20px;
-              max-width:700px;
+              padding:50px;
+              border-radius:35px;
+              width:100%;
+              max-width:1200px;
+              box-shadow:0 15px 40px rgba(0,0,0,0.08);
+              box-sizing:border-box;
               ">
 
-            <!-- HOTEL NAME -->
-            <div style="margin-bottom:20px;">
+            <!-- NAME -->
+            <div style="margin-bottom:35px;">
 
                 <label style="
-                display:block;
-                margin-bottom:10px;
-                font-weight:bold;
+                display:flex;
+                align-items:center;
+                gap:10px;
+                margin-bottom:14px;
+                font-size:32px;
+                font-weight:700;
+                color:#0f172a;
                 ">
+
+                    <i class="fa-solid fa-hotel"
+                       style="color:#2563eb;"></i>
+
                     Hotel Name
+
                 </label>
 
                 <input type="text"
                        name="name"
+                       placeholder="Enter hotel name"
                        required
                        style="
                        width:100%;
-                       padding:15px;
-                       border:1px solid #ddd;
-                       border-radius:10px;
-                       font-size:16px;
+                       height:80px;
+                       padding:0 25px;
+                       border:2px solid #dbe2ea;
+                       border-radius:22px;
+                       font-size:28px;
+                       outline:none;
+                       box-sizing:border-box;
                        ">
 
             </div>
 
             <!-- LOCATION -->
-            <div style="margin-bottom:20px;">
+            <div style="margin-bottom:35px;">
 
                 <label style="
-                display:block;
-                margin-bottom:10px;
-                font-weight:bold;
+                display:flex;
+                align-items:center;
+                gap:10px;
+                margin-bottom:14px;
+                font-size:32px;
+                font-weight:700;
+                color:#0f172a;
                 ">
+
+                    <i class="fa-solid fa-location-dot"
+                       style="color:#2563eb;"></i>
+
                     Location
+
                 </label>
 
                 <input type="text"
                        name="location"
+                       placeholder="Enter location"
                        required
                        style="
                        width:100%;
-                       padding:15px;
-                       border:1px solid #ddd;
-                       border-radius:10px;
-                       font-size:16px;
-                       ">
-
-            </div>
-
-            <!-- PRICE -->
-            <div style="margin-bottom:20px;">
-
-                <label style="
-                display:block;
-                margin-bottom:10px;
-                font-weight:bold;
-                ">
-                    Price
-                </label>
-
-                <input type="number"
-                       name="price"
-                       required
-                       style="
-                       width:100%;
-                       padding:15px;
-                       border:1px solid #ddd;
-                       border-radius:10px;
-                       font-size:16px;
+                       height:80px;
+                       padding:0 25px;
+                       border:2px solid #dbe2ea;
+                       border-radius:22px;
+                       font-size:28px;
+                       outline:none;
+                       box-sizing:border-box;
                        ">
 
             </div>
 
             <!-- IMAGE -->
-            <div style="margin-bottom:30px;">
+            <div style="margin-bottom:35px;">
 
                 <label style="
-                display:block;
-                margin-bottom:10px;
-                font-weight:bold;
+                display:flex;
+                align-items:center;
+                gap:10px;
+                margin-bottom:14px;
+                font-size:32px;
+                font-weight:700;
+                color:#0f172a;
                 ">
+
+                    <i class="fa-solid fa-image"
+                       style="color:#2563eb;"></i>
+
                     Hotel Image
+
                 </label>
 
-                <input type="file"
-                       name="image"
-                       accept="image/*"
+                <div style="
+                border:3px dashed #cbd5e1;
+                border-radius:28px;
+                padding:60px;
+                text-align:center;
+                background:#f8fafc;
+                ">
+
+                    <input type="file"
+                           name="image"
+                           accept="image/*"
+                           required
+                           style="
+                           font-size:26px;
+                           margin-bottom:20px;
+                           ">
+
+                    <div style="
+                    margin-top:20px;
+                    color:#64748b;
+                    font-size:26px;
+                    ">
+
+                        Upload hotel thumbnail or cover image
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- STARS -->
+            <div style="margin-bottom:35px;">
+
+                <label style="
+                display:flex;
+                align-items:center;
+                gap:10px;
+                margin-bottom:14px;
+                font-size:32px;
+                font-weight:700;
+                color:#0f172a;
+                ">
+
+                    <i class="fa-solid fa-star"
+                       style="color:#f59e0b;"></i>
+
+                    Stars
+
+                </label>
+
+                <input type="number"
+                       name="stars"
+                       min="1"
+                       max="5"
+                       placeholder="Example: 5"
                        required
                        style="
                        width:100%;
-                       padding:15px;
-                       border:1px solid #ddd;
-                       border-radius:10px;
-                       background:white;
-                       font-size:16px;
+                       height:80px;
+                       padding:0 25px;
+                       border:2px solid #dbe2ea;
+                       border-radius:22px;
+                       font-size:28px;
+                       outline:none;
+                       box-sizing:border-box;
                        ">
 
             </div>
 
+            <!-- RATING -->
+            <div style="margin-bottom:35px;">
+
+                <label style="
+                display:flex;
+                align-items:center;
+                gap:10px;
+                margin-bottom:14px;
+                font-size:32px;
+                font-weight:700;
+                color:#0f172a;
+                ">
+
+                    <i class="fa-solid fa-chart-simple"
+                       style="color:#2563eb;"></i>
+
+                    Rating
+
+                </label>
+
+                <input type="number"
+                       step="0.1"
+                       name="rating"
+                       placeholder="Example: 8.9"
+                       required
+                       style="
+                       width:100%;
+                       height:80px;
+                       padding:0 25px;
+                       border:2px solid #dbe2ea;
+                       border-radius:22px;
+                       font-size:28px;
+                       outline:none;
+                       box-sizing:border-box;
+                       ">
+
+            </div>
+
+            <!-- REVIEW COUNT -->
+            <div style="margin-bottom:35px;">
+
+                <label style="
+                display:flex;
+                align-items:center;
+                gap:10px;
+                margin-bottom:14px;
+                font-size:32px;
+                font-weight:700;
+                color:#0f172a;
+                ">
+
+                    <i class="fa-solid fa-users"
+                       style="color:#2563eb;"></i>
+
+                    Review Count
+
+                </label>
+
+                <input type="text"
+                       name="reviewCount"
+                       placeholder='Example: "1.2k"'
+                       required
+                       style="
+                       width:100%;
+                       height:80px;
+                       padding:0 25px;
+                       border:2px solid #dbe2ea;
+                       border-radius:22px;
+                       font-size:28px;
+                       outline:none;
+                       box-sizing:border-box;
+                       ">
+
+            </div>
+
+            <!-- DISCOUNT -->
+            <div style="margin-bottom:35px;">
+
+                <label style="
+                display:flex;
+                align-items:center;
+                gap:10px;
+                margin-bottom:14px;
+                font-size:32px;
+                font-weight:700;
+                color:#0f172a;
+                ">
+
+                    <i class="fa-solid fa-tags"
+                       style="color:#2563eb;"></i>
+
+                    Discount Price
+
+                </label>
+
+                <input type="number"
+                       name="discountPrice"
+                       placeholder="Example: 5500000"
+                       required
+                       style="
+                       width:100%;
+                       height:80px;
+                       padding:0 25px;
+                       border:2px solid #dbe2ea;
+                       border-radius:22px;
+                       font-size:28px;
+                       outline:none;
+                       box-sizing:border-box;
+                       ">
+
+            </div>
+
+            <!-- TAG -->
+            <div style="margin-bottom:35px;">
+
+                <label style="
+                display:flex;
+                align-items:center;
+                gap:10px;
+                margin-bottom:14px;
+                font-size:32px;
+                font-weight:700;
+                color:#0f172a;
+                ">
+
+                    <i class="fa-solid fa-gem"
+                       style="color:#2563eb;"></i>
+
+                    Tag
+
+                </label>
+
+                <input type="text"
+                       name="tag"
+                       placeholder='Example: Luxury'
+                       required
+                       style="
+                       width:100%;
+                       height:80px;
+                       padding:0 25px;
+                       border:2px solid #dbe2ea;
+                       border-radius:22px;
+                       font-size:28px;
+                       outline:none;
+                       box-sizing:border-box;
+                       ">
+
+            </div>
+
+            <!-- TYPE -->
+            <div style="margin-bottom:35px;">
+
+                <label style="
+                display:flex;
+                align-items:center;
+                gap:10px;
+                margin-bottom:14px;
+                font-size:32px;
+                font-weight:700;
+                color:#0f172a;
+                ">
+
+                    <i class="fa-solid fa-layer-group"
+                       style="color:#2563eb;"></i>
+
+                    Type
+
+                </label>
+
+                <select name="type"
+                        required
+                        style="
+                        width:100%;
+                        height:80px;
+                        padding:0 25px;
+                        border:2px solid #dbe2ea;
+                        border-radius:22px;
+                        font-size:28px;
+                        outline:none;
+                        box-sizing:border-box;
+                        ">
+
+                    <option value="hotel">Hotel</option>
+                    <option value="villa">Villa</option>
+                    <option value="resort">Resort</option>
+
+                </select>
+
+            </div>
+
+            <!-- AMENITIES -->
+            <div style="margin-bottom:50px;">
+
+                <label style="
+                display:flex;
+                align-items:center;
+                gap:10px;
+                margin-bottom:20px;
+                font-size:32px;
+                font-weight:700;
+                color:#0f172a;
+                ">
+
+                    <i class="fa-solid fa-wifi"
+                       style="color:#2563eb;"></i>
+
+                    Amenities
+
+                </label>
+
+                <div style="
+                display:grid;
+                grid-template-columns:repeat(3,1fr);
+                gap:20px;
+                font-size:26px;
+                ">
+
+                    <label><input type="checkbox" name="amenities" value="wifi"> Wifi</label>
+                    <label><input type="checkbox" name="amenities" value="pool"> Pool</label>
+                    <label><input type="checkbox" name="amenities" value="restaurant"> Restaurant</label>
+                    <label><input type="checkbox" name="amenities" value="gym"> Gym</label>
+                    <label><input type="checkbox" name="amenities" value="spa"> Spa</label>
+
+                </div>
+
+            </div>
+
             <!-- BUTTON -->
-            <button type="submit"
-                    style="
-                    background:#2563eb;
-                    color:white;
-                    border:none;
-                    padding:15px 30px;
-                    border-radius:10px;
-                    cursor:pointer;
-                    font-size:16px;
-                    font-weight:bold;
-                    ">
-                Create Hotel
-            </button>
+            <div style="
+            display:flex;
+            gap:25px;
+            ">
+
+                <button type="submit"
+                        style="
+                        background:#2563eb;
+                        color:white;
+                        border:none;
+                        height:80px;
+                        padding:0 45px;
+                        border-radius:20px;
+                        cursor:pointer;
+                        font-size:28px;
+                        font-weight:700;
+                        box-shadow:0 10px 25px rgba(37,99,235,0.35);
+                        ">
+
+                    + Create Hotel
+
+                </button>
+
+                <a href="/admin/hotels"
+                   style="
+                   background:#e2e8f0;
+                   color:#0f172a;
+                   text-decoration:none;
+                   height:80px;
+                   padding:0 45px;
+                   border-radius:20px;
+                   display:flex;
+                   align-items:center;
+                   justify-content:center;
+                   font-size:28px;
+                   font-weight:700;
+                   ">
+
+                    Cancel
+
+                </a>
+
+            </div>
 
         </form>
 
