@@ -1,0 +1,133 @@
+<%- include('../partials/header') %>
+
+<style>
+
+body{
+    background:#f5f7fa;
+    font-family:Arial;
+}
+
+.success-box{
+    max-width:700px;
+    margin:150px auto;
+    background:white;
+    padding:50px;
+    border-radius:24px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.icon{
+    font-size:80px;
+    margin-bottom:20px;
+}
+
+.title{
+    font-size:38px;
+    font-weight:800;
+    color:#16a34a;
+    margin-bottom:15px;
+}
+
+.text{
+    color:#64748b;
+    margin-bottom:35px;
+}
+
+.info{
+    text-align:left;
+    background:#f8fafc;
+    padding:25px;
+    border-radius:18px;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:18px;
+}
+
+.label{
+    color:#64748b;
+    font-weight:600;
+}
+
+.value{
+    font-weight:800;
+}
+
+.price{
+    color:#ff5e1f;
+    font-size:28px;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:35px;
+    background:#0194f3;
+    color:white;
+    text-decoration:none;
+    padding:14px 28px;
+    border-radius:12px;
+    font-weight:700;
+}
+
+</style>
+
+<div class="success-box">
+
+    <div class="icon">
+        ✈️
+    </div>
+
+    <div class="title">
+        Đặt vé thành công
+    </div>
+
+    <div class="text">
+        Vé máy bay của bạn đã được xác nhận
+    </div>
+
+    <div class="info">
+
+        <div class="row">
+            <div class="label">Mã vé</div>
+            <div class="value">
+                <%= booking.bookingId %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">Hành khách</div>
+            <div class="value">
+                <%= booking.guestName %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">Hành trình</div>
+            <div class="value">
+                <%= booking.fromCode %> → <%= booking.toCode %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">Hãng bay</div>
+            <div class="value">
+                <%= booking.airlineName %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">Tổng tiền</div>
+            <div class="value price">
+<%= booking.totalPrice.toLocaleString('vi-VN') %> VND            </div>
+        </div>
+
+    </div>
+
+    <a href="/" class="btn">
+        Về trang chủ
+    </a>
+
+</div>

@@ -57,4 +57,78 @@ router.get('/booking-form/:id', async (req, res) => {
     }
 });
 
+router.post('/book-flight/:id', async (req,res)=>{
+
+    try{
+
+        const flight = await Flight.findById(req.params.id);
+
+        if(!flight){
+            return res.send('Không tìm thấy chuyến bay');
+        }
+
+        const {
+            guestName,
+            email,
+            phone,
+            passengers,
+            seatClass
+        } = req.body;
+
+        const booking = new FlightBooking({
+
+            flightId:flight._id,
+
+            airlineName:flight.airlineName,
+
+            airlineLogo:flight.airlineLogo,
+
+            fromCode:flight.fromCode,
+
+            toCode:flight.toCode,
+
+            departureTime:flight.departureTime,
+
+            arrivalTime:flight.arrivalTime,
+
+            duration:flight.duration,
+
+            guestName,
+
+            email,
+
+            phone,
+
+            passengers,
+
+            seatClass,
+
+            totalPrice:flight.price,
+
+            bookingCode:
+                'FL' +
+                Math.floor(
+                    Math.random()*900000+100000
+                )
+
+        });
+
+        await booking.save();
+
+        res.render('flights/booking-success',{
+
+            booking
+
+        });
+
+    }catch(error){
+
+        console.log(error);
+
+        res.send('Lỗi đặt vé');
+
+    }
+
+});
+
 module.exports = router;

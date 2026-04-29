@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const FlightBooking = require('../models/FlightBooking');
+
 const userController = require('../controllers/userController');
 
 // ================= AUTH =================
@@ -17,9 +19,32 @@ router.get('/logout', userController.logout);
 // ================= USER PAGES =================
 
 // Flight History
-router.get('/flight-history', userController.getFlightHistory);
+router.get('/flight-history', async (req,res)=>{
 
-// Booking History
+    try{
+
+        const bookings = await FlightBooking
+            .find()
+            .sort({ createdAt:-1 });
+
+        res.render('users/flight-history',{
+
+            bookings,
+            user:req.session?.user || null
+
+        });
+
+    }catch(error){
+
+        console.log(error);
+
+        res.send('Lỗi server');
+
+    }
+
+});
+
+// Hotel Booking History
 router.get('/booking-history', userController.getBookingHistory);
 
 // Settings

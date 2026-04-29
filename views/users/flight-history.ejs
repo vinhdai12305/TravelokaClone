@@ -1,59 +1,281 @@
 <%- include('../partials/header') %>
 
 <style>
-  .page-container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-  .page-title { color: #003580; margin-bottom: 25px; font-size: 24px; }
-  .flight-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #eaeaea; }
-  .flight-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; }
-  .flight-body { display: flex; justify-content: space-between; align-items: center; }
-  .status-badge { background: #e6f4ea; color: #137333; padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
-  .airline-info { display: flex; align-items: center; gap: 10px; font-weight: bold; color: #333; }
-  .flight-time { text-align: center; }
-  .flight-price { font-size: 20px; font-weight: bold; color: #ff5e1f; }
-  .btn-action { padding: 8px 16px; background: white; border: 1px solid #003580; color: #003580; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-  .btn-action:hover { background: #003580; color: white; }
+
+body{
+    background:#f5f7fa;
+    font-family:Arial;
+}
+
+.history-container{
+    max-width:1200px;
+    margin:130px auto 60px;
+}
+
+.page-title{
+    font-size:42px;
+    font-weight:800;
+    margin-bottom:35px;
+    color:#0f172a;
+}
+
+.booking-card{
+    background:white;
+    border-radius:24px;
+    padding:28px;
+    margin-bottom:25px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+    border:1px solid #eef2f7;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.airline{
+    font-size:30px;
+    font-weight:800;
+    color:#0f172a;
+}
+
+.code{
+    background:#eff6ff;
+    color:#2563eb;
+    padding:10px 18px;
+    border-radius:999px;
+    font-weight:700;
+}
+
+.route{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:35px 0;
+}
+
+.airport{
+    font-size:38px;
+    font-weight:800;
+    color:#0f172a;
+}
+
+.time{
+    color:#64748b;
+    font-size:15px;
+    margin-top:8px;
+}
+
+.line{
+    flex:1;
+    height:2px;
+    background:#cbd5e1;
+    margin:0 25px;
+    position:relative;
+}
+
+.line::after{
+    content:'✈';
+    position:absolute;
+    right:-10px;
+    top:-13px;
+    color:#0194f3;
+    font-size:22px;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-top:30px;
+}
+
+.info-box{
+    background:#f8fafc;
+    padding:18px;
+    border-radius:16px;
+}
+
+.label{
+    color:#64748b;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.value{
+    font-weight:800;
+    color:#0f172a;
+    font-size:17px;
+}
+
+.price{
+    color:#ff5e1f;
+    font-size:32px;
+}
+
+.status{
+    color:#16a34a;
+}
+
+.empty{
+    background:white;
+    padding:80px;
+    border-radius:24px;
+    text-align:center;
+    font-size:22px;
+    color:#64748b;
+}
+
 </style>
 
-<div class="page-container">
-  <h2 class="page-title"><i class="fas fa-plane-departure"></i> Lịch sử chuyến bay của <%= user ? user.username : 'bạn' %></h2>
+<div class="history-container">
 
-  <div class="flight-card">
-    <div class="flight-header">
-      <div class="airline-info">
-        <i class="fas fa-plane" style="color: #003580; font-size: 20px;"></i>
-        <span>Vietnam Airlines (VN-246)</span>
-      </div>
-      <span class="status-badge">Đã hoàn tất</span>
+    <div class="page-title">
+        Lịch sử đặt vé máy bay
     </div>
-    
-    <div class="flight-body">
-      <div>
-        <h3 style="color: #333; font-size: 22px;">SGN</h3>
-        <p style="color: #666; font-size: 14px;">Hồ Chí Minh</p>
-        <p style="color: #333; font-weight: bold; margin-top: 5px;">08:30 - 12/06</p>
-      </div>
-      
-      <div class="flight-time">
-        <p style="color: #999; font-size: 13px;">2h 10m</p>
-        <div style="width: 150px; height: 2px; background: #ccc; margin: 5px 0; position: relative;">
-          <i class="fas fa-plane" style="position: absolute; top: -7px; right: -5px; color: #ccc;"></i>
+
+    <% if(bookings.length > 0){ %>
+
+        <% bookings.forEach(booking=>{ %>
+
+            <div class="booking-card">
+
+                <!-- TOP -->
+
+                <div class="top">
+
+                    <div class="airline">
+                        <%= booking.airlineName %>
+                    </div>
+
+                    <div class="code">
+                        <%= booking.bookingCode %>
+                    </div>
+
+                </div>
+
+                <!-- ROUTE -->
+
+                <div class="route">
+
+                    <div>
+
+                        <div class="airport">
+                            <%= booking.fromCode %>
+                        </div>
+
+                        <div class="time">
+                            <%= booking.departureTime %>
+                        </div>
+
+                    </div>
+
+                    <div class="line"></div>
+
+                    <div style="text-align:right;">
+
+                        <div class="airport">
+                            <%= booking.toCode %>
+                        </div>
+
+                        <div class="time">
+                            <%= booking.arrivalTime %>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- INFO -->
+
+                <div class="info-grid">
+
+                    <div class="info-box">
+
+                        <div class="label">
+                            Hành khách
+                        </div>
+
+                        <div class="value">
+                            <%= booking.guestName %>
+                        </div>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <div class="label">
+                            Số điện thoại
+                        </div>
+
+                        <div class="value">
+                            <%= booking.phone %>
+                        </div>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <div class="label">
+                            Hạng ghế
+                        </div>
+
+                        <div class="value">
+                            <%= booking.seatClass %>
+                        </div>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <div class="label">
+                            Số hành khách
+                        </div>
+
+                        <div class="value">
+                            <%= booking.passengers %>
+                        </div>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <div class="label">
+                            Trạng thái
+                        </div>
+
+                        <div class="value status">
+                            <%= booking.status %>
+                        </div>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <div class="label">
+                            Tổng tiền
+                        </div>
+
+                        <div class="value price">
+                            <%= booking.totalPrice.toLocaleString('vi-VN') %> VND
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        <% }) %>
+
+    <% }else{ %>
+
+        <div class="empty">
+            Chưa có lịch sử đặt vé
         </div>
-        <p style="color: #666; font-size: 13px;">Bay thẳng</p>
-      </div>
 
-      <div style="text-align: right;">
-        <h3 style="color: #333; font-size: 22px;">HAN</h3>
-        <p style="color: #666; font-size: 14px;">Hà Nội</p>
-        <p style="color: #333; font-weight: bold; margin-top: 5px;">10:40 - 12/06</p>
-      </div>
+    <% } %>
 
-      <div style="text-align: right; border-left: 1px solid #eaeaea; padding-left: 20px;">
-        <p style="color: #666; font-size: 13px; margin-bottom: 5px;">Mã đặt chỗ: <strong>ABCDE1</strong></p>
-        <p class="flight-price">3.200.000 VND</p>
-        <button class="btn-action" style="margin-top: 10px;">Đặt lại</button>
-      </div>
-    </div>
-  </div>
 </div>
-</body>
-</html>
