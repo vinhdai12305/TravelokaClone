@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
+
 const flightCtrl = require('../controllers/flightController');
-const Airport = require('../models/Airport'); 
+
+const Airport = require('../models/Airport');
+
 const FlightBooking = require('../models/FlightBooking');
+
+const Flight = require('../models/Flights');
 
 // 👉 Render trang flight
 router.get('/', (req, res) => {
